@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?07031aed06e0fa1f0bfe62119cd66c18";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script><!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-J6S31LSNX8"></script><script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-J6S31LSNX8');
+    </script><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png"><link rel="manifest" href="/static/site.webmanifest"><meta name="generator" content="Astro v5.1.0"><!-- baidu verify --><meta name="baidu-site-verification" content="codeva-TE3aiPxcrm"><!-- Font preloads --><link rel="preload" href="/fonts/geist-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/geist-mono-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"></noscript><!-- Canonical URL --><link rel="canonical" href="https://hluvmiku.tech/posts/easy-way-to-switch-cuda/"><!-- Primary Meta Tags --><title>多版本 CUDA Toolkit 安装与切换</title><meta name="title" content="多版本 CUDA Toolkit 安装与切换"><meta name="description" content="本文介绍了如何在非Root用户环境下安装和管理多个版本的CUDA Toolkit，并提供了便捷的切换脚本。通过详细步骤指导用户从下载安装到配置环境变量，最终实现通过简单命令切换不同CUDA版本（如11.7/11.3/10.2等"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://hluvmiku.tech/posts/easy-way-to-switch-cuda/"><meta property="og:title" content="多版本 CUDA Toolkit 安装与切换"><meta property="og:description" content="本文介绍了如何在非Root用户环境下安装和管理多个版本的CUDA Toolkit，并提供了便捷的切换脚本。通过详细步骤指导用户从下载安装到配置环境变量，最终实现通过简单命令切换不同CUDA版本（如11.7/11.3/10.2等"><meta property="og:image" content="https://hluvmiku.tech/static/blog-placeholder.png"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://hluvmiku.tech/posts/easy-way-to-switch-cuda/"><meta property="twitter:title" content="多版本 CUDA Toolkit 安装与切换"><meta property="twitter:description" content="本文介绍了如何在非Root用户环境下安装和管理多个版本的CUDA Toolkit，并提供了便捷的切换脚本。通过详细步骤指导用户从下载安装到配置环境变量，最终实现通过简单命令切换不同CUDA版本（如11.7/11.3/10.2等"><meta property="twitter:image" content="https://hluvmiku.tech/static/blog-placeholder.png"><link rel="stylesheet" href="/_astro/_page_.ClAK2fFi.css">
+<style>[data-astro-image]{width:100%;height:auto;-o-object-fit:var(--fit);object-fit:var(--fit);-o-object-position:var(--pos);object-position:var(--pos);aspect-ratio:var(--w) / var(--h)}[data-astro-image=responsive]{max-width:calc(var(--w) * 1px);max-height:calc(var(--h) * 1px)}[data-astro-image=fixed]{width:calc(var(--w) * 1px);height:calc(var(--h) * 1px)}
+</style></head> <body class="min-h-[100dvh] lg:bg-gray-100 bg-[#fefefe] font-kaiti"> <div class="flex min-h-[100dvh] w-full flex-1 flex-col items-center"> <!-- Header --> <header class="mx-auto my-4 sm:my-10 flex w-full max-w-7xl items-center justify-between print:hidden px-5 md:px-10 lg:px-12 xl:px-16undefined"> <div class="flex flex-1 justify-start"> <a href="/" class="text-base font-bold no-underline">
+陈
+</a> <span>：</span>
+              <a href="/posts/" class="text-base font-bold text-black no-underline"> 博客 </a> </div> <span class="inline md:hidden text-base font-bold">
+··
+</span> <span class="inline print:hidden"> <nav class="flex flex-col text-sm hidden md:inline gap-20"> <a href="/posts/" class="text-gray-500 no-underline">【 博客</a> /
+<a href="/comments/" class="text-gray-500 no-underline">杂谈随记</a> /
+<a href="/resume/" class="text-gray-500 no-underline">科研 】</a> </nav> </span> </header> <!-- Main Slot --> <main class="flex w-full flex-1 items-center justify-center print:block print:items-start print:justify-start print:h-full print:border-0"> <div class="prose mx-auto my-10 w-full max-w-7xl print:my-0 print:max-w-none print:w-full print:h-full">  <main class="min-w-2xl flex w-full justify-center print:m-0 print:block print:p-0"> <div class="flex w-full flex-col items-start justify-center text-wrap p-4 md:mx-auto md:max-w-2xl md:gap-6 md:px-4 md:py-8 lg:max-w-3xl lg:bg-[#fefefe] lg:px-20 lg:py-10 lg:shadow-lg print:m-0 print:p-0 print:shadow-none"> <h1 class="mb-5 text-2xl font-bold print:mb-0"> 多版本 CUDA Toolkit 安装与切换 </h1> <span class="hidden print:inline">写于2025年8月2日</span> <article id="article" class="prose prose-zinc max-w-none break-words">  <h2 id="前言">前言</h2>
+<p>在配环境过程中，我们时常会遇到CUDA版本不匹配的情况，此时我们就需要一个多版本CUDA安装与切换到方案。我在此提供一种非Root用户的配置方案，配置完成后，只需执行如下命令即可切换到指定版本（以11.8为例）：</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.zi4z0.css"><script type="module" src="/_astro/ec.8zarh.js"></script><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#6F42C1">$</span><span style="--0:#24292E"> </span><span style="--0:#032F62">.</span><span style="--0:#24292E"> </span><span style="--0:#032F62">./switch_cuda.sh</span><span style="--0:#24292E"> </span><span style="--0:#005CC5">11.8</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="$ . ./switch_cuda.sh 11.8"><div></div></button></div></figure></div>
+<h2 id="配置多版本cuda">配置多版本CUDA</h2>
+<p>你可以在<a href="https://developer.nvidia.com/cuda-11-7-0-download-archive">这里</a>找到 CUDA Toolkit 11.7 的安装包（选择.run文件）。</p>
+<details data-callout="" data-callout-type="tip">
+<summary data-callout-title="">想安装老版本的CUDA Toolkit？</summary>
+<div data-callout-body="">
+<p></p>
+<p>如果你想安装老版本的CUDA Toolkit，我建议优先安置以下几个版本：</p>
+<ul>
+<li><a href="https://developer.nvidia.com/cuda-10.2-download-archive">CUDA 10.2</a></li>
+<li><a href="https://developer.nvidia.com/cuda-11.3.0-download-archive">CUDA 11.3</a></li>
+<li><a href="https://developer.nvidia.com/cuda-11-6-0-download-archive">CUDA 11.6</a></li>
+</ul>
+<p>因为pytorch官方有提供这几个版本的whl文件，后续可以通过pip直接安装torch而不需要本地编译。</p>
+</div>
+</details>
+<p>我们使用wget将run文件下载到本地以后，先通过 <code>chmod +x ./&#x3C;xxxxx>.run</code> 修改权限，然后直接运行 <code>./&#x3C;xxxxx>.run </code> 即可。</p>
+<p>我们先输入 accept 同意用户许可,然后按需选择是否要安装驱动。</p>
+<p>在 <code>Options</code> 中，我们可以指定安装路径。<mark>在此处，我们将其安装到 <code>~/cuda/cuda-11.7</code> 下。</mark>其他版本也将其安装到<code>~/cuda/cuda-&#x3C;version></code>下。</p>
+<p>完成配置后，选择 <code>Install</code> 即可完成安装。</p>
+<h2 id="环境变量以及脚本">环境变量以及脚本</h2>
+<h3 id="环境变量">环境变量</h3>
+<p>我们先通过 <code>vim ~/.bashrc</code> 打开bash配置文件。
+在其中添加以下几行：</p>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="config"><code><div class="ec-line"><div class="code"><span style="--0:#24292e"># >>> CUDA version >>></span></div></div><div class="ec-line"><div class="code"><span style="--0:#24292e">export CUDA_VERSION=11.7</span></div></div><div class="ec-line"><div class="code"><span style="--0:#24292e">export PATH=$HOME/cuda/cuda-${CUDA_VERSION}/bin:$PATH</span></div></div><div class="ec-line"><div class="code"><span style="--0:#24292e">export LD_LIBRARY_PATH=$HOME/cuda/cuda-${CUDA_VERSION}/lib64:$LD_LIBRARY_PATH</span></div></div><div class="ec-line"><div class="code"><span style="--0:#24292e">export CUDA_HOME=/data/chenzirui/cuda/cuda-${CUDA_VERSION}/</span></div></div><div class="ec-line"><div class="code"><span style="--0:#24292e"># &#x3C;&#x3C;&#x3C; CUDA version &#x3C;&#x3C;&#x3C;</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="# >>> CUDA version >>>export CUDA_VERSION=11.7export PATH=$HOME/cuda/cuda-${CUDA_VERSION}/bin:$PATHexport LD_LIBRARY_PATH=$HOME/cuda/cuda-${CUDA_VERSION}/lib64:$LD_LIBRARY_PATHexport CUDA_HOME=/data/chenzirui/cuda/cuda-${CUDA_VERSION}/# <<< CUDA version <<<"><div></div></button></div></figure></div>
+<p>然后执行 <code>source ~/.bashrc</code> 即可。</p>
+<h3 id="切换脚本">切换脚本</h3>
+<div data-callout="" data-callout-type="warning">
+<div data-callout-title="">Warning</div>
+<div data-callout-body="">
+<p></p>
+<p>只有将各版本CUDA按格式安装到 <code>~/cuda/cuda-&#x3C;version></code> 下才能使用此脚本。</p>
+</div>
+</div>
+<p>将以下代码保存到 <code>~/switch_cuda.sh</code> 下即可：</p>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="shell"><code><div class="ec-line"><div class="code"><span style="--0:#616972">#!/bin/bash</span></div></div><div class="ec-line"><div class="code"><span style="--0:#616972"># 用法： ./switch_cuda.sh 11.2 或 ./switch_cuda.sh 10.2</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#24292E">CUDA_VERSION</span><span style="--0:#BF3441">=</span><span style="--0:#AE4B07">$1</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#BF3441">if</span><span style="--0:#24292E"> [ </span><span style="--0:#BF3441">-z</span><span style="--0:#24292E"> </span><span style="--0:#032F62">"</span><span style="--0:#24292E">$CUDA_VERSION</span><span style="--0:#032F62">"</span><span style="--0:#24292E"> ]; </span><span style="--0:#BF3441">then</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#005CC5">echo</span><span style="--0:#24292E"> </span><span style="--0:#032F62">"Please specify CUDA version, e.g. ./switch_cuda.sh 11.2"</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#005CC5">exit</span><span style="--0:#24292E"> </span><span style="--0:#005CC5">1</span></div></div><div class="ec-line"><div class="code"><span style="--0:#BF3441">fi</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#BF3441">export</span><span style="--0:#24292E"> PATH</span><span style="--0:#BF3441">=</span><span style="--0:#24292E">$HOME/cuda/cuda-${CUDA_VERSION}/bin:$PATH</span></div></div><div class="ec-line"><div class="code"><span style="--0:#BF3441">export</span><span style="--0:#24292E"> LD_LIBRARY_PATH</span><span style="--0:#BF3441">=</span><span style="--0:#24292E">$HOME/cuda/cuda-${CUDA_VERSION}/lib64:$LD_LIBRARY_PATH</span></div></div><div class="ec-line"><div class="code"><span style="--0:#BF3441">export</span><span style="--0:#24292E"> CUDA_HOME</span><span style="--0:#BF3441">=</span><span style="--0:#24292E">$HOME/cuda/cuda-${CUDA_VERSION}</span></div></div><div class="ec-line"><div class="code"><span style="--0:#005CC5">echo</span><span style="--0:#24292E"> </span><span style="--0:#032F62">"Switched to CUDA ${</span><span style="--0:#24292E">CUDA_VERSION</span><span style="--0:#032F62">}"</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="#!/bin/bash# 用法： ./switch_cuda.sh 11.2 或 ./switch_cuda.sh 10.2CUDA_VERSION=$1if [ -z &#x22;$CUDA_VERSION&#x22; ]; then  echo &#x22;Please specify CUDA version, e.g. ./switch_cuda.sh 11.2&#x22;  exit 1fiexport PATH=$HOME/cuda/cuda-${CUDA_VERSION}/bin:$PATHexport LD_LIBRARY_PATH=$HOME/cuda/cuda-${CUDA_VERSION}/lib64:$LD_LIBRARY_PATHexport CUDA_HOME=$HOME/cuda/cuda-${CUDA_VERSION}echo &#x22;Switched to CUDA ${CUDA_VERSION}&#x22;"><div></div></button></div></figure></div>
+<p>这样即可使用 <code>. ~/switch_cuda.sh 11.7</code> 进行切换。</p>
+<p><strong>至此，你已经完成了所有配置。</strong></p>  </article> </div> </main>  </div> </main> <!-- Footer --> <footer class="flex flex-col w-full max-w-7xl mb-4 justify-center align-center print:hidden px-5 md:px-10 lg:px-12 xl:px-16undefined"> <div class="flex flex-col text-nowrap md:flex-row mx-auto flex w-full items-start md:items-center justify-between align-end"> <span class="text-sm font-light">写于2025年8月2日</span> <div class="mb-4 mt-4 flex w-full flex-col items-start justify-center md:flex-row md:gap-8 md:max-w-[40%] print:hidden"> <a href="/posts/remove-dot-underscore-files-macos" class="text-sm font-light text-black underline hover:text-red-700 truncate block w-full md:w-auto">
+前
+：《macOS：解决“._文件”只能这样做》 </a> <a href="/posts/mmrotate-install" class="text-sm font-light text-black underline hover:text-red-700 truncate block w-full md:w-auto">
+后
+：《mmRotate配置安装终极攻略》 </a> </div> <div class="flex flex-col text-sm print:hidden"> <a class="text-nowrap font-light text-black" href="https://github.com/HaleyCH/chenblog">
+由<span class="text-red-700">陈</span>设计
+</a> </div> </div> <!-- 将备案号居中 --> <div class="flex justify-center w-full mt-[50px] mb-[10px] print:hidden"> <a class="text-sm text-gray-300" href="https://beian.miit.gov.cn/">浙ICP备2022026813号-1</a> </div> </footer> <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> <script type="module">document.addEventListener("DOMContentLoaded",function(){const o=document.querySelectorAll('img[src*="-small.webp"]'),e=document.createElement("div");e.style.cssText=`
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+          `,document.body.appendChild(e);const t=document.createElement("img");t.style.cssText=`
+            max-width: 80vw;
+            max-height: 80vh;
+            object-fit: contain;
+            cursor: default;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+          `,e.appendChild(t),o.forEach(n=>{n.addEventListener("click",function(){const c=this.src.replace("-small.webp","");t.src=c,e.style.display="flex"})}),e.addEventListener("click",function(n){n.target===e&&(e.style.display="none",document.body.style.overflow="")})});</script> </div> </body> </html>

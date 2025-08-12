@@ -1,0 +1,68 @@
+<!DOCTYPE html><!--
+  This page template rearranges the layout into three vertical panels on
+  large screens (lg and above) to evoke the feeling of a book cover.
+  On smaller screens it falls back to the original two-column grid.  The
+  centre panel acts as the book’s spine and displays the site sections
+  vertically.  Tailwind classes drive the responsive behaviour and basic
+  styling, while a small amount of inline CSS is used to achieve the
+  vertical writing mode on the spine.  Feel free to adjust spacing or
+  colours to suit your tastes.
+--><html lang="zh-CN"> <head><script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?07031aed06e0fa1f0bfe62119cd66c18";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script><!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-J6S31LSNX8"></script><script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-J6S31LSNX8');
+    </script><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png"><link rel="manifest" href="/static/site.webmanifest"><meta name="generator" content="Astro v5.1.0"><!-- baidu verify --><meta name="baidu-site-verification" content="codeva-TE3aiPxcrm"><!-- Font preloads --><link rel="preload" href="/fonts/geist-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/geist-mono-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"></noscript><!-- Canonical URL --><link rel="canonical" href="https://hluvmiku.tech/"><!-- Primary Meta Tags --><title>陈的博客</title><meta name="title" content="陈的博客"><meta name="description" content="陈的博客 - 我的个人博客，专注于科研、摄影、旅游以及生活感悟。"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://hluvmiku.tech/"><meta property="og:title" content="陈的博客"><meta property="og:description" content="陈的博客 - 我的个人博客，专注于科研、摄影、旅游以及生活感悟。"><meta property="og:image" content="https://hluvmiku.tech/static/blog-placeholder.png"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://hluvmiku.tech/"><meta property="twitter:title" content="陈的博客"><meta property="twitter:description" content="陈的博客 - 我的个人博客，专注于科研、摄影、旅游以及生活感悟。"><meta property="twitter:image" content="https://hluvmiku.tech/static/blog-placeholder.png"><link rel="stylesheet" href="/_astro/_page_.ClAK2fFi.css">
+<style>[data-astro-image]{width:100%;height:auto;-o-object-fit:var(--fit);object-fit:var(--fit);-o-object-position:var(--pos);object-position:var(--pos);aspect-ratio:var(--w) / var(--h)}[data-astro-image=responsive]{max-width:calc(var(--w) * 1px);max-height:calc(var(--h) * 1px)}[data-astro-image=fixed]{width:calc(var(--w) * 1px);height:calc(var(--h) * 1px)}
+</style></head> <body class="min-h-[100dvh] lg:bg-gray-100 bg-[#fefefe] font-kaiti"> <div class="flex min-h-[100dvh] w-full flex-1 flex-col items-center"> <!-- Header --> <header class="mx-auto my-4 sm:my-10 flex w-full max-w-7xl items-center justify-between lg:hidden print:hidden px-5 md:px-10 lg:px-12 xl:px-16undefined"> <div class="flex flex-1 justify-start"> <span class="text-base font-bold">·</span>  </div> <span class="inline md:hidden text-base font-bold">
+··
+</span> <span class="inline print:hidden"> <nav class="flex flex-col text-sm hidden md:inline gap-20"> <a href="/posts/" class="text-gray-500 no-underline">【 博客</a> /
+<a href="/comments/" class="text-gray-500 no-underline">杂谈随记</a> /
+<a href="/resume/" class="text-gray-500 no-underline">科研 】</a> </nav> </span> </header> <!-- Main Slot --> <main class="flex w-full flex-1 items-center justify-center print:block print:items-start print:justify-start print:h-full print:border-0"> <div class="prose mx-auto my-10 w-full max-w-7xl print:my-0 print:max-w-none print:w-full print:h-full">  <main class="flex flex-row justify-center p-4 print:flex print:items-center print:justify-center"> <div class="relative flex w-full max-w-5xl flex-col items-stretch gap-4 border-gray-200 md:grid md:grid-cols-2 lg:flex lg:max-w-6xl lg:flex-row lg:border-[1px] lg:bg-[#fefefe] lg:shadow-lg print:flex print:min-h-[250mm] print:items-center print:justify-center print:border-0 print:bg-white print:shadow-none"> <!-- Left panel: 封面内容 --> <section class="mb-10 flex flex-col items-center justify-center px-4 py-6 sm:mb-20 lg:order-3 lg:flex-1 lg:px-10 lg:py-20 print:flex print:h-full print:w-full print:flex-col print:items-center print:justify-center print:px-0 print:py-0 print:pb-20"> <img src="https://cdn.hluvmiku.tech/image/202506252359431.jpg-small.webp" alt="avatar" class="mb-6 h-96 w-8 object-cover"> <h1 class="mt-4 flex flex-row items-start text-2xl lg:gap-2 print:mt-20"> <div class="font-light"> <span class="inline text-red-700 lg:hidden lg:text-6xl print:inline">陈</span><span class="hidden text-red-700 lg:inline lg:text-6xl print:hidden">子锐</span> </div> <span>的</span> <div class="flex flex-col font-bold underline"> <a href="/posts/" class="text-black">博客</a> <a href="/comments/" class="text-black">杂谈随记</a> <a href="/resume/" class="text-black">科研</a> </div> </h1> </section> <!-- Spine panel: hidden on smaller screens and shown only on lg and up.
+         The writing-mode CSS produces vertical text similar to a book’s spine.
+         Two vertical columns of text evoke the two-panel look of the
+         reference book spine. Rotating by 180° allows the reading direction
+         to follow top‑to‑bottom while using vertical writing. --> <aside class="hidden flex-none items-center justify-center px-4 lg:order-2 lg:flex lg:border-x-[1.5px] lg:border-gray-200 print:hidden"> <div class="flex space-x-6"> <div class="flex flex-col items-center justify-center space-y-4"> <span class="text-sm font-light text-gray-500" style="writing-mode: vertical-rl;">行旅在外，结草为枕。只望能在非人情的世界逍遥片刻。</span> </div> <div class="flex flex-col items-center justify-center space-y-4"> <span class="text-red-700 lg:text-4xl" style="writing-mode: vertical-rl; text-align: center;">
+陈
+</span> <div class="flex flex-col items-center justify-center space-y-2"> <span class="text-xl font-light text-black" style="writing-mode: vertical-rl; text-align: center;">
+的
+</span> <a class="text-xl font-light text-black" style="writing-mode: vertical-rl; text-align: center;" href="/posts/">
+【 博客/
+</a> <a class="text-xl font-light text-black" style="writing-mode: vertical-rl; text-align: center;" href="comments">
+杂谈随记/
+</a> <a class="text-xl font-light text-black" style="writing-mode: vertical-rl; text-align: center;" href="resume">
+科研 】
+</a> </div> </div> </div> </aside> <!-- Right panel: acts like the front cover of a book on small screens.  On
+         large screens it moves to the left side to swap positions with the
+         avatar panel.  It houses the introductory paragraph and the list of
+         recent posts, similar to the original template. --> <section class="lg-mb-0 flex h-fit flex-col justify-start gap-8 md:ml-24 md:mr-10 md:mt-32 md:gap-10 lg:order-1 lg:ml-0 lg:mr-0 lg:mt-0 lg:flex-1 lg:gap-20 lg:px-10 lg:py-12 print:hidden"> <p class="max-w-md text-sm font-light leading-relaxed text-gray-500">
+发挥才智，则锋芒毕露；凭借感情，则流于世俗；坚持己见，则多方掣肘。<span class="text-green-700">总之，人世难居。</span> </p> <div> <ul class="hidden flex-col gap-4 lg:flex lg:pl-4 print:hidden"> <li> <a href="/posts/mmrotate-install" class="group flex flex-row items-end justify-between gap-3 text-black"> <span class="text-base group-hover:underline lg:text-sm"> mmRotate配置安装终极攻略 </span> <span class="inline text-nowrap text-base font-light text-gray-500 md:hidden lg:inline lg:text-sm"> 2025年8月3日 </span> </a> </li><li> <a href="/posts/easy-way-to-switch-cuda" class="group flex flex-row items-end justify-between gap-3 text-black"> <span class="text-base group-hover:underline lg:text-sm"> 多版本 CUDA Toolkit 安装与切换 </span> <span class="inline text-nowrap text-base font-light text-gray-500 md:hidden lg:inline lg:text-sm"> 2025年8月2日 </span> </a> </li><li> <a href="/posts/remove-dot-underscore-files-macos" class="group flex flex-row items-end justify-between gap-3 text-black"> <span class="text-base group-hover:underline lg:text-sm"> macOS：解决“._文件”只能这样做 </span> <span class="inline text-nowrap text-base font-light text-gray-500 md:hidden lg:inline lg:text-sm"> 2025年7月16日 </span> </a> </li><li> <a href="/posts/use-webdav-in-zotero" class="group flex flex-row items-end justify-between gap-3 text-black"> <span class="text-base group-hover:underline lg:text-sm"> Zotero满了？试试WebDAV！ </span> <span class="inline text-nowrap text-base font-light text-gray-500 md:hidden lg:inline lg:text-sm"> 2025年7月11日 </span> </a> </li><li> <a href="/posts/macos-use-latex-on-vscode" class="group flex flex-row items-end justify-between gap-3 text-black"> <span class="text-base group-hover:underline lg:text-sm"> macOS：在VSCode中配置使用Latex </span> <span class="inline text-nowrap text-base font-light text-gray-500 md:hidden lg:inline lg:text-sm"> 2025年7月2日 </span> </a> </li> </ul> <ul class="flex flex-col gap-4 lg:hidden lg:pl-4 print:flex"> <li> <a href="/posts/mmrotate-install" class="group flex flex-row items-end justify-between gap-3 text-black"> <span class="text-base group-hover:underline lg:text-sm"> mmRotate配置安装终极攻略 </span> <span class="inline text-nowrap text-base font-light text-gray-500 md:hidden lg:inline lg:text-sm"> 2025年8月3日 </span> </a> </li><li> <a href="/posts/easy-way-to-switch-cuda" class="group flex flex-row items-end justify-between gap-3 text-black"> <span class="text-base group-hover:underline lg:text-sm"> 多版本 CUDA Toolkit 安装与切换 </span> <span class="inline text-nowrap text-base font-light text-gray-500 md:hidden lg:inline lg:text-sm"> 2025年8月2日 </span> </a> </li><li> <a href="/posts/remove-dot-underscore-files-macos" class="group flex flex-row items-end justify-between gap-3 text-black"> <span class="text-base group-hover:underline lg:text-sm"> macOS：解决“._文件”只能这样做 </span> <span class="inline text-nowrap text-base font-light text-gray-500 md:hidden lg:inline lg:text-sm"> 2025年7月16日 </span> </a> </li> </ul> <div class="mt-10 flex flex-row items-center gap-4 text-sm font-light underline lg:hidden"> <a href="/posts/" class="text-gray-500 no-underline">博客</a> <a href="/comments/" class="text-gray-500 no-underline">杂谈随记</a> <a href="/resume/" class="text-gray-500 no-underline">科研</a> </div> </div> <div class="mt-[200px] hidden flex-row items-center justify-end gap-4 text-sm font-light underline lg:flex print:hidden"> <a href="/posts/" class="text-gray-500 no-underline">博客</a> <a href="/comments/" class="text-gray-500 no-underline">杂谈随记</a> <a href="/resume/" class="text-gray-500 no-underline">科研</a> </div> </section> </div> </main>  </div> </main> <!-- Footer --> <footer class="flex flex-col w-full max-w-7xl mb-4 justify-center align-center print:hidden px-5 md:px-10 lg:px-12 xl:px-16undefined"> <div class="flex flex-col text-nowrap md:flex-row mx-auto flex w-full items-start md:items-center justify-between align-end + lg:hidden"> <span class="text-base font-bold invisible md:visible">·</span> <div class="mb-4 mt-4 flex w-full flex-col items-start justify-center md:flex-row md:gap-8 md:max-w-[40%] print:hidden">   </div> <div class="flex flex-col text-sm print:hidden"> <a class="text-nowrap font-light text-black" href="https://github.com/HaleyCH/chenblog">
+由<span class="text-red-700">陈</span>设计
+</a> </div> </div> <!-- 将备案号居中 --> <div class="flex justify-center w-full mt-[50px] mb-[10px] print:hidden"> <a class="text-sm text-gray-300" href="https://beian.miit.gov.cn/">浙ICP备2022026813号-1</a> </div> </footer> <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> <script type="module">document.addEventListener("DOMContentLoaded",function(){const o=document.querySelectorAll('img[src*="-small.webp"]'),e=document.createElement("div");e.style.cssText=`
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+          `,document.body.appendChild(e);const t=document.createElement("img");t.style.cssText=`
+            max-width: 80vw;
+            max-height: 80vh;
+            object-fit: contain;
+            cursor: default;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+          `,e.appendChild(t),o.forEach(n=>{n.addEventListener("click",function(){const c=this.src.replace("-small.webp","");t.src=c,e.style.display="flex"})}),e.addEventListener("click",function(n){n.target===e&&(e.style.display="none",document.body.style.overflow="")})});</script> </div> </body> </html>
