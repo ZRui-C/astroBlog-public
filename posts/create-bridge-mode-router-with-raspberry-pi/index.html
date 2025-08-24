@@ -12,7 +12,7 @@
       gtag('js', new Date());
 
       gtag('config', 'G-J6S31LSNX8');
-    </script><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png"><link rel="manifest" href="/static/site.webmanifest"><meta name="generator" content="Astro v5.1.0"><!-- baidu verify --><meta name="baidu-site-verification" content="codeva-TE3aiPxcrm"><!-- Font preloads --><link rel="preload" href="/fonts/geist-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/geist-mono-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"></noscript><!-- Canonical URL --><link rel="canonical" href="https://hluvmiku.tech/posts/create-bridge-mode-router-with-raspberry-pi/"><!-- Primary Meta Tags --><title>用树莓派搭建旁路由</title><meta name="title" content="用树莓派搭建旁路由"><meta name="description" content><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://hluvmiku.tech/posts/create-bridge-mode-router-with-raspberry-pi/"><meta property="og:title" content="用树莓派搭建旁路由"><meta property="og:description" content><meta property="og:image" content="https://hluvmiku.tech/posts/create-bridge-mode-router-with-raspberry-pi/"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://hluvmiku.tech/posts/create-bridge-mode-router-with-raspberry-pi/"><meta property="twitter:title" content="用树莓派搭建旁路由"><meta property="twitter:description" content><meta property="twitter:image" content="https://hluvmiku.tech/posts/create-bridge-mode-router-with-raspberry-pi/"><link rel="stylesheet" href="/_astro/_page_.ClAK2fFi.css">
+    </script><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png"><link rel="manifest" href="/static/site.webmanifest"><meta name="generator" content="Astro v5.1.0"><!-- baidu verify --><meta name="baidu-site-verification" content="codeva-TE3aiPxcrm"><!-- Font preloads --><link rel="preload" href="/fonts/geist-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/geist-mono-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"></noscript><!-- Canonical URL --><link rel="canonical" href="https://hluvmiku.tech/posts/create-bridge-mode-router-with-raspberry-pi/"><!-- Primary Meta Tags --><title>用树莓派搭建旁路由</title><meta name="title" content="用树莓派搭建旁路由"><meta name="description" content="详细介绍如何使用树莓派4和ImmortalWrt搭建旁路由系统，支持BIRD路由协议和WireGuard VPN，实现灵活的网络路由控制。"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://hluvmiku.tech/posts/create-bridge-mode-router-with-raspberry-pi/"><meta property="og:title" content="用树莓派搭建旁路由"><meta property="og:description" content="详细介绍如何使用树莓派4和ImmortalWrt搭建旁路由系统，支持BIRD路由协议和WireGuard VPN，实现灵活的网络路由控制。"><meta property="og:image" content="https://cdn.hluvmiku.tech/image/202311100834036.png"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://hluvmiku.tech/posts/create-bridge-mode-router-with-raspberry-pi/"><meta property="twitter:title" content="用树莓派搭建旁路由"><meta property="twitter:description" content="详细介绍如何使用树莓派4和ImmortalWrt搭建旁路由系统，支持BIRD路由协议和WireGuard VPN，实现灵活的网络路由控制。"><meta property="twitter:image" content="https://cdn.hluvmiku.tech/image/202311100834036.png"><link rel="stylesheet" href="/_astro/_page_.ClAK2fFi.css">
 <style>[data-astro-image]{width:100%;height:auto;-o-object-fit:var(--fit);object-fit:var(--fit);-o-object-position:var(--pos);object-position:var(--pos);aspect-ratio:var(--w) / var(--h)}[data-astro-image=responsive]{max-width:calc(var(--w) * 1px);max-height:calc(var(--h) * 1px)}[data-astro-image=fixed]{width:calc(var(--w) * 1px);height:calc(var(--h) * 1px)}
 </style></head> <body class="min-h-[100dvh] lg:bg-gray-100 bg-[#fefefe] font-kaiti"> <div class="flex min-h-[100dvh] w-full flex-1 flex-col items-center"> <!-- Header --> <header class="mx-auto my-4 sm:my-10 flex w-full max-w-7xl items-center justify-between print:hidden px-5 md:px-10 lg:px-12 xl:px-16undefined"> <div class="flex flex-1 justify-start"> <a href="/" class="text-base font-bold no-underline">
 陈
@@ -21,7 +21,7 @@
 ··
 </span> <span class="inline print:hidden"> <nav class="flex flex-col text-sm hidden md:inline gap-20"> <a href="/posts/" class="text-gray-500 no-underline">【 博客</a> /
 <a href="/comments/" class="text-gray-500 no-underline">杂谈随记</a> /
-<a href="/resume/" class="text-gray-500 no-underline">科研 】</a> </nav> </span> </header> <!-- Main Slot --> <main class="flex w-full flex-1 items-center justify-center print:block print:items-start print:justify-start print:h-full print:border-0"> <div class="prose mx-auto my-10 w-full max-w-7xl print:my-0 print:max-w-none print:w-full print:h-full">  <main class="min-w-2xl flex w-full justify-center print:m-0 print:block print:p-0"> <div class="flex w-full flex-col items-start justify-center text-wrap p-4 md:mx-auto md:max-w-2xl md:gap-6 md:px-4 md:py-8 lg:max-w-3xl lg:bg-[#fefefe] lg:px-20 lg:py-10 lg:shadow-lg print:m-0 print:p-0 print:shadow-none"> <h1 class="mb-5 text-2xl font-bold print:mb-0"> 用树莓派搭建旁路由 </h1> <span class="hidden print:inline">写于2023年11月10日</span> <article id="article" class="prose prose-zinc max-w-none break-words">  <div data-callout="" data-callout-type="tip">
+<a href="/resume/" class="text-gray-500 no-underline">科研 】</a> </nav> </span> </header> <!-- Main Slot --> <main class="flex w-full flex-1 items-center justify-center print:block print:items-start print:justify-start print:h-full print:border-0"> <div class="prose mx-auto my-10 w-full max-w-7xl print:my-0 print:max-w-none print:w-full print:h-full">  <main class="min-w-2xl flex w-full justify-center print:m-0 print:block print:p-0"> <div class="flex w-full flex-col items-start justify-center text-wrap p-4 md:mx-auto md:max-w-2xl md:gap-6 md:px-4 md:py-8 lg:max-w-3xl lg:bg-[#fefefe] lg:px-20 lg:py-10 lg:shadow-lg print:m-0 print:p-0 print:shadow-none"> <h1 class="mb-5 text-2xl font-bold print:mb-0"> 用树莓派搭建旁路由 </h1> <span class="hidden print:inline">写于2025年8月24日</span> <article id="article" class="prose prose-zinc max-w-none break-words">  <div data-callout="" data-callout-type="tip">
 <div data-callout-title="">Tip</div>
 <div data-callout-body="">
 <p>通过本文，你将了解：</p>
@@ -82,10 +82,141 @@
 如果烧录正常，等待几秒你会发现一个名为<code>openwrt</code>的开放WiFi。</p>
 <p>连接该WiFi，访问<code>192.168.1.1</code>并立即按照提示修改密码，这也将会是你的root密码。</p>
 <h3 id="配置旁路由">配置旁路由</h3>
-<p>所谓旁路由，是网络中绕过主要路由或默认路径的一种通信方式。在本方案中，我将会保留原始路由器的DHCP功能，因此旁路由的配置将会非常简单。<br>
-在树莓派中，我们</p>  </article> </div> </main>  </div> </main> <!-- Footer --> <footer class="flex flex-col w-full max-w-7xl mb-4 justify-center align-center print:hidden px-5 md:px-10 lg:px-12 xl:px-16undefined"> <div class="flex flex-col text-nowrap md:flex-row mx-auto flex w-full items-start md:items-center justify-between align-end"> <span class="text-sm font-light">写于2023年11月10日</span> <div class="mb-4 mt-4 flex w-full flex-col items-start justify-center md:flex-row md:gap-8 md:max-w-[40%] print:hidden"> <a href="/posts/finally-a-great-blog" class="text-sm font-light text-black underline hover:text-red-700 truncate block w-full md:w-auto">
+<p>所谓旁路由，是网络中绕过主要路由或默认路径的一种通信方式。在本方案中，我将会保留原始路由器的DHCP功能，因此旁路由的配置将会非常简单。</p>
+<h4 id="1-配置网络接口">1. 配置网络接口</h4>
+<p>首先，我们需要将树莓派的网络配置为旁路由模式。</p>
+<ol>
+<li>登录OpenWRT管理界面（<code>192.168.1.1</code>）</li>
+<li>进入<code>Network</code> → <code>Interfaces</code></li>
+<li>编辑<code>LAN</code>接口</li>
+</ol>
+<p>将LAN接口的配置修改为：</p>
+<ul>
+<li><strong>Protocol</strong>: <code>Static address</code></li>
+<li><strong>IPv4 address</strong>: 与主路由器同网段的IP地址（例如主路由器是<code>192.168.1.1</code>，则可设置为<code>192.168.1.2</code>）</li>
+<li><strong>IPv4 netmask</strong>: <code>255.255.255.0</code></li>
+<li><strong>IPv4 gateway</strong>: 主路由器的IP地址（例如<code>192.168.1.1</code>）</li>
+<li><strong>Use custom DNS servers</strong>: 填入DNS服务器地址（例如<code>114.114.114.114</code>和<code>8.8.8.8</code>）</li>
+</ul>
+<h4 id="2-关闭dhcp服务">2. 关闭DHCP服务</h4>
+<p>因为我们要保留主路由器的DHCP功能，所以需要关闭树莓派的DHCP服务：</p>
+<ol>
+<li>进入<code>Network</code> → <code>DHCP and DNS</code></li>
+<li>在<code>Server Settings</code>选项卡中，找到<code>LAN</code>接口</li>
+<li>勾选<code>Ignore interface</code>，禁用LAN接口的DHCP服务</li>
+<li>点击<code>Save &#x26; Apply</code></li>
+</ol>
+<h4 id="3-配置防火墙">3. 配置防火墙</h4>
+<p>为了让旁路由正常工作，我们需要配置防火墙规则：</p>
+<ol>
+<li>进入<code>Network</code> → <code>Firewall</code></li>
+<li>编辑<code>lan</code>区域的防火墙规则</li>
+<li>确保以下设置：
+<ul>
+<li><strong>Input</strong>: <code>Accept</code></li>
+<li><strong>Output</strong>: <code>Accept</code></li>
+<li><strong>Forward</strong>: <code>Accept</code></li>
+<li>勾选<code>Masquerading</code>和<code>MSS clamping</code></li>
+</ul>
+</li>
+</ol>
+<h4 id="4-重启系统">4. 重启系统</h4>
+<p>完成以上配置后，重启树莓派以应用所有设置：</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.zi4z0.css"><script type="module" src="/_astro/ec.8zarh.js"></script><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#6F42C1">reboot</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="reboot"><div></div></button></div></figure></div>
+<h2 id="配置主路由器">配置主路由器</h2>
+<h3 id="1-设置静态路由">1. 设置静态路由</h3>
+<p>在主路由器的管理界面中，我们需要添加静态路由规则，将特定的流量导向旁路由：</p>
+<ol>
+<li>登录主路由器管理界面</li>
+<li>找到<code>路由表</code>或<code>静态路由</code>设置</li>
+<li>添加路由规则：
+<ul>
+<li><strong>目标网络</strong>: 你想要通过旁路由访问的网络段</li>
+<li><strong>子网掩码</strong>: 对应的子网掩码</li>
+<li><strong>网关</strong>: 树莓派的IP地址（例如<code>192.168.1.2</code>）</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-设置客户端网关可选">2. 设置客户端网关（可选）</h3>
+<p>如果你希望某些设备的所有流量都通过旁路由，可以在这些设备上手动设置网关为树莓派的IP地址。</p>
+<p>或者，在支持的路由器上，可以通过DHCP预留的方式为特定设备分配旁路由作为网关。</p>
+<h2 id="安装和配置额外软件">安装和配置额外软件</h2>
+<p>现在旁路由已经搭建完成，我们可以在树莓派上安装需要的软件了。</p>
+<h3 id="安装bird">安装BIRD</h3>
+<p>BIRD是一个功能强大的路由守护进程，支持多种路由协议：</p>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#616972"># 更新软件包列表</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">opkg</span><span style="--0:#24292E"> </span><span style="--0:#032F62">update</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#616972"># 安装BIRD</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">opkg</span><span style="--0:#24292E"> </span><span style="--0:#032F62">install</span><span style="--0:#24292E"> </span><span style="--0:#032F62">bird2</span><span style="--0:#24292E"> </span><span style="--0:#032F62">bird2c</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#616972"># 启用BIRD服务</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">/etc/init.d/bird</span><span style="--0:#24292E"> </span><span style="--0:#032F62">enable</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">/etc/init.d/bird</span><span style="--0:#24292E"> </span><span style="--0:#032F62">start</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="opkg updateopkg install bird2 bird2c/etc/init.d/bird enable/etc/init.d/bird start"><div></div></button></div></figure></div>
+<h3 id="安装wireguard">安装WireGuard</h3>
+<p>WireGuard是一个现代化的VPN解决方案：</p>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#616972"># 安装WireGuard</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">opkg</span><span style="--0:#24292E"> </span><span style="--0:#032F62">install</span><span style="--0:#24292E"> </span><span style="--0:#032F62">wireguard-tools</span><span style="--0:#24292E"> </span><span style="--0:#032F62">kmod-wireguard</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#616972"># 生成密钥对</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">wg</span><span style="--0:#24292E"> </span><span style="--0:#032F62">genkey</span><span style="--0:#24292E"> </span><span style="--0:#BF3441">|</span><span style="--0:#24292E"> </span><span style="--0:#6F42C1">tee</span><span style="--0:#24292E"> </span><span style="--0:#032F62">privatekey</span><span style="--0:#24292E"> </span><span style="--0:#BF3441">|</span><span style="--0:#24292E"> </span><span style="--0:#6F42C1">wg</span><span style="--0:#24292E"> </span><span style="--0:#032F62">pubkey</span><span style="--0:#24292E"> </span><span style="--0:#BF3441">></span><span style="--0:#24292E"> </span><span style="--0:#032F62">publickey</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="opkg install wireguard-tools kmod-wireguardwg genkey | tee privatekey | wg pubkey > publickey"><div></div></button></div></figure></div>
+<h3 id="配置示例">配置示例</h3>
+<p>创建WireGuard配置文件<code>/etc/config/network</code>，添加以下接口配置：</p>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#24292e">config interface 'wg0'</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292e">    </span></span><span style="--0:#24292e">option proto 'wireguard'</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292e">    </span></span><span style="--0:#24292e">option private_key '你的私钥'</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292e">    </span></span><span style="--0:#24292e">list addresses '10.0.0.2/24'</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#24292e">config wireguard_wg0</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292e">    </span></span><span style="--0:#24292e">option description '对等节点'</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292e">    </span></span><span style="--0:#24292e">option public_key '对等节点的公钥'</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292e">    </span></span><span style="--0:#24292e">option endpoint_host '对等节点的IP地址'</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292e">    </span></span><span style="--0:#24292e">option endpoint_port '51820'</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292e">    </span></span><span style="--0:#24292e">list allowed_ips '10.0.0.0/24'</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292e">    </span></span><span style="--0:#24292e">option persistent_keepalive '25'</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="config interface &#x27;wg0&#x27;    option proto &#x27;wireguard&#x27;    option private_key &#x27;你的私钥&#x27;    list addresses &#x27;10.0.0.2/24&#x27;config wireguard_wg0    option description &#x27;对等节点&#x27;    option public_key &#x27;对等节点的公钥&#x27;    option endpoint_host &#x27;对等节点的IP地址&#x27;    option endpoint_port &#x27;51820&#x27;    list allowed_ips &#x27;10.0.0.0/24&#x27;    option persistent_keepalive &#x27;25&#x27;"><div></div></button></div></figure></div>
+<h2 id="测试和验证">测试和验证</h2>
+<h3 id="1-检查网络连通性">1. 检查网络连通性</h3>
+<p>在旁路由上ping外网，验证网络连接：</p>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#6F42C1">ping</span><span style="--0:#24292E"> </span><span style="--0:#005CC5">8.8.8.8</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">ping</span><span style="--0:#24292E"> </span><span style="--0:#032F62">baidu.com</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="ping 8.8.8.8ping baidu.com"><div></div></button></div></figure></div>
+<h3 id="2-检查路由表">2. 检查路由表</h3>
+<p>查看路由表确认配置正确：</p>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#6F42C1">ip</span><span style="--0:#24292E"> </span><span style="--0:#032F62">route</span><span style="--0:#24292E"> </span><span style="--0:#032F62">show</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="ip route show"><div></div></button></div></figure></div>
+<h3 id="3-检查服务状态">3. 检查服务状态</h3>
+<p>确认安装的服务正常运行：</p>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#616972"># 检查BIRD状态</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">/etc/init.d/bird</span><span style="--0:#24292E"> </span><span style="--0:#032F62">status</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#616972"># 检查WireGuard状态</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">wg</span><span style="--0:#24292E"> </span><span style="--0:#032F62">show</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="/etc/init.d/bird statuswg show"><div></div></button></div></figure></div>
+<h2 id="故障排除">故障排除</h2>
+<h3 id="常见问题">常见问题</h3>
+<ol>
+<li>
+<p><strong>无法访问外网</strong></p>
+<ul>
+<li>检查DNS配置是否正确</li>
+<li>确认防火墙规则没有阻止流量</li>
+<li>验证主路由器的网关设置</li>
+</ul>
+</li>
+<li>
+<p><strong>设备无法通过旁路由上网</strong></p>
+<ul>
+<li>检查静态路由配置</li>
+<li>确认旁路由的IP地址设置正确</li>
+<li>验证DHCP设置</li>
+</ul>
+</li>
+<li>
+<p><strong>VPN连接失败</strong></p>
+<ul>
+<li>检查WireGuard配置文件</li>
+<li>确认防火墙允许VPN端口</li>
+<li>验证密钥对是否匹配</li>
+</ul>
+</li>
+</ol>
+<h3 id="调试命令">调试命令</h3>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#616972"># 查看系统日志</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">logread</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#616972"># 查看网络接口状态</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">ip</span><span style="--0:#24292E"> </span><span style="--0:#032F62">addr</span><span style="--0:#24292E"> </span><span style="--0:#032F62">show</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#616972"># 查看防火墙规则</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">iptables</span><span style="--0:#24292E"> </span><span style="--0:#005CC5">-L</span><span style="--0:#24292E"> </span><span style="--0:#005CC5">-n</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="logreadip addr showiptables -L -n"><div></div></button></div></figure></div>
+<h2 id="总结">总结</h2>
+<p>通过本文的配置，你已经成功搭建了一个基于树莓派的旁路由系统。这个系统可以：</p>
+<ul>
+<li>与现有网络环境和谐共存</li>
+<li>支持BIRD路由协议</li>
+<li>支持WireGuard VPN连接</li>
+<li>提供灵活的网络路由控制</li>
+</ul>
+<p>旁路由的优势在于它不会影响现有的网络结构，同时又能提供额外的网络功能。你可以根据实际需求继续扩展更多功能，比如广告过滤、流量分析等。</p>
+<div data-callout="" data-callout-type="tip">
+<div data-callout-title="">Tip</div>
+<div data-callout-body="">
+<p>建议定期备份OpenWRT的配置文件，以防意外情况下需要快速恢复系统。</p>
+</div>
+</div>  </article> </div> </main>  </div> </main> <!-- Footer --> <footer class="flex flex-col w-full max-w-7xl mb-4 justify-center align-center print:hidden px-5 md:px-10 lg:px-12 xl:px-16undefined"> <div class="flex flex-col text-nowrap md:flex-row mx-auto flex w-full items-start md:items-center justify-between align-end"> <span class="text-sm font-light">写于2025年8月24日</span> <div class="mb-4 mt-4 flex w-full flex-col items-start justify-center md:flex-row md:gap-8 md:max-w-[40%] print:hidden"> <a href="/posts/mmrotate-install" class="text-sm font-light text-black underline hover:text-red-700 truncate block w-full md:w-auto">
 前
-：《终于，一个不错的博客》 </a>  </div> <div class="flex flex-col text-sm print:hidden"> <a class="text-nowrap font-light text-black" href="https://github.com/HaleyCH/chenblog">
+：《mmRotate配置安装终极攻略》 </a> <a href="/posts/friends" class="text-sm font-light text-black underline hover:text-red-700 truncate block w-full md:w-auto">
+后
+：《友链》 </a> </div> <div class="flex flex-col text-sm print:hidden"> <a class="text-nowrap font-light text-black" href="https://github.com/HaleyCH/chenblog">
 由<span class="text-red-700">陈</span>设计
 </a> </div> </div> <!-- 将备案号居中 --> <div class="flex justify-center w-full mt-[50px] mb-[10px] print:hidden"> <a class="text-sm text-gray-300" href="https://beian.miit.gov.cn/">浙ICP备2022026813号-1</a> </div> </footer> <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> <script type="module">document.addEventListener("DOMContentLoaded",function(){const o=document.querySelectorAll('img[src*="-small.webp"]'),e=document.createElement("div");e.style.cssText=`
             position: fixed;
