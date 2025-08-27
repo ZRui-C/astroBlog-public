@@ -1,23 +1,22 @@
-<!DOCTYPE html><html lang="zh-CN"> <head><script>
-      var _hmt = _hmt || [];
-      (function() {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?07031aed06e0fa1f0bfe62119cd66c18";
-        var s = document.getElementsByTagName("script")[0]; 
-        s.parentNode.insertBefore(hm, s);
-      })();
-    </script><!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-J6S31LSNX8"></script><script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-J6S31LSNX8');
-    </script><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png"><link rel="manifest" href="/static/site.webmanifest"><meta name="generator" content="Astro v5.1.0"><!-- baidu verify --><meta name="baidu-site-verification" content="codeva-TE3aiPxcrm"><!-- Font preloads --><link rel="preload" href="/fonts/geist-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/geist-mono-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"></noscript><!-- Canonical URL --><link rel="canonical" href="https://hluvmiku.tech/posts/note-wb-gaussian-distrubtion-2/"><!-- Primary Meta Tags --><title>机器学习：高斯分布（其二）-多维高斯分布理解与局限性</title><meta name="title" content="机器学习：高斯分布（其二）-多维高斯分布理解与局限性"><meta name="description" content="本文深入探讨了多维高斯分布的核心概念，包括马氏距离的几何意义、协方差矩阵的谱分解、主成分空间投影，并分析了高维场景下的参数复杂性与模型局限性。通过数学推导揭示了高斯分布在非对角协方差矩阵下的椭圆等高线特性，为理解GMM等扩展模型奠定基础。适合机器学习学习者掌握概率分布的几何直观与计算原理。"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://hluvmiku.tech/posts/note-wb-gaussian-distrubtion-2/"><meta property="og:title" content="机器学习：高斯分布（其二）-多维高斯分布理解与局限性"><meta property="og:description" content="本文深入探讨了多维高斯分布的核心概念，包括马氏距离的几何意义、协方差矩阵的谱分解、主成分空间投影，并分析了高维场景下的参数复杂性与模型局限性。通过数学推导揭示了高斯分布在非对角协方差矩阵下的椭圆等高线特性，为理解GMM等扩展模型奠定基础。适合机器学习学习者掌握概率分布的几何直观与计算原理。"><meta property="og:image" content="https://hluvmiku.tech/static/blog-placeholder.png"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://hluvmiku.tech/posts/note-wb-gaussian-distrubtion-2/"><meta property="twitter:title" content="机器学习：高斯分布（其二）-多维高斯分布理解与局限性"><meta property="twitter:description" content="本文深入探讨了多维高斯分布的核心概念，包括马氏距离的几何意义、协方差矩阵的谱分解、主成分空间投影，并分析了高维场景下的参数复杂性与模型局限性。通过数学推导揭示了高斯分布在非对角协方差矩阵下的椭圆等高线特性，为理解GMM等扩展模型奠定基础。适合机器学习学习者掌握概率分布的几何直观与计算原理。"><meta property="twitter:image" content="https://hluvmiku.tech/static/blog-placeholder.png"><link rel="stylesheet" href="/_astro/_page_.B8tfIedn.css">
+<!DOCTYPE html><html lang="zh-CN"> <head><!-- Baidu Analytics --><script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?07031aed06e0fa1f0bfe62119cd66c18";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script> <!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-J6S31LSNX8"></script> <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-J6S31LSNX8');
+</script> <!-- Busuanzi counter --><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png"><link rel="manifest" href="/static/site.webmanifest"><meta name="generator" content="Astro v5.1.0"><!-- Baidu verification --><meta name="baidu-site-verification" content="codeva-TE3aiPxcrm"><!-- Font preloads --><link rel="preload" href="/fonts/geist-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/geist-mono-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"></noscript><!-- Canonical URL --><link rel="canonical" href="https://hluvmiku.tech/posts/note-wb-gaussian-distrubtion-2/"><!-- Primary Meta Tags --><title>机器学习：高斯分布（其二）-多维高斯分布理解与局限性</title><meta name="title" content="机器学习：高斯分布（其二）-多维高斯分布理解与局限性"><meta name="description" content="本文深入探讨了多维高斯分布的核心概念，包括马氏距离的几何意义、协方差矩阵的谱分解、主成分空间投影，并分析了高维场景下的参数复杂性与模型局限性。通过数学推导揭示了高斯分布在非对角协方差矩阵下的椭圆等高线特性，为理解GMM等扩展模型奠定基础。适合机器学习学习者掌握概率分布的几何直观与计算原理。"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://hluvmiku.tech/posts/note-wb-gaussian-distrubtion-2/"><meta property="og:title" content="机器学习：高斯分布（其二）-多维高斯分布理解与局限性"><meta property="og:description" content="本文深入探讨了多维高斯分布的核心概念，包括马氏距离的几何意义、协方差矩阵的谱分解、主成分空间投影，并分析了高维场景下的参数复杂性与模型局限性。通过数学推导揭示了高斯分布在非对角协方差矩阵下的椭圆等高线特性，为理解GMM等扩展模型奠定基础。适合机器学习学习者掌握概率分布的几何直观与计算原理。"><meta property="og:image" content="https://hluvmiku.tech/static/blog-placeholder.png"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://hluvmiku.tech/posts/note-wb-gaussian-distrubtion-2/"><meta property="twitter:title" content="机器学习：高斯分布（其二）-多维高斯分布理解与局限性"><meta property="twitter:description" content="本文深入探讨了多维高斯分布的核心概念，包括马氏距离的几何意义、协方差矩阵的谱分解、主成分空间投影，并分析了高维场景下的参数复杂性与模型局限性。通过数学推导揭示了高斯分布在非对角协方差矩阵下的椭圆等高线特性，为理解GMM等扩展模型奠定基础。适合机器学习学习者掌握概率分布的几何直观与计算原理。"><meta property="twitter:image" content="https://hluvmiku.tech/static/blog-placeholder.png"><link rel="stylesheet" href="/_astro/_page_.D7QATfnA.css">
 <style>[data-astro-image]{width:100%;height:auto;-o-object-fit:var(--fit);object-fit:var(--fit);-o-object-position:var(--pos);object-position:var(--pos);aspect-ratio:var(--w) / var(--h)}[data-astro-image=responsive]{max-width:calc(var(--w) * 1px);max-height:calc(var(--h) * 1px)}[data-astro-image=fixed]{width:calc(var(--w) * 1px);height:calc(var(--h) * 1px)}
-</style></head> <body class="min-h-[100dvh] lg:bg-gray-100 bg-[#fefefe] font-kaiti"> <div class="flex min-h-[100dvh] w-full flex-1 flex-col items-center"> <!-- Header --> <header class="mx-auto my-4 sm:my-10 flex w-full max-w-7xl items-center justify-between print:hidden px-5 md:px-10 lg:px-12 xl:px-16undefined"> <div class="flex flex-1 justify-start"> <a href="/" class="text-base font-bold no-underline">
+</style></head> <body class="min-h-[100dvh] lg:bg-gray-100 bg-[#fefefe] font-kaiti"> <div class="flex min-h-[100dvh] w-full flex-1 flex-col items-center"> <!-- Header --> <header class="mx-auto my-4 sm:my-10 flex w-full max-w-7xl items-center justify-between print:hidden px-5 md:px-10 lg:px-12 xl:px-16"> <div class="flex flex-1 justify-start"> <a href="/" class="text-base font-bold no-underline">
 陈
 </a> <span>：</span>
-              <a href="/posts/" class="text-base font-bold text-black no-underline"> 博客 </a> </div> <span class="inline md:hidden text-base font-bold">
+        <a href="/posts/" class="text-base font-bold text-black no-underline"> 博客 </a> </div> <span class="inline md:hidden text-base font-bold">
 ··
 </span> <span class="inline print:hidden"> <nav class="flex flex-col text-sm hidden md:inline gap-20"> <a href="/posts/" class="text-gray-500 no-underline">【 博客</a> /
 <a href="/comments/" class="text-gray-500 no-underline">杂谈随记</a> /
@@ -193,28 +192,10 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
 <h3 id="2-表达能力有限">2. 表达能力有限</h3>
 <p>如果数据分布有多个中心，多为高斯分布只能用一个最大的分布将其包括在内。为解决此问题，人们提出了GMM。关于GMM，可参考这篇<a href="https://zhuanlan.zhihu.com/p/31103654">知乎</a>。</p>
 <h2 id="小结">小结</h2>
-<p>本节中我们直观了解了高维高斯分布的意义以及其局限性，下一小节中我们将聚焦于多维高斯分布的边缘概率密度、条件概率密度以及联合概率密度。</p>  </article> </div> </main>  </div> </main> <!-- Footer --> <footer class="flex flex-col w-full max-w-7xl mb-4 justify-center align-center print:hidden px-5 md:px-10 lg:px-12 xl:px-16undefined"> <div class="flex flex-col text-nowrap md:flex-row mx-auto flex w-full items-start md:items-center justify-between align-end"> <span class="text-sm font-light">写于2025年6月25日</span> <div class="mb-4 mt-4 flex w-full flex-col items-start justify-center md:flex-row md:gap-8 md:max-w-[40%] print:hidden"> <a href="/posts/note-wb-gaussian-distrubtion-1" class="text-sm font-light text-black underline hover:text-red-700 truncate block w-full md:w-auto">
+<p>本节中我们直观了解了高维高斯分布的意义以及其局限性，下一小节中我们将聚焦于多维高斯分布的边缘概率密度、条件概率密度以及联合概率密度。</p>  </article> </div> </main>  </div> </main> <!-- Footer --> <footer class="flex flex-col w-full max-w-7xl mb-4 justify-center align-center print:hidden px-5 md:px-10 lg:px-12 xl:px-16"> <div class="flex flex-col text-nowrap md:flex-row mx-auto flex w-full items-start md:items-center justify-between align-end"> <span class="text-sm font-light">写于2025年6月25日</span> <div class="mb-4 mt-4 flex w-full flex-col items-start justify-center md:flex-row md:gap-8 md:max-w-[40%] print:hidden"> <a href="/posts/note-wb-gaussian-distrubtion-1" class="text-sm font-light text-black underline hover:text-red-700 truncate block w-full md:w-auto">
 前
 ：《机器学习：高斯分布（其一）-极大似然估计与无偏估计》 </a> <a href="/posts/macos-use-latex-on-vscode" class="text-sm font-light text-black underline hover:text-red-700 truncate block w-full md:w-auto">
 后
 ：《macOS：在VSCode中配置使用Latex》 </a> </div> <div class="flex flex-col text-sm print:hidden"> <a class="text-nowrap font-light text-black" href="https://github.com/HaleyCH/chenblog">
 由<span class="text-red-700">陈</span>设计
-</a> </div> </div> <!-- 将备案号居中 --> <div class="flex justify-center w-full mt-[50px] mb-[10px] print:hidden"> <a class="text-sm text-gray-300" href="https://beian.miit.gov.cn/">浙ICP备2022026813号-1</a> </div> </footer> <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> <script type="module">document.addEventListener("DOMContentLoaded",function(){const o=document.querySelectorAll('img[src*="-small.webp"]'),e=document.createElement("div");e.style.cssText=`
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255,255,255,0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-          `,document.body.appendChild(e);const t=document.createElement("img");t.style.cssText=`
-            max-width: 80vw;
-            max-height: 80vh;
-            object-fit: contain;
-            cursor: default;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-          `,e.appendChild(t),o.forEach(n=>{n.addEventListener("click",function(){const c=this.src.replace("-small.webp","");t.src=c,e.style.display="flex"})}),e.addEventListener("click",function(n){n.target===e&&(e.style.display="none",document.body.style.overflow="")})});</script> </div> </body> </html>
+</a> </div> </div> <!-- 将备案号居中 --> <div class="flex justify-center w-full mt-[50px] mb-[10px] print:hidden"> <a class="text-sm text-gray-300" href="https://beian.miit.gov.cn/">浙ICP备2022026813号-1</a> </div> </footer> <script type="module" src="/_astro/ImageEnhancement.astro_astro_type_script_index_0_lang.iyZNQc-V.js"></script> </div> </body></html>
