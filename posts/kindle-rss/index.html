@@ -1,0 +1,199 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><!-- Baidu Analytics --><script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?07031aed06e0fa1f0bfe62119cd66c18";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script> <!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-J6S31LSNX8"></script> <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-J6S31LSNX8');
+</script> <!-- Busuanzi counter --><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png"><link rel="manifest" href="/static/site.webmanifest"><meta name="generator" content="Astro v5.1.0"><!-- Baidu verification --><meta name="baidu-site-verification" content="codeva-TE3aiPxcrm"><!-- Font preloads --><link rel="preload" href="/fonts/geist-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/geist-mono-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"></noscript><!-- Canonical URL --><link rel="canonical" href="https://hluvmiku.tech/posts/kindle-rss/"><!-- Primary Meta Tags --><title>告别碎片化阅读：我如何用KindleRSS打造个人专属的每日精选杂志</title><meta name="title" content="告别碎片化阅读：我如何用KindleRSS打造个人专属的每日精选杂志"><meta name="description" content="分享一个让我重新爱上深度阅读的开源项目KindleRSS，它能自动将RSS订阅转换成精美的EPUB电子书并推送到Kindle，让你在地铁上也能享受沉浸式阅读体验。"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://hluvmiku.tech/posts/kindle-rss/"><meta property="og:title" content="告别碎片化阅读：我如何用KindleRSS打造个人专属的每日精选杂志"><meta property="og:description" content="分享一个让我重新爱上深度阅读的开源项目KindleRSS，它能自动将RSS订阅转换成精美的EPUB电子书并推送到Kindle，让你在地铁上也能享受沉浸式阅读体验。"><meta property="og:image" content="https://hluvmiku.tech/static/blog-placeholder.png"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://hluvmiku.tech/posts/kindle-rss/"><meta property="twitter:title" content="告别碎片化阅读：我如何用KindleRSS打造个人专属的每日精选杂志"><meta property="twitter:description" content="分享一个让我重新爱上深度阅读的开源项目KindleRSS，它能自动将RSS订阅转换成精美的EPUB电子书并推送到Kindle，让你在地铁上也能享受沉浸式阅读体验。"><meta property="twitter:image" content="https://hluvmiku.tech/static/blog-placeholder.png"><link rel="stylesheet" href="/_astro/_page_.DjslBRCr.css">
+<style>[data-astro-image]{width:100%;height:auto;-o-object-fit:var(--fit);object-fit:var(--fit);-o-object-position:var(--pos);object-position:var(--pos);aspect-ratio:var(--w) / var(--h)}[data-astro-image=responsive]{max-width:calc(var(--w) * 1px);max-height:calc(var(--h) * 1px)}[data-astro-image=fixed]{width:calc(var(--w) * 1px);height:calc(var(--h) * 1px)}
+</style></head> <body class="min-h-[100dvh] lg:bg-gray-100 bg-[#fefefe] font-kaiti"> <div class="flex min-h-[100dvh] w-full flex-1 flex-col items-center"> <!-- Header --> <header class="mx-auto my-4 sm:my-10 flex w-full max-w-7xl items-center justify-between print:hidden px-5 md:px-10 lg:px-12 xl:px-16"> <div class="flex flex-1 justify-start"> <a href="/" class="text-base font-bold no-underline">
+陈
+</a> <span>：</span>
+        <a href="/posts/" class="text-base font-bold text-black no-underline"> 博客 </a> </div> <span class="inline md:hidden text-base font-bold">
+··
+</span> <span class="inline print:hidden"> <nav class="flex flex-col text-sm hidden md:inline gap-20"> <a href="/posts/" class="text-gray-500 no-underline">【 博客</a> /
+<a href="/comments/" class="text-gray-500 no-underline">杂谈随记</a> /
+<a href="/resume/" class="text-gray-500 no-underline">科研 】</a> </nav> </span> </header> <!-- Main Slot --> <main class="flex w-full flex-1 items-center justify-center print:block print:items-start print:justify-start print:h-full print:border-0"> <div class="prose mx-auto my-10 w-full max-w-7xl print:my-0 print:max-w-none print:w-full print:h-full">  <main class="min-w-2xl flex w-full justify-center print:m-0 print:block print:p-0"> <div class="flex w-full flex-col items-start justify-center text-wrap p-4 md:mx-auto md:max-w-2xl md:gap-6 md:px-4 md:py-8 lg:max-w-3xl lg:bg-[#fefefe] lg:px-20 lg:py-10 lg:shadow-lg print:m-0 print:p-0 print:shadow-none"> <h1 class="mb-5 text-2xl font-bold print:mb-0"> 告别碎片化阅读：我如何用KindleRSS打造个人专属的每日精选杂志 </h1> <span class="hidden print:inline">写于2025年9月3日</span> <article id="article" class="prose prose-zinc max-w-none break-words">  <h2 id="从信息焦虑到深度阅读">从信息焦虑到深度阅读</h2>
+<p>还记得上次完整读完一篇长文是什么时候吗？</p>
+<p>作为一个技术博客的重度订阅者，我每天都会刷各种技术网站：少数派、阮一峰的博客、V2EX…手机上装了七八个阅读App，微信收藏夹里堆满了”有空再看”的文章。但说实话，真正认真读完的文章寥寥无几。</p>
+<p>碎片化阅读的问题我们都懂：</p>
+<ul>
+<li>📱 手机阅读容易分心，一个通知就把思路打断</li>
+<li>👀 屏幕太亮，长时间阅读眼睛疲劳</li>
+<li>🔄 文章分散在各个平台，切换麻烦</li>
+<li>⏰ “稍后阅读”变成”永远不读”</li>
+</ul>
+<p>直到我开发了<a href="https://github.com/ZRui-C/KindleRSS">KindleRSS</a>这个项目，情况才有了转机。</p>
+<p><img src="https://cdn.hluvmiku.tech/image/202509032305791.png-small.webp" alt="202509032305791"></p>
+<h2 id="什么是kindlerss">什么是KindleRSS？</h2>
+<p>简单来说，KindleRSS做了一件事：<strong>把你订阅的所有RSS源打包成一本电子书，每天定时发到你的Kindle上</strong>。</p>
+<p>想象一下这个场景：</p>
+<ul>
+<li>早上7点，一本包含了昨天所有精选文章的”个人日报”自动出现在你的Kindle上</li>
+<li>地铁通勤的40分钟，没有广告、没有推送、没有干扰，只有你和文字</li>
+<li>晚上睡前，在柔和的背光下读完最后一篇技术分享</li>
+</ul>
+<p>这就是我现在每天的阅读日常。</p>
+<h2 id="实际使用体验">实际使用体验</h2>
+<h3 id="设置过程比想象中简单">设置过程（比想象中简单）</h3>
+<p>整个设置过程不到10分钟：</p>
+<ol>
+<li>
+<p><strong>Fork项目到自己的GitHub</strong></p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.zi4z0.css"><script type="module" src="/_astro/ec.8zarh.js"></script><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#616972"># 不需要服务器，不需要付费，完全免费</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code=""><div></div></button></div></figure></div>
+</li>
+<li>
+<p><strong>配置RSS源</strong> - 这是我的配置片段：</p>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="yaml"><code><div class="ec-line"><div class="code"><span style="--0:#1E7734">Settings</span><span style="--0:#24292E">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#1E7734">max_history</span><span style="--0:#24292E">: </span><span style="--0:#005CC5">7</span><span style="--0:#24292E"> </span><span style="--0:#616972"># 保留最近7天的文章</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#1E7734">load_images</span><span style="--0:#24292E">: </span><span style="--0:#005CC5">true</span><span style="--0:#24292E"> </span><span style="--0:#616972"># 嵌入图片</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#1E7734">filename_template</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"技术周刊_{date}.epub"</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#1E7734">Feeds</span><span style="--0:#24292E">:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">  </span></span><span style="--0:#24292E">- </span><span style="--0:#1E7734">url</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"https://sspai.com/feed"</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#1E7734">name</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"少数派"</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#1E7734">resolve_link</span><span style="--0:#24292E">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#1E7734">enabled</span><span style="--0:#24292E">: </span><span style="--0:#005CC5">true</span><span style="--0:#24292E"> </span><span style="--0:#616972"># 这个功能太赞了，能抓取全文！</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#1E7734">method</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"readability"</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="Settings:  max_history: 7 # 保留最近7天的文章  load_images: true # 嵌入图片  filename_template: &#x22;技术周刊_{date}.epub&#x22;Feeds:  - url: &#x22;https://sspai.com/feed&#x22;    name: &#x22;少数派&#x22;    resolve_link:      enabled: true # 这个功能太赞了，能抓取全文！      method: &#x22;readability&#x22;"><div></div></button></div></figure></div>
+</li>
+<li>
+<p><strong>设置GitHub Secrets</strong></p>
+<ul>
+<li>配置SMTP信息（我用的QQ邮箱）</li>
+<li>添加Kindle接收邮箱</li>
+<li>所有密码都加密存储，很安全</li>
+</ul>
+</li>
+<li>
+<p><strong>添加Kindle白名单</strong></p>
+<ul>
+<li>在亚马逊后台添加发件邮箱</li>
+<li>这一步很多人会忘，记得要做</li>
+</ul>
+</li>
+</ol>
+<p>然后就完成了！每天早上7点，新鲜的”技术日报”就会自动推送到Kindle。</p>
+<h3 id="让我惊喜的细节">让我惊喜的细节</h3>
+<p><strong>1. 全文抓取功能</strong></p>
+<p>很多RSS只提供摘要，但KindleRSS支持两种全文提取方式：</p>
+<ul>
+<li>Readability智能识别（自动提取正文）</li>
+<li>CSS选择器精确定位（针对特定网站优化）</li>
+</ul>
+<p>实测下来，像少数派、阮一峰博客这些主流网站，全文提取成功率接近100%。</p>
+<p><strong>2. 图片处理很贴心</strong></p>
+<ul>
+<li>自动下载并嵌入图片（技术文章的架构图不会丢失！）</li>
+<li>WebP格式自动转换（Kindle不支持WebP，它会自动转成JPEG）</li>
+<li>防止图片跨页显示（这个细节真的很棒）</li>
+</ul>
+<p><strong>3. 阅读体验优化</strong></p>
+<p>生成的EPUB有完整的目录结构：</p>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#24292e">📖 技术周刊_2024年1月20日.epub</span></div></div><div class="ec-line"><div class="code"><span style="--0:#24292e">├── 📑 主目录</span></div></div><div class="ec-line"><div class="code"><span style="--0:#24292e">├── 📂 少数派</span></div></div><div class="ec-line"><div class="code"><span style="--0:#24292e">│   ├── 文章1：用树莓派搭建NAS</span></div></div><div class="ec-line"><div class="code"><span style="--0:#24292e">│   ├── 文章2：Obsidian插件推荐</span></div></div><div class="ec-line"><div class="code"><span style="--0:#24292e">│   └── 文章3：年度效率工具盘点</span></div></div><div class="ec-line"><div class="code"><span style="--0:#24292e">├── 📂 阮一峰的网络日志</span></div></div><div class="ec-line"><div class="code"><span style="--0:#24292e">│   └── 科技爱好者周刊</span></div></div><div class="ec-line"><div class="code"><span style="--0:#24292e">└── 📂 V2EX热门</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292e">    </span></span><span style="--0:#24292e">└── 今日热议话题</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="📖 技术周刊_2024年1月20日.epub├── 📑 主目录├── 📂 少数派│   ├── 文章1：用树莓派搭建NAS│   ├── 文章2：Obsidian插件推荐│   └── 文章3：年度效率工具盘点├── 📂 阮一峰的网络日志│   └── 科技爱好者周刊└── 📂 V2EX热门    └── 今日热议话题"><div></div></button></div></figure></div>
+<p>每篇文章都有导航按钮，可以快速跳转到上一篇、下一篇或返回目录。</p>
+<h3 id="实际收获">实际收获</h3>
+<p>使用KindleRSS三个月后，我的阅读习惯发生了明显变化：</p>
+<p><strong>之前：</strong></p>
+<ul>
+<li>每天刷手机2-3小时，真正记住的内容很少</li>
+<li>收藏了上百篇文章，但从来没打开过</li>
+<li>经常读到一半就被打断</li>
+</ul>
+<p><strong>现在：</strong></p>
+<ul>
+<li>每天固定1小时深度阅读（通勤时间正好）</li>
+<li>完整读完的文章数量提升了5倍</li>
+<li>开始写技术笔记了（因为真的理解了内容）</li>
+</ul>
+<h2 id="核心优势总结">核心优势总结</h2>
+<h3 id="1-零成本运维">1. 零成本运维</h3>
+<ul>
+<li>不需要服务器（用GitHub Actions）</li>
+<li>不需要付费（开源MIT协议）</li>
+<li>不需要维护（设置一次，永久使用）</li>
+</ul>
+<h3 id="2-隐私安全">2. 隐私安全</h3>
+<ul>
+<li>所有代码开源，可以审查</li>
+<li>敏感信息用GitHub Secrets加密</li>
+<li>数据不经过第三方服务器</li>
+</ul>
+<h3 id="3-高度可定制">3. 高度可定制</h3>
+<ul>
+<li>自定义文件名（我用”技术周刊_2024年1月20日.epub”）</li>
+<li>选择性订阅（可以随时开关某个RSS源）</li>
+<li>灵活的更新频率（每天/每周/手动触发）</li>
+</ul>
+<h3 id="4-真正的阅读体验">4. 真正的阅读体验</h3>
+<ul>
+<li>Kindle的墨水屏护眼</li>
+<li>没有通知打扰</li>
+<li>可以做笔记和标注</li>
+<li>支持离线阅读</li>
+</ul>
+<h2 id="适合哪些人">适合哪些人？</h2>
+<p>✅ <strong>如果你是这样的人：</strong></p>
+<ul>
+<li>订阅了很多优质内容源，但总是没时间看</li>
+<li>想培养深度阅读习惯</li>
+<li>有Kindle设备（或其他支持邮件推送的电子书阅读器）</li>
+<li>喜欢折腾一点技术工具</li>
+</ul>
+<p>❌ <strong>可能不适合你：</strong></p>
+<ul>
+<li>只看新闻快讯，不看长文</li>
+<li>没有电子书阅读器</li>
+<li>完全不懂技术（虽然有详细文档，但还是需要基础的GitHub操作）</li>
+</ul>
+<h2 id="一些实用建议">一些实用建议</h2>
+<p>基于我的使用经验，分享几个小技巧：</p>
+<ol>
+<li>
+<p><strong>精选RSS源很重要</strong></p>
+<ul>
+<li>宁缺毋滥，选择真正高质量的内容源</li>
+<li>建议从3-5个源开始，不要贪多</li>
+</ul>
+</li>
+<li>
+<p><strong>设置合理的更新周期</strong></p>
+<ul>
+<li>日更适合新闻类内容</li>
+<li>周更适合深度文章</li>
+<li>我的做法：工作日推送技术文章，周末推送人文内容</li>
+</ul>
+</li>
+<li>
+<p><strong>利用GitHub Actions的灵活性</strong></p>
+<ul>
+<li>可以设置多个工作流，生成不同类型的电子书</li>
+<li>比如：技术周刊、产品动态、行业资讯分开推送</li>
+</ul>
+</li>
+<li>
+<p><strong>记得清理旧文件</strong></p>
+<ul>
+<li>Kindle存储空间有限</li>
+<li>建议定期清理已读的EPUB文件</li>
+</ul>
+</li>
+</ol>
+<h2 id="开始你的深度阅读之旅">开始你的深度阅读之旅</h2>
+<p>如果你也厌倦了信息过载，想要找回专注阅读的感觉，不妨试试KindleRSS。</p>
+<p>项目地址：<a href="https://github.com/ZRui-C/KindleRSS">https://github.com/ZRui-C/KindleRSS</a></p>
+<p>设置真的很简单，官方文档写得很详细。遇到问题可以在GitHub Issues提问。</p>
+<p><strong>最后想说：</strong></p>
+<p>在这个信息爆炸的时代，我们不缺内容，缺的是专注力和深度思考的时间。KindleRSS帮我找回了阅读的乐趣，希望也能帮到你。</p>
+<p>毕竟，好的工具应该是透明的——它默默工作，让你专注于真正重要的事：<strong>阅读本身</strong>。</p>
+<hr>
+<h2 id="相关链接">相关链接</h2>
+<ul>
+<li><a href="https://github.com/ZRui-C/KindleRSS">KindleRSS项目主页</a></li>
+<li><a href="https://github.com/ZRui-C/KindleRSS/blob/main/README.md">详细设置教程</a></li>
+<li><a href="https://github.com/ZRui-C/KindleRSS/blob/main/GITHUB_ACTIONS_SETUP.md">GitHub Actions配置指南</a></li>
+<li><a href="https://github.com/ZRui-C/KindleRSS/issues">常见问题解答</a></li>
+</ul>  </article> </div> </main>  </div> </main> <!-- Footer --> <footer class="flex flex-col w-full max-w-7xl mb-4 justify-center align-center print:hidden px-5 md:px-10 lg:px-12 xl:px-16"> <div class="flex flex-col text-nowrap md:flex-row mx-auto flex w-full items-start md:items-center justify-between align-end"> <span class="text-sm font-light">写于2025年9月3日</span> <div class="mb-4 mt-4 flex w-full flex-col items-start justify-center md:flex-row md:gap-8 md:max-w-[40%] print:hidden"> <a href="/posts/gallery-ansel-adams" class="text-sm font-light text-black underline hover:text-red-700 truncate block w-full md:w-auto">
+前
+：《Ansel Adams 摄影作品分享》 </a> <a href="/posts/friends" class="text-sm font-light text-black underline hover:text-red-700 truncate block w-full md:w-auto">
+后
+：《友链》 </a> </div> <div class="flex flex-col text-sm print:hidden"> <a class="text-nowrap font-light text-black" href="https://github.com/HaleyCH/chenblog">
+由<span class="text-red-700">陈</span>设计
+</a> </div> </div> <!-- 将备案号居中 --> <div class="flex justify-center w-full mt-[50px] mb-[10px] print:hidden"> <a class="text-sm text-gray-300" href="https://beian.miit.gov.cn/">浙ICP备2022026813号-1</a> </div> </footer> <script type="module" src="/_astro/ImageEnhancement.astro_astro_type_script_index_0_lang.D3ij_ksR.js"></script> </div> </body></html>
