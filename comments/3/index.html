@@ -15,7 +15,41 @@
 <style>[data-astro-image]{width:100%;height:auto;-o-object-fit:var(--fit);object-fit:var(--fit);-o-object-position:var(--pos);object-position:var(--pos);aspect-ratio:var(--w) / var(--h)}[data-astro-image=responsive]{max-width:calc(var(--w) * 1px);max-height:calc(var(--h) * 1px)}[data-astro-image=fixed]{width:calc(var(--w) * 1px);height:calc(var(--h) * 1px)}
 </style></head> <body class="min-h-[100dvh] bg-[#fefefe] font-kaiti"> <div class="mx-auto flex min-h-[100dvh] w-full max-w-2xl flex-1 flex-col items-center p-4"> <!-- Header --> <header class="mx-auto flex w-full max-w-7xl border-b pb-4 items-center justify-between print:hidden"> <div class="flex flex-1 justify-start"> <a href="/" class="text-base font-bold text-red-700 no-underline"> 陈 </a> </div> <span class="inline print:hidden"> <nav class="inline gap-20 text-sm"> <a href="/posts/" class="text-gray-500 no-underline">博客</a> /
 <a href="/comments/" class="text-gray-500 no-underline">杂谈随记</a> /
-<a href="/resume/" class="text-gray-500 no-underline">科研</a> </nav> </span> </header> <!-- Main Slot --> <main class="flex w-full flex-1 items-center justify-center print:block print:h-full print:items-start print:justify-start print:border-0"> <div class="prose mx-auto my-10 w-full max-w-7xl print:my-0 print:h-full print:w-full print:max-w-none">  <main class=""> <ul> <li class="mb-8 border-b border-gray-200 pb-8 last:border-0 print:mb-0 print:border-0 print:pb-0"> <p class="whitespace-pre-wrap">eva剧场版影院上映，哭爽了。
+<a href="/resume/" class="text-gray-500 no-underline">科研</a> </nav> </span> </header> <!-- Main Slot --> <main class="flex w-full flex-1 items-center justify-center print:block print:h-full print:items-start print:justify-start print:border-0"> <div class="prose mx-auto my-10 w-full max-w-7xl print:my-0 print:h-full print:w-full print:max-w-none">  <main class=""> <ul> <li class="mb-8 border-b border-gray-200 pb-8 last:border-0 print:mb-0 print:border-0 print:pb-0"> <p class="whitespace-pre-wrap">【日报】2025-11-04
+
+昨天我说“如何排列Patch”，当时实际上只是为了解决DINO输出feature细粒度不够的问题，但好像现在能延伸出一些有趣的问题。（昨天日报好像没发出来，在附件和网页端都有存档）
+
+今天dino玩的东西有点多，得到了一个阶段性结论：对于较小的DINOv3，可能去掉RoPE能更好的用模型查询相关信息。
+
+截屏2025-11-04 21.03.04.png
+
+东西比较多，就放图片里了：
+
+幻灯片1.png
+
+幻灯片2.png
+
+幻灯片3.png
+
+幻灯片4.png
+
+幻灯片5.png
+
+幻灯片6.png
+
+幻灯片7.png
+
+幻灯片8.png
+
+幻灯片9.png
+
+幻灯片10.png
+
+邮件里可能看不到，PDF附件和网页里应该可以。这个应该能作为点监督的一个小trick，当然，还是得强调，对于较小的DINOv3可能能这么做，对原始的7B就不一定了，模型比较大，还没下载好还没测试。而且也没有量化去掉RoPE以后feature表征能力是否下降。
+
+验证完在7b模型上是否有效以后，我想着重看看DINOv3的特征在各个维度上是否有一定的可解释性，还有RoPE对Attention的具体影响。先看看相关论文。</p>  <a href="https://zrui-c.notion.site/277ba7bb26c880b181d8e36d4ae08742" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block">
+网页链接
+</a>  <div class="mt-4 hidden flex-row items-start justify-start gap-2 sm:flex"> <span class="text-xs text-gray-500"> 2025年11月4日 </span> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> <span></span> </div> </div> <div class="mt-4 flex flex-col items-start justify-start gap-2 sm:hidden"> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> </div> <span class="text-xs text-gray-500"> 2025年11月4日 </span> </div></li><li class="mb-8 border-b border-gray-200 pb-8 last:border-0 print:mb-0 print:border-0 print:pb-0"> <p class="whitespace-pre-wrap">eva剧场版影院上映，哭爽了。
 
 再见了，所有的EVANGELION。</p> <img src="https://cdn.hluvmiku.tech/image/202511021541364.png-small.webp" alt="Comment Image" class="mt-4 h-[100px] max-w-full rounded-lg shadow-md">   <div class="mt-4 hidden flex-row items-start justify-start gap-2 sm:flex"> <span class="text-xs text-gray-500"> 2025年11月2日 下午 15时40分 </span> <div class="text-xs text-gray-500 "> <span>北京市 怀柔区</span> <span>11°C，晴</span> <span>🥰</span> </div> </div> <div class="mt-4 flex flex-col items-start justify-start gap-2 sm:hidden"> <div class="text-xs text-gray-500 "> <span>北京市 怀柔区</span> <span>11°C，晴</span> </div> <span class="text-xs text-gray-500"> 2025年11月2日 下午 15时40分🥰 </span> </div></li><li class="mb-8 border-b border-gray-200 pb-8 last:border-0 print:mb-0 print:border-0 print:pb-0"> <p class="whitespace-pre-wrap">【日报】2025-10-31
 
@@ -35,9 +69,7 @@ PPTPPTPPTPPT，全是PPT，小组作业还要开题中期答辩啥的，感觉�
 
 点监督RL 在anchor free的fcos上不知怎么回事没复现出来，我直接按原文在Faster RCNN上复现一下吧。为什么我要复现这么老的东西？主要是太久没看到有效果的东西需要有点正向激励，来证明我的代码能力起码是没问题的。否则都不敢写下去了。当然也是积累点经验，里面很多方法还是很有参考价值的。</p>  <a href="https://zrui-c.notion.site/277ba7bb26c880b181d8e36d4ae08742" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block">
 网页链接
-</a>  <div class="mt-4 hidden flex-row items-start justify-start gap-2 sm:flex"> <span class="text-xs text-gray-500"> 2025年10月29日 </span> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> <span></span> </div> </div> <div class="mt-4 flex flex-col items-start justify-start gap-2 sm:hidden"> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> </div> <span class="text-xs text-gray-500"> 2025年10月29日 </span> </div></li><li class="mb-8 border-b border-gray-200 pb-8 last:border-0 print:mb-0 print:border-0 print:pb-0"> <p class="whitespace-pre-wrap">AI时代如何教学？卜老师确实站在这方面教学最前沿。
-不是一刀切的禁止使用、查AI率，而是将AI融入教学中来。教算法，教用神经网络优化算法，教如何让AI寻找算法，教人应该如何用AI设计算法—这才是AI时代学校该做的，这也是这门课正在教的。从用神经网络剪枝np-hard问题，到用强化学习优化矩阵乘法，将AI真正结合进教学底层逻辑，卜老师无疑是做了很多优秀的探索。
-开学几次讲话的时候，国科大校长、计算所所长等几位学术大牛也都分别强调了要拥抱AI，接受AI，将AI合理的结合进学术生活中。这门课就是个非常好的例子。</p> <img src="https://cdn.hluvmiku.tech/image/202510282143288.png-small.webp" alt="Comment Image" class="mt-4 h-[100px] max-w-full rounded-lg shadow-md">   <div class="mt-4 hidden flex-row items-start justify-start gap-2 sm:flex"> <span class="text-xs text-gray-500"> 2025年10月28日 晚上 21时43分 </span> <div class="text-xs text-gray-500 "> <span>北京市 怀柔区</span> <span>10°C，大部多云</span> <span>📚</span> </div> </div> <div class="mt-4 flex flex-col items-start justify-start gap-2 sm:hidden"> <div class="text-xs text-gray-500 "> <span>北京市 怀柔区</span> <span>10°C，大部多云</span> </div> <span class="text-xs text-gray-500"> 2025年10月28日 晚上 21时43分📚 </span> </div></li> </ul> </main>  </div> </main> <!-- Footer --> <footer class="flex flex-col w-full max-w-7xl mb-4 justify-center align-center pt-4 border-t print:hidden"> <div class="flex flex-col text-nowrap md:flex-row mx-auto flex w-full items-start md:items-center justify-between align-end"> <span class="invisible text-base font-bold md:visible">·</span> <div class="mb-4 mt-4 flex w-full flex-col items-start justify-center md:max-w-[40%] md:flex-row md:gap-8 print:hidden"> <a href="/comments/4" class="block w-full truncate text-sm font-light text-black underline hover:text-red-700 md:w-auto">
+</a>  <div class="mt-4 hidden flex-row items-start justify-start gap-2 sm:flex"> <span class="text-xs text-gray-500"> 2025年10月29日 </span> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> <span></span> </div> </div> <div class="mt-4 flex flex-col items-start justify-start gap-2 sm:hidden"> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> </div> <span class="text-xs text-gray-500"> 2025年10月29日 </span> </div></li> </ul> </main>  </div> </main> <!-- Footer --> <footer class="flex flex-col w-full max-w-7xl mb-4 justify-center align-center pt-4 border-t print:hidden"> <div class="flex flex-col text-nowrap md:flex-row mx-auto flex w-full items-start md:items-center justify-between align-end"> <span class="invisible text-base font-bold md:visible">·</span> <div class="mb-4 mt-4 flex w-full flex-col items-start justify-center md:max-w-[40%] md:flex-row md:gap-8 print:hidden"> <a href="/comments/4" class="block w-full truncate text-sm font-light text-black underline hover:text-red-700 md:w-auto">
 前 </a> <a href="/comments/2" class="block w-full truncate text-sm font-light text-black underline hover:text-red-700 md:w-auto">
 后 </a> </div> <div class="flex flex-col text-sm print:hidden"> <a class="text-nowrap font-light text-black" href="https://github.com/HaleyCH/chenblog">
 由<span class="text-red-700">陈</span>设计
