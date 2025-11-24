@@ -15,7 +15,23 @@
 <style>[data-astro-image]{width:100%;height:auto;-o-object-fit:var(--fit);object-fit:var(--fit);-o-object-position:var(--pos);object-position:var(--pos);aspect-ratio:var(--w) / var(--h)}[data-astro-image=responsive]{max-width:calc(var(--w) * 1px);max-height:calc(var(--h) * 1px)}[data-astro-image=fixed]{width:calc(var(--w) * 1px);height:calc(var(--h) * 1px)}
 </style></head> <body class="min-h-[100dvh] bg-[#fefefe] font-kaiti"> <div class="mx-auto flex min-h-[100dvh] w-full max-w-2xl flex-1 flex-col items-center p-4"> <!-- Header --> <header class="mx-auto flex w-full max-w-7xl border-b pb-4 items-center justify-between print:hidden"> <div class="flex flex-1 justify-start"> <a href="/" class="text-base font-bold text-red-700 no-underline"> 陈 </a> </div> <span class="inline print:hidden"> <nav class="inline gap-20 text-sm"> <a href="/posts/" class="text-gray-500 no-underline">博客</a> /
 <a href="/comments/" class="text-gray-500 no-underline">杂谈随记</a> /
-<a href="/resume/" class="text-gray-500 no-underline">科研</a> </nav> </span> </header> <!-- Main Slot --> <main class="flex w-full flex-1 items-center justify-center print:block print:h-full print:items-start print:justify-start print:border-0"> <div class="prose mx-auto my-10 w-full max-w-7xl print:my-0 print:h-full print:w-full print:max-w-none">  <main class=""> <ul> <li class="mb-8 border-b border-gray-200 pb-8 last:border-0 print:mb-0 print:border-0 print:pb-0"> <p class="whitespace-pre-wrap">【日报】2025-11-04
+<a href="/resume/" class="text-gray-500 no-underline">科研</a> </nav> </span> </header> <!-- Main Slot --> <main class="flex w-full flex-1 items-center justify-center print:block print:h-full print:items-start print:justify-start print:border-0"> <div class="prose mx-auto my-10 w-full max-w-7xl print:my-0 print:h-full print:w-full print:max-w-none">  <main class=""> <ul> <li class="mb-8 border-b border-gray-200 pb-8 last:border-0 print:mb-0 print:border-0 print:pb-0"> <p class="whitespace-pre-wrap">【日报】2025-11-05
+
+今天跟师兄讨论了挺多东西，就不一一列举了。
+
+说说DINO吧，这是我目前用点监督生成的，以后打算用类似方法做伪框。
+
+7b5e221e0969772d11231be6a88a86a0.png
+
+然后我又手动选择了两个维度，用他们生成：
+
+70316581aee8c02fded27ef057131018.png
+
+算法算的还不如我手挑的——要不做个RL agent辅助做一个通用DINO feature layer选择Agent？
+
+能做吗？RL方面能非常完美的契合，task能吗？RLHF吗？</p>  <a href="https://zrui-c.notion.site/277ba7bb26c880b181d8e36d4ae08742" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block">
+网页链接
+</a>  <div class="mt-4 hidden flex-row items-start justify-start gap-2 sm:flex"> <span class="text-xs text-gray-500"> 2025年11月5日 </span> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> <span></span> </div> </div> <div class="mt-4 flex flex-col items-start justify-start gap-2 sm:hidden"> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> </div> <span class="text-xs text-gray-500"> 2025年11月5日 </span> </div></li><li class="mb-8 border-b border-gray-200 pb-8 last:border-0 print:mb-0 print:border-0 print:pb-0"> <p class="whitespace-pre-wrap">【日报】2025-11-04
 
 昨天我说“如何排列Patch”，当时实际上只是为了解决DINO输出feature细粒度不够的问题，但好像现在能延伸出一些有趣的问题。（昨天日报好像没发出来，在附件和网页端都有存档）
 
@@ -61,15 +77,7 @@
 
 今天一天课。</p>  <a href="https://zrui-c.notion.site/277ba7bb26c880b181d8e36d4ae08742" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block">
 网页链接
-</a>  <div class="mt-4 hidden flex-row items-start justify-start gap-2 sm:flex"> <span class="text-xs text-gray-500"> 2025年10月30日 </span> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> <span></span> </div> </div> <div class="mt-4 flex flex-col items-start justify-start gap-2 sm:hidden"> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> </div> <span class="text-xs text-gray-500"> 2025年10月30日 </span> </div></li><li class="mb-8 border-b border-gray-200 pb-8 last:border-0 print:mb-0 print:border-0 print:pb-0"> <p class="whitespace-pre-wrap">【日报】2025-10-29
-
-干了点活、写了点作业。
-
-PPTPPTPPTPPT，全是PPT，小组作业还要开题中期答辩啥的，感觉像是在帮别的所打工。怎么会有这种课，上课放20年前视频，作业是帮老师的研究生干活（大概）。哎，选都选了，就当拓展知识面了，反正到最后应该还是简单机器学习。
-
-点监督RL 在anchor free的fcos上不知怎么回事没复现出来，我直接按原文在Faster RCNN上复现一下吧。为什么我要复现这么老的东西？主要是太久没看到有效果的东西需要有点正向激励，来证明我的代码能力起码是没问题的。否则都不敢写下去了。当然也是积累点经验，里面很多方法还是很有参考价值的。</p>  <a href="https://zrui-c.notion.site/277ba7bb26c880b181d8e36d4ae08742" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block">
-网页链接
-</a>  <div class="mt-4 hidden flex-row items-start justify-start gap-2 sm:flex"> <span class="text-xs text-gray-500"> 2025年10月29日 </span> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> <span></span> </div> </div> <div class="mt-4 flex flex-col items-start justify-start gap-2 sm:hidden"> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> </div> <span class="text-xs text-gray-500"> 2025年10月29日 </span> </div></li> </ul> </main>  </div> </main> <!-- Footer --> <footer class="flex flex-col w-full max-w-7xl mb-4 justify-center align-center pt-4 border-t print:hidden"> <div class="flex flex-col text-nowrap md:flex-row mx-auto flex w-full items-start md:items-center justify-between align-end"> <span class="invisible text-base font-bold md:visible">·</span> <div class="mb-4 mt-4 flex w-full flex-col items-start justify-center md:max-w-[40%] md:flex-row md:gap-8 print:hidden"> <a href="/comments/5" class="block w-full truncate text-sm font-light text-black underline hover:text-red-700 md:w-auto">
+</a>  <div class="mt-4 hidden flex-row items-start justify-start gap-2 sm:flex"> <span class="text-xs text-gray-500"> 2025年10月30日 </span> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> <span></span> </div> </div> <div class="mt-4 flex flex-col items-start justify-start gap-2 sm:hidden"> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> </div> <span class="text-xs text-gray-500"> 2025年10月30日 </span> </div></li> </ul> </main>  </div> </main> <!-- Footer --> <footer class="flex flex-col w-full max-w-7xl mb-4 justify-center align-center pt-4 border-t print:hidden"> <div class="flex flex-col text-nowrap md:flex-row mx-auto flex w-full items-start md:items-center justify-between align-end"> <span class="invisible text-base font-bold md:visible">·</span> <div class="mb-4 mt-4 flex w-full flex-col items-start justify-center md:max-w-[40%] md:flex-row md:gap-8 print:hidden"> <a href="/comments/5" class="block w-full truncate text-sm font-light text-black underline hover:text-red-700 md:w-auto">
 前 </a> <a href="/comments/3" class="block w-full truncate text-sm font-light text-black underline hover:text-red-700 md:w-auto">
 后 </a> </div> <div class="flex flex-col text-sm print:hidden"> <a class="text-nowrap font-light text-black" href="https://github.com/HaleyCH/chenblog">
 由<span class="text-red-700">陈</span>设计
