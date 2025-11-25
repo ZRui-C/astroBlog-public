@@ -15,7 +15,13 @@
 <style>[data-astro-image]{width:100%;height:auto;-o-object-fit:var(--fit);object-fit:var(--fit);-o-object-position:var(--pos);object-position:var(--pos);aspect-ratio:var(--w) / var(--h)}[data-astro-image=responsive]{max-width:calc(var(--w) * 1px);max-height:calc(var(--h) * 1px)}[data-astro-image=fixed]{width:calc(var(--w) * 1px);height:calc(var(--h) * 1px)}
 </style></head> <body class="min-h-[100dvh] bg-[#fefefe] font-kaiti"> <div class="mx-auto flex min-h-[100dvh] w-full max-w-2xl flex-1 flex-col items-center p-4"> <!-- Header --> <header class="mx-auto flex w-full max-w-7xl border-b pb-4 items-center justify-between print:hidden"> <div class="flex flex-1 justify-start"> <a href="/" class="text-base font-bold text-red-700 no-underline"> 陈 </a> </div> <span class="inline print:hidden"> <nav class="inline gap-20 text-sm"> <a href="/posts/" class="text-gray-500 no-underline">博客</a> /
 <a href="/comments/" class="text-gray-500 no-underline">杂谈随记</a> /
-<a href="/resume/" class="text-gray-500 no-underline">科研</a> </nav> </span> </header> <!-- Main Slot --> <main class="flex w-full flex-1 items-center justify-center print:block print:h-full print:items-start print:justify-start print:border-0"> <div class="prose mx-auto my-10 w-full max-w-7xl print:my-0 print:h-full print:w-full print:max-w-none">  <main class=""> <ul> <li class="mb-8 border-b border-gray-200 pb-8 last:border-0 print:mb-0 print:border-0 print:pb-0"> <p class="whitespace-pre-wrap">【日报】2025-11-10
+<a href="/resume/" class="text-gray-500 no-underline">科研</a> </nav> </span> </header> <!-- Main Slot --> <main class="flex w-full flex-1 items-center justify-center print:block print:h-full print:items-start print:justify-start print:border-0"> <div class="prose mx-auto my-10 w-full max-w-7xl print:my-0 print:h-full print:w-full print:max-w-none">  <main class=""> <ul> <li class="mb-8 border-b border-gray-200 pb-8 last:border-0 print:mb-0 print:border-0 print:pb-0"> <p class="whitespace-pre-wrap">【日报】2025-11-11
+
+一天课，没干啥事。
+
+Patch RoPE显然与图像scale不等价，但是哪个好呢？还没试过。</p>  <a href="https://zrui-c.notion.site/277ba7bb26c880b181d8e36d4ae08742" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block">
+网页链接
+</a>  <div class="mt-4 hidden flex-row items-start justify-start gap-2 sm:flex"> <span class="text-xs text-gray-500"> 2025年11月11日 </span> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> <span></span> </div> </div> <div class="mt-4 flex flex-col items-start justify-start gap-2 sm:hidden"> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> </div> <span class="text-xs text-gray-500"> 2025年11月11日 </span> </div></li><li class="mb-8 border-b border-gray-200 pb-8 last:border-0 print:mb-0 print:border-0 print:pb-0"> <p class="whitespace-pre-wrap">【日报】2025-11-10
 
 AAAI周六出分，一觉醒来朋友圈多了三篇中稿，一个是研一的，一个是大四的。研一的中了一篇一作poster，大四的中了一篇一作poster一篇二作oral。两篇3DGS超分，一篇3DGS多模态融合。
 
@@ -31,29 +37,7 @@ Patch RoPE真的等价于图像scale吗？</p>  <a href="https://zrui-c.notion.s
 
 周六早起写作业周日徒步，估计也不会有日报。</p>  <a href="https://zrui-c.notion.site/277ba7bb26c880b181d8e36d4ae08742" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block">
 网页链接
-</a>  <div class="mt-4 hidden flex-row items-start justify-start gap-2 sm:flex"> <span class="text-xs text-gray-500"> 2025年11月7日 </span> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> <span></span> </div> </div> <div class="mt-4 flex flex-col items-start justify-start gap-2 sm:hidden"> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> </div> <span class="text-xs text-gray-500"> 2025年11月7日 </span> </div></li><li class="mb-8 border-b border-gray-200 pb-8 last:border-0 print:mb-0 print:border-0 print:pb-0"> <p class="whitespace-pre-wrap">dino feature太好了</p>    <div class="mt-4 hidden flex-row items-start justify-start gap-2 sm:flex"> <span class="text-xs text-gray-500"> 2025年11月6日 中午 12时22分 </span> <div class="text-xs text-gray-500 "> <span>北京市 怀柔区</span> <span>14°C，多云</span> <span>🥰</span> </div> </div> <div class="mt-4 flex flex-col items-start justify-start gap-2 sm:hidden"> <div class="text-xs text-gray-500 "> <span>北京市 怀柔区</span> <span>14°C，多云</span> </div> <span class="text-xs text-gray-500"> 2025年11月6日 中午 12时22分🥰 </span> </div></li><li class="mb-8 border-b border-gray-200 pb-8 last:border-0 print:mb-0 print:border-0 print:pb-0"> <p class="whitespace-pre-wrap">【日报】2025-11-06
-
-转战DINOv3三天，天天都有有趣的事。
-
-今天试了下用强化学习来筛选对于一个特定的物体类别，到底用哪些DINO feature、权重分别是多少，能较好的区分出他们。还是直接先放图。
-
-看着挺有效的。
-
-使用RL筛选相关维度，看着挺有效的。但是遇到了几个问题：
-
-对于桥梁、篮球场这些background，似乎无法用同一算法有效表达
-
-是否要将原图也加入输出feature中？
-
-RoPE对模型到底要不要加上
-
-之后还要做一个SFT版本来计算特征。
-
-是否有方法能量化DINO feat的表征能力？
-
-Patch RoPE?</p>  <a href="https://zrui-c.notion.site/277ba7bb26c880b181d8e36d4ae08742" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block">
-网页链接
-</a>  <div class="mt-4 hidden flex-row items-start justify-start gap-2 sm:flex"> <span class="text-xs text-gray-500"> 2025年11月6日 </span> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> <span></span> </div> </div> <div class="mt-4 flex flex-col items-start justify-start gap-2 sm:hidden"> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> </div> <span class="text-xs text-gray-500"> 2025年11月6日 </span> </div></li> </ul> </main>  </div> </main> <!-- Footer --> <footer class="flex flex-col w-full max-w-7xl mb-4 justify-center align-center pt-4 border-t print:hidden"> <div class="flex flex-col text-nowrap md:flex-row mx-auto flex w-full items-start md:items-center justify-between align-end"> <span class="invisible text-base font-bold md:visible">·</span> <div class="mb-4 mt-4 flex w-full flex-col items-start justify-center md:max-w-[40%] md:flex-row md:gap-8 print:hidden"> <a href="/comments/4" class="block w-full truncate text-sm font-light text-black underline hover:text-red-700 md:w-auto">
+</a>  <div class="mt-4 hidden flex-row items-start justify-start gap-2 sm:flex"> <span class="text-xs text-gray-500"> 2025年11月7日 </span> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> <span></span> </div> </div> <div class="mt-4 flex flex-col items-start justify-start gap-2 sm:hidden"> <div class="text-xs text-gray-500 hidden"> <span></span> <span></span> </div> <span class="text-xs text-gray-500"> 2025年11月7日 </span> </div></li><li class="mb-8 border-b border-gray-200 pb-8 last:border-0 print:mb-0 print:border-0 print:pb-0"> <p class="whitespace-pre-wrap">dino feature太好了</p>    <div class="mt-4 hidden flex-row items-start justify-start gap-2 sm:flex"> <span class="text-xs text-gray-500"> 2025年11月6日 中午 12时22分 </span> <div class="text-xs text-gray-500 "> <span>北京市 怀柔区</span> <span>14°C，多云</span> <span>🥰</span> </div> </div> <div class="mt-4 flex flex-col items-start justify-start gap-2 sm:hidden"> <div class="text-xs text-gray-500 "> <span>北京市 怀柔区</span> <span>14°C，多云</span> </div> <span class="text-xs text-gray-500"> 2025年11月6日 中午 12时22分🥰 </span> </div></li> </ul> </main>  </div> </main> <!-- Footer --> <footer class="flex flex-col w-full max-w-7xl mb-4 justify-center align-center pt-4 border-t print:hidden"> <div class="flex flex-col text-nowrap md:flex-row mx-auto flex w-full items-start md:items-center justify-between align-end"> <span class="invisible text-base font-bold md:visible">·</span> <div class="mb-4 mt-4 flex w-full flex-col items-start justify-center md:max-w-[40%] md:flex-row md:gap-8 print:hidden"> <a href="/comments/4" class="block w-full truncate text-sm font-light text-black underline hover:text-red-700 md:w-auto">
 前 </a> <a href="/comments/2" class="block w-full truncate text-sm font-light text-black underline hover:text-red-700 md:w-auto">
 后 </a> </div> <div class="flex flex-col text-sm print:hidden"> <a class="text-nowrap font-light text-black" href="https://github.com/HaleyCH/chenblog">
 由<span class="text-red-700">陈</span>设计
