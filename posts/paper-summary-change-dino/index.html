@@ -36,10 +36,10 @@
 <p>我还是对这个做法保持怀疑🤨，但因为我目前不涉及这方面内容，暂且搁置，日后如果遇到再探讨。</p>
 <h2 id="密集特征融合模块dffm">密集特征融合模块（DFFM）</h2>
 <p>为了更好的融合特征，他使用了<a href="https://zhuanlan.zhihu.com/p/165632315"><strong>深度可分离卷机（depthwise–separable convolution）</strong></a>和** **<a href="https://zhuanlan.zhihu.com/p/83665899"><strong>CBAM Attention</strong></a>。为啥使用深度可分离卷机呢？他也没说。可能就是为了加速训练吧？简单来说，它用了“Depthwise Convolution”对每个维度独立卷机，接着使用“Pointwise Convolution”对跨维度的同一poison卷机，比原来的同时对所有维度同一位置卷机轻量化了一点。而CBAM Attention则比较有趣：</p>
-<p><img src="https://cdn.hluvmiku.tech/image/1765275148102-a9a2c0b4.png-small.webp" alt=""></p>
+<p><img src="https://cdn.hluvmiku.tech/image/1765308172591-c1bd4291.png-small.webp" alt=""></p>
 <p>进行完这些操作就得到了最终的Feature。</p>
 <h2 id="空间-光谱差分transformer解码器s2dt">空间-光谱差分Transformer解码器（S2DT）</h2>
-<p><img src="https://cdn.hluvmiku.tech/image/1765275149054-c10bd025.png-small.webp" alt=""></p>
+<p><img src="https://cdn.hluvmiku.tech/image/1765308174628-9697f419.png-small.webp" alt=""></p>
 <p>用不同时间的两个feature相减就得到了最后需要使用的feature。拿到feature后就该完成自己的task了： <code>Remote sensing change detection</code> 。这块我不懂，不过他用到了<a href="https://zhuanlan.zhihu.com/p/12697184993"><strong>Differential transformer</strong></a>，这还是蛮有趣的。它是在LLM里用来“降噪”的transformer。他说这个差分注意力机制</p>
 <blockquote>
 <p>well suited here for filtering illumination-induced or misregistration artifacts and other irrelevant responses.</p>
@@ -47,13 +47,13 @@
 <p>其他地方看着挺常规的。</p>
 <h2 id="可学习形态学模块lmm">可学习形态学模块（LMM）</h2>
 <p>最后的这个LMM就是在试着优化传统用来平滑、侵蚀、扩张最终生成mask的算法。原来一般都是拿3*3的矩阵直接卷机，这里它引入了可学习变量怎么算了一下。</p>
-<p><img src="https://cdn.hluvmiku.tech/image/1765275149634-d9734e42.png-small.webp" alt=""></p>
+<p><img src="https://cdn.hluvmiku.tech/image/1765308175359-0c9f3d12.png-small.webp" alt=""></p>
 <h2 id="消融实验">消融实验</h2>
 <p>本着对他设计模块效果的质疑，我直接略过了效果，直接看他的消融实验：</p>
-<p><img src="https://cdn.hluvmiku.tech/image/1765275150001-2a80cab9.png-small.webp" alt=""></p>
+<p><img src="https://cdn.hluvmiku.tech/image/1765308175809-191d9f39.png-small.webp" alt=""></p>
 <p>三个模块全去掉，只使用DINO feature在LEVIR-CD上效果感觉已经很不错了，其他的感觉有点像个添头，但毕竟也提升了两三个点，其实也挺多的了。</p>
 <p>最后附上效果：</p>
-<p><img src="https://cdn.hluvmiku.tech/image/1765275150399-92256297.png-small.webp" alt=""></p>  </article> </div> </main>  </div> </main> <!-- Footer --> <footer class="flex flex-col w-full max-w-7xl mb-4 justify-center align-center pt-4 border-t print:hidden"> <div class="flex flex-col text-nowrap md:flex-row mx-auto flex w-full items-start md:items-center justify-between align-end"> <span class="text-sm font-light">写于2025年12月8日</span> <div class="mb-4 mt-4 flex w-full flex-col items-start justify-center md:max-w-[40%] md:flex-row md:gap-8 print:hidden"> <a href="/posts/eyetracking-dataset-survey" class="block w-full truncate text-sm font-light text-black underline hover:text-red-700 md:w-auto">
+<p><img src="https://cdn.hluvmiku.tech/image/1765308176507-8986cd58.png-small.webp" alt=""></p>  </article> </div> </main>  </div> </main> <!-- Footer --> <footer class="flex flex-col w-full max-w-7xl mb-4 justify-center align-center pt-4 border-t print:hidden"> <div class="flex flex-col text-nowrap md:flex-row mx-auto flex w-full items-start md:items-center justify-between align-end"> <span class="text-sm font-light">写于2025年12月8日</span> <div class="mb-4 mt-4 flex w-full flex-col items-start justify-center md:max-w-[40%] md:flex-row md:gap-8 print:hidden"> <a href="/posts/eyetracking-dataset-survey" class="block w-full truncate text-sm font-light text-black underline hover:text-red-700 md:w-auto">
 前：《眼动数据集调研》 </a> <a href="/posts/486-meme-and-stickers" class="block w-full truncate text-sm font-light text-black underline hover:text-red-700 md:w-auto">
 后：《安和昴表情包汇总🥰》 </a> </div> <div class="flex flex-col text-sm print:hidden"> <a class="text-nowrap font-light text-black" href="https://github.com/HaleyCH/chenblog">
 由<span class="text-red-700">陈</span>设计
