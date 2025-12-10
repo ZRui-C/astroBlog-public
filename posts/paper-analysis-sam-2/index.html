@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><!-- Baidu Analytics --><script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?07031aed06e0fa1f0bfe62119cd66c18";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script> <!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-J6S31LSNX8"></script> <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-J6S31LSNX8');
+</script> <!-- Busuanzi counter --><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png"><link rel="manifest" href="/static/site.webmanifest"><link rel="shortcut icon" href="/static/favicon.ico"><meta name="generator" content="Astro v5.16.4"><!-- Baidu verification --><meta name="baidu-site-verification" content="codeva-TE3aiPxcrm"><!-- Font preloads --><link rel="preload" href="/fonts/geist-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/geist-mono-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"></noscript><!-- Canonical URL --><link rel="canonical" href="https://hluvmiku.tech/posts/paper-analysis-sam-2/"><!-- Primary Meta Tags --><title>论文精读：《SAM 2: Segment Anything in Images and Videos》</title><meta name="title" content="论文精读：《SAM 2: Segment Anything in Images and Videos》"><meta name="description" content="SAM2提出了可控视觉分割（PVS）任务，允许在视频的任意帧上提供提示以进行对象分割。与SAM相比，SAM2更专注于视频中的连续分割，采用了内存库和记忆注意力模块来传播帧间的分割结果。通过与标注员的交互式标记生成训练数据，SAM2在视频分割精度和效率上显著提升，最终SA-V数据集包含35.5万个掩码，覆盖50.9千个视频，表现优于现有模型。"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://hluvmiku.tech/posts/paper-analysis-sam-2/"><meta property="og:title" content="论文精读：《SAM 2: Segment Anything in Images and Videos》"><meta property="og:description" content="SAM2提出了可控视觉分割（PVS）任务，允许在视频的任意帧上提供提示以进行对象分割。与SAM相比，SAM2更专注于视频中的连续分割，采用了内存库和记忆注意力模块来传播帧间的分割结果。通过与标注员的交互式标记生成训练数据，SAM2在视频分割精度和效率上显著提升，最终SA-V数据集包含35.5万个掩码，覆盖50.9千个视频，表现优于现有模型。"><meta property="og:image" content="https://hluvmiku.tech/posts/paper-analysis-sam-2/"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://hluvmiku.tech/posts/paper-analysis-sam-2/"><meta property="twitter:title" content="论文精读：《SAM 2: Segment Anything in Images and Videos》"><meta property="twitter:description" content="SAM2提出了可控视觉分割（PVS）任务，允许在视频的任意帧上提供提示以进行对象分割。与SAM相比，SAM2更专注于视频中的连续分割，采用了内存库和记忆注意力模块来传播帧间的分割结果。通过与标注员的交互式标记生成训练数据，SAM2在视频分割精度和效率上显著提升，最终SA-V数据集包含35.5万个掩码，覆盖50.9千个视频，表现优于现有模型。"><meta property="twitter:image" content="https://hluvmiku.tech/posts/paper-analysis-sam-2/"><link rel="stylesheet" href="/_astro/index.D4a6AOrB.css">
+<link rel="stylesheet" href="/_astro/_page_.cffdO-nm.css"></head> <body class="min-h-[100dvh] bg-[#fefefe] font-kaiti"> <div class="mx-auto flex min-h-[100dvh] w-full max-w-2xl flex-1 flex-col items-center p-4"> <!-- Header --> <header class="mx-auto flex w-full max-w-7xl border-b pb-4 items-center justify-between print:hidden"> <div class="flex flex-1 justify-start"> <a href="/" class="text-base font-bold text-red-700 no-underline"> 陈 </a> </div> <span class="inline print:hidden"> <nav class="inline gap-20 text-sm"> <a href="/posts/" class="text-gray-500 no-underline">博客</a> /
+<a href="/comments/" class="text-gray-500 no-underline">杂谈随记</a> /
+<a href="/about/" class="text-gray-500 no-underline">关于我</a> </nav> </span> </header> <!-- Main Slot --> <main class="flex w-full flex-1 items-center justify-center print:block print:h-full print:items-start print:justify-start print:border-0"> <div class="prose mx-auto my-10 w-full max-w-7xl print:my-0 print:h-full print:w-full print:max-w-none">  <main class="w-full print:m-0 print:block print:p-0"> <div class="flex w-full flex-col items-start justify-center text-wrap print:m-0 print:p-0 print:shadow-none"> <h1 class="mb-5 text-2xl font-bold print:mb-0"> 论文精读：《SAM 2: Segment Anything in Images and Videos》 </h1> <span class="hidden print:inline">写于2025年12月10日</span> <article id="article" class="prose prose-zinc max-w-none break-words">  <h2 id="概览">概览</h2>
+<p>SAM2提出了**PVS(Promptable Visual Segmentation)**任务。在 <code>Section 3</code> 与 <code>Appendix B</code> 中,文章给出了他的具体定义。在 <code>Section 3</code> 中,文章具体描述了这个任务为:</p>
+<blockquote>
+<p>Our PVS task <strong>allows providing prompts to the model on any frame of a video</strong>. Prompts can be <strong>positive/negative clicks, boxes, or masks</strong>, either to define an object to segment or to refine a model-predicted one. To provide an interactive experience, upon receiving a prompt on a specific frame, the model <strong>should <strong><strong>immediately respond</strong></strong> with a valid segmentation mask of the object on this frame</strong>. After receiving initial prompts (either on the same frame or different frames), the <strong>model should <strong><strong>propagate</strong></strong> these prompts to obtain the masklet of the object across the entire video</strong>, localizing the segmentation mask of the target on every video frame. Additional prompts can be provided to the model on any frame to refine the segment throughout the video (example in Fig. 2).</p>
+</blockquote>
+<p>简要来讲,他将Segment Anything的Task在 <strong>“视频与交互”</strong> 的领域做了延伸扩展。文章着重点出了 <code>propagate</code> 这一概念。具体来说,这意味着模型应该将帧间稀疏的标注传递到每一帧。</p>
+<p>相较SAM,SAM2更聚焦于视频中物体的连续分割。在SAM2的实现中,它设计了一个<strong>Memory Bank</strong>与<strong>Memory Attention</strong>用以保留并 <code>propagate</code> 帧间的Mask结果与prompt。</p>
+<p>与SAM类似,它也采用了和SAM一致的Image Encoder、一致的Prompt Encoder与结构类似的Mask Decoder。在工作进行过程中,SAM2也着重聚焦于Data Engine的构建——<strong>本质上,他也是一个数据工程</strong>。</p>
+<p>我认为贡献如下:</p>
+<ul>
+<li>定义了<strong>PVS</strong>这一任务</li>
+<li>设计了<strong>Memory Bank</strong>与<strong>Memory Attention</strong>的架构用于帧间prompts传递与帧间分割一致性</li>
+<li>设计了渐进式数据引擎</li>
+<li>发布了SA-V数据集</li>
+</ul>
+<h2 id="1-introduction">1. Introduction</h2>
+<p>Segment Anything (SA) 引入了用于图片可控分割的基石模型。然而,图像只是真实世界静态的快照,而视觉段落可能表现出复杂的运动,随着多媒体内容的快速增长,许多视频数据记录了时间维度,尤其是在视频数据中。在 AR/VR、机器人、自动驾驶和视频编辑等应用中,需要超越图像级别分割的时序定位。<strong>我们相信,一个通用视觉分割系统应适用于图像和视频。</strong></p>
+<p>视频分割的目标是确定实体的空间与时间范围,这在图像中遇到的挑战之外具有独特性。实体可能由于运动、变形、遮挡、照明变化和其他因素导致显着变化。视频通常由于相机运动、模糊和低分辨率等原因质量不如图像。此外,处理大量帧的效率也是一个关键挑战。虽然 SA 成功解决了图像分割,<strong>但现有视频分割模型和数据集在提供与”视频中的任何东西”分割能力方面都落后。</strong></p>
+<p>我们引入了 Segment Anything 模型 2 (SAM 2),它是一个统一的图像和视频分割模型(我们将图像视为单个视频帧)。本研究包括任务、模型和数据集(见图1)。我们的工作重点是<strong>可控视觉分割 (PVS)</strong> 任务,将图像分割推广到视频领域。该任务接受输入的<strong>点、框或掩码</strong>,以定义感兴趣的分割区域,并预测其时空掩码(即”掩码”)。一旦预测了掩码,它可以通过提供额外的帧的提示来迭代改进。</p>
+<blockquote>
+<p>note</p>
+</blockquote>
+<blockquote>
+<p>在SAM3 中，Meta给出了<strong>PCS</strong>的定义，将prompt输入方式从<strong>点、框或掩码</strong>拓展到了自然语言概念。而SAM2由于落脚点在从图像分割推向视频分割，对prompt没做进一步研究。</p>
+</blockquote>
+<p>我们的模型(§4)生成目标物体分割掩码,在单幅图像和视频帧中。SAM 2 配备了一个存储有关目标对象和先前交互信息的信息库,这使得它能够在整个视频中预测掩码,并根据之前观察到的帧的记忆上下文有效地修正这些预测。我们的流式架构是 SAM 的自然推广到视频领域,每一步处理视频帧,并且配备了记忆注意力模块,以便关注目标对象的先前记忆。当应用于图像时,内存为空,模型的行为类似于 SAM。</p>
+<p><img src="https://cdn.hluvmiku.tech/image/1765376185845-5cb45c35.png-small.webp" alt=""></p>
+<p>我们使用数据引擎(§5)通过<strong>在模型中循环与标注员进行交互式标记</strong>来生成训练数据。与大多数现有视频分割数据集不同,我们的数据引擎不限制对象类别,而是针对提供任何具有有效边界的任何物体分割训练数据。与现有模型辅助方法相比,我们在模型中循环的SAM 2比速度快8.4倍且质量相当。我们的最终Segment Anything Video (SA-V)数据集(§5.2)包含35.5万个掩码,涵盖了50.9千个视频,比任何现有视频分割数据集都要多53倍。SA-V 具有小物体和部分遮挡和重现,这使得它具有挑战性。我们的SA-V数据集地理分布广泛,SAM 2 的公平评估表明,基于感知性别和年龄组的视频分割性能差异最小。</p>
+<p>我们的实验(§6)表明 SAM 2 在视频分割方面带来了巨大的改变。SAM 2 可以产生更好的分割精度,同时使用3倍少的交互次数与以前的方案相比。此外,SAM 2 在已建立视频对象分割基准测试中表现优于先前工作,在多个评估设置下,它比SAM在图像分割基准测试中表现更好,并且速度快6倍。通过许多零样本基准测试(包括17个用于视频分割和37个用于单张图像分割),SAM 2 表现出有效性。</p>
+<p>我们将在许可开放许可证下发布我们的工作,包括SA-V数据集(CC by 4.0)、SAM 2 模型检查点1、训练代码(Apache 2.0)以及我们交互式的在线演示代码 (Apache 2.0)。</p>
+<h2 id="2-related-work">2. Related Work</h2>
+<p>**图像分割。**Segment Anything”(SAM)任务介绍了一种可调控的图像分割任务,目标是根据输入提示(例如边界框或指向感兴趣物体点)生成有效的分割掩码。SAM 使用 SA-1B 数据集训练,支持零样本分割,使其适用于各种应用。最近的工作扩展了 SAM,例如,通过引入高质量输出令牌来训练细粒度掩码或提高 SAM 的效率。更广泛地说,SAM 适用于各种应用,包括医学成像、遥感、运动分割和伪装物体检测。</p>
+<p>**交互式视频目标分割(iVOS)。**交互式视频目标分割作为一种关键任务,能够在视频中有效地获得对象分割(掩码)并使用用户指导的方式进行,通常是以涂鸦、点击或边界框的形式呈现。早期的一些方法利用图基于优化来指导分割标注过程。最近的一些方法通常采用模块化设计,将用户输入转换为单帧的掩码表示,然后将其传播到其他帧。点击输入更容易收集。最近的工作结合了图像上的SAM与基于掩码的视频跟踪器或点进行交互式视频分割。然而,这些方法存在一些局限性:跟踪器可能无法适用于所有对象;SAM 在视频帧上表现不佳;并且没有机制来交互式地完善模型的错误,除了在每个帧重新标记使用SAM并从那里重新启动跟踪。<strong>我们的工作与上述工作的目标相似,即在视频中交互式分割目标,并建立了一个强大的统一模型,直接接受交互式视频分割的提示,以及一个庞大的、多样化的数据集以解决这一目标。</strong></p>
+<p><strong>视频目标分割 (VOS)。<strong>VOS 任务</strong>从第一帧的物体掩码开始</strong>,该掩码必须在整个视频中准确跟踪。由于输入掩码可以被视为对象监督信号(仅在第一帧可用),因此该任务被称为”半监督 VOS”。该任务因其在编辑视频或机器人技术等应用中的相关性而备受关注。早期基于深度学习的方法通常使用在线实时调整,首先调整模型以适应目标对象。通过离线训练模型,可以更快地进行推理,该模型仅依赖于第一帧,或还整合了前一帧。多条件的集成已扩展到所有帧,使用 RNNs 和 transformers。半监督 VOS 可以被视为我们 Promptable Visual Segmentation (PVS) 任务的一个特例,仅在第一帧视频中使用掩码提示。值得注意的是,在 VOS 中需要标注高质量的物体掩码的第一帧存在实际挑战和时间成本较高。</p>
+<p>**视频分割数据集。**许多数据集被提出来支持VOS任务。早期VOS数据集例如DAVIS包含高质量的注释，但它们的规模限制了基于深度学习的方法。YouTube-VOS是第一个大型数据集用于VOS。随着算法变得越来越好，并开始达到性能饱和点，研究人员开始尝试通过专门关注遮挡、长视频、极端变换、物体多样性或场景多样性来增加VOS任务的难度。我们发现，当前的视频分割数据集缺乏足够的覆盖范围，无法实现“在视频中分割任何内容”的能力。它们的注释通常涵盖整个对象（而不是部分），并且数据集通常围绕特定的物体类别（如人、车辆和动物）集中。与这些数据集相比，我们发布的SA-V数据集不仅关注整个对象，而且还广泛覆盖了物体部分，并包含了超过一个数量级的更多掩码。</p>
+<h2 id="3-task-promptable-visual-segmentation">3. Task: promptable visual segmentation</h2>
+<p>我们的PVS任务允许在视频的任何帧输入提示给模型。提示可以是积极/消极的点击、框或掩码，用来定义一个物体进行分割，或者来修正模型预测的结果。为了提供交互体验，当收到特定帧上的提示时，模型应立即在此帧上做出响应该图像的包含目标的有效分割掩码。收到初始提示（在同一帧或不同帧），模型应将这些提示传播到获取整个视频的对象分割掩码，并在每个视频帧定位目标分割掩码。可以为任何帧提供额外的提示以细化分割 (例如见图2)。有关任务的详细信息，请参阅§B。</p>
+<p>SAM 2 (§4) 应用于 PVS 任务来构建我们的 SA-V 数据集 (§5)。我们通过模拟交互式视频分割场景跨多个帧进行评估，在常规半监督 VOS 环境中，仅限于第一帧的注释，以及图像分割在 SA 基准测试上进行评估。</p>
+<p><img src="https://cdn.hluvmiku.tech/image/1765376206420-fd4b7d0c.png-small.webp" alt=""></p>
+<p><code>Section 3</code> 着重给出了SAM2聚焦的任务。上图是直观表示。</p>
+<h2 id="4-model">4. Model</h2>
+<p>SAM2（图3）可被视为对SAM的推广至视频（和图像）领域，通过单个帧上的点、框和掩码提示来定义对象空间范围。在空间方面，模型的行为与SAM类似。一个可调控且轻量级的掩码解码器使用图像嵌入和提示（如果有）输出帧的分割掩码。可以逐帧迭代添加提示以优化掩码。</p>
+<p>SAM 2解码器使用的帧嵌入不是直接来自图像编码器，<strong>而是基于过去预测和提示帧的记忆</strong>。提示帧也**可能“来自未来”相对当前帧****。**通过记忆编码器根据当前预测创建帧记忆，并将其存储在记忆库中供后续帧使用。记忆注意力操作先从图像编码器获取每帧嵌入，然后将它条件为记忆库，之后被mask解码器用于生成预测。</p>
+<blockquote>
+<p>note</p>
+</blockquote>
+<blockquote>
+<p>什么是”come ‘from the future’ relative to the current frame”，在论文里没具体说明，我对其理解是这样的：<strong>Memory Bank</strong>保存分两部分（见下文）——<strong>过去预测帧</strong>与<strong>提示帧</strong>。在其中，过去预测帧都是 “from past” 的，<strong>而提示帧则可能来自当前图片后面</strong>。我想我之后需要深度挖掘一下代码来确定下。</p>
+</blockquote>
+<p>我们将在本节中描述单个组件和训练过程，并详细介绍在附录D中。</p>
+<p><strong>图像编码器。<strong>为了实现实时处理任意长视频，我们采用流式处理方法，每次获取视频帧时就进行编码。<strong>图像编码器只运行一次</strong>，其作用是为整个交互提供无条件的标记（特征嵌入）表示每一帧。我们使用一个MAE预训练的Hiera图像编码器，该编码器具有层次结构，可以</strong>利用多尺度特征在解码时使用</strong>**。 **</p>
+<p>**记忆注意力。**记忆注意力的作用是将当前帧特征与过去帧特征和预测以及任何新提示相结合。我们将 L Transformer 块叠加，第一个块从当前帧的图像编码作为输入。每个块都执行自我注意力，然后进行交叉注意，以存储 (被提示/未提示) 帧和物体指针（见下文），这些指针存储在记忆库中（见下文），然后进行 MLP 处理。我们使用 vanilla 注意力操作进行自我和交叉注意力，这样可以从高效注意内核的最新进展中受益。</p>
+<p>**Prompt编码器和掩码解码器。**我们的提示编码器与SAM相同，可以被点击（正或负），框或掩码提示定义给定帧物体范围。<strong>稀疏提示由每个提示类型的位置编码加<strong><strong>学习嵌入</strong></strong>表示</strong>，而掩码使用卷积嵌入并加帧嵌入表示。</p>
+<blockquote>
+<p>note</p>
+</blockquote>
+<blockquote>
+<p>为什么会有“learned embeddings for each prompt type”呢？在我的印象里，SAM的prompt encoder是纯粹的位置编码啊？</p>
+</blockquote>
+<p>我们的解码器设计主要遵循SAM的设计。我们堆叠了“双向”Transformers块，更新提示和帧嵌入。像SAM一样，对于<strong>模糊的提示（即单个点击）</strong> ，存在多个兼容的目标掩码时，我们会预测多个掩码。这种设计是为了确保模型输出有效的掩码。在视频中，模糊性可以跨越视频帧扩展。模型预测每个帧的多个掩码。如果没有后续提示解决模糊性问题，模型仅传播当前帧最高预测 IoU 的掩码。</p>
+<blockquote>
+<p>note</p>
+</blockquote>
+<blockquote>
+<p>这里的ambiguous prompts在 <code>Appendix</code> 中有生动的举例：“视频中一个prompt点在了自行车轮胎上，然后自行车缓缓驶入画面，mask该框住车还是轮胎”</p>
+</blockquote>
+<p>与SAM不同，即使在正提示下，<strong>PVS任务中可能不存在可分割的物体（例如由于遮挡）</strong>。为了支持这种新的输出模式，<strong>我们添加了一个额外的头，预测当前帧是否存在感兴趣的对象</strong>。另一个新颖之处是，我们的层次图像编码器（绕过记忆注意）从跳跃连接到高分辨率嵌入，用于掩码解码。</p>
+<p><strong>记忆编码器。<strong>记忆编码器通过降采样输出掩码并使用卷积模块求和，然后与图像编码器（未显示在图3中）的条件帧嵌入元素相加，最后通过轻量级卷积层融合信息。
+<strong>记忆库。<strong>记忆库通过保持</strong>最多 N 个最近帧</strong>的 FIFO 队列来保存目标对象在视频中的过去预测信息，并将提示信息存储在</strong>最多 M 个提示帧</strong>的 FIFO 队列中。例如，在 VOS 任务中，初始掩码是唯一的提示，记忆库始终保留第一个帧的记忆以及最多 N 个未提示的最近帧的记忆。这两个数据集都存储为空间特征图。</p>
+<p>此外，<strong>我们还存储了一个轻量级向量列表作为用于高层次语义信息的对象指针</strong>，以便根据掩码解码器输出令牌将对象分割，该列表是每个帧的对象指针。我们的记忆注意机制交叉关注于空间记忆特征和这些对象指针。</p>
+<p>我们嵌入时间位置信息到 N 个最近帧的记忆中，使模型能够表示短期的物体运动，但未嵌入到提示帧的记忆中，因为提示帧的训练信号稀疏且难以推广到推理环境，而在推理环境中，提示帧可能来自比训练时看到的更不同的时间范围。</p>  </article> </div> </main>  </div> </main> <!-- Footer --> <footer class="flex flex-col w-full max-w-7xl mb-4 justify-center align-center pt-4 border-t print:hidden"> <div class="flex flex-col text-nowrap md:flex-row mx-auto flex w-full items-start md:items-center justify-between align-end"> <span class="text-sm font-light">写于2025年12月10日</span> <div class="mb-4 mt-4 flex w-full flex-col items-start justify-center md:max-w-[40%] md:flex-row md:gap-8 print:hidden"> <a href="/posts/486-meme-and-stickers" class="block w-full truncate text-sm font-light text-black underline hover:text-red-700 md:w-auto">
+前：《安和昴表情包汇总🥰》 </a> <a href="/posts/discuss" class="block w-full truncate text-sm font-light text-black underline hover:text-red-700 md:w-auto">
+后：《留言板》 </a> </div> <div class="flex flex-col text-sm print:hidden"> <a class="text-nowrap font-light text-black" href="https://github.com/HaleyCH/chenblog">
+由<span class="text-red-700">陈</span>设计
+</a> </div> </div> <!-- 将备案号居中 --> <div class="mb-[10px] mt-[50px] flex w-full justify-center print:hidden"> <a class="text-sm text-gray-300" href="https://beian.miit.gov.cn/">浙ICP备2022026813号-1</a> </div> </footer> <script type="module" src="/_astro/ImageEnhancement.astro_astro_type_script_index_0_lang.D3ij_ksR.js"></script> </div> </body></html>
