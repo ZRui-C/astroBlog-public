@@ -41,7 +41,7 @@
 <blockquote>
 <p>Our PVS task allows providing prompts to the model on any frame of a video. Prompts can be positive/negative clicks, boxes, or masks, either to define an object to segment or to refine a model-predicted one. To provide an interactive experience, upon receiving a prompt on a specific frame, the model should immediately respond with a valid segmentation mask of the object on this frame. After receiving initial prompts (either on the same frame or different frames), the model should propagate these prompts to obtain the masklet of the object across the entire video, localizing the segmentation mask of the target on every video frame. Additional prompts can be provided to the model on any frame to refine the segment throughout the video (example in Fig. 2).</p>
 </blockquote>
-<p><img src="https://cdn.hluvmiku.tech/image/1765826913416-683969cf.png-small.webp" alt=""></p>
+<p><img src="https://cdn.hluvmiku.tech/image/1765913253953-3959d8c6.png-small.webp" alt=""></p>
 <h2 id="model--appendix-d">Model &#x26; Appendix D</h2>
 <p>模型架构非常值得一读。简要来说，他在SAM的基础上，增加了 <strong>Memory Bank</strong> 与 <strong>Memory Attention</strong> ，用以实现在视频帧间进行propagate。架构如下：</p>
 <ul>
@@ -51,7 +51,7 @@
 <li><strong>Memory encoder</strong></li>
 <li><strong>Memory bank</strong></li>
 </ul>
-<p><img src="https://cdn.hluvmiku.tech/image/1765826916012-429296de.png-small.webp" alt=""></p>
+<p><img src="https://cdn.hluvmiku.tech/image/1765913256285-5b2d4b53.png-small.webp" alt=""></p>
 <p>相较SAM，SAM2多了很多Memory的架构。</p>
 <p>在这一章中有提到：</p>
 <blockquote>
@@ -60,13 +60,13 @@
 <p>这里说到”<mark>prompted frames to also come “from the future” relative to the current frame</mark>”。我对其理解是这样的： <strong>Memory Bank</strong> 保存分两部分（见下文）—— <strong>过去预测帧</strong> 与 <strong>提示帧</strong> 。在其中，过去预测帧都是 “from past” 的， <strong>而提示帧则可能来自当前图片后面</strong> 。我想我之后需要深度挖掘一下代码来确定下。</p>
 <h3 id="image-encoder">Image Encoder</h3>
 <p>SAM2的Image Encoder采用了Hiera Image Encoder。Hiera Image Encoder是Meta提出的一个高性能Image Encoder，它主张通过强大的预训练任务（如 MAE）来替代分层视觉 Transformer 中专用模块（例如卷积）提供的空间偏差。</p>
-<p><img src="https://cdn.hluvmiku.tech/image/1765826916513-f0c8c3e1.png-small.webp" alt=""></p>
+<p><img src="https://cdn.hluvmiku.tech/image/1765913256792-4604f396.png-small.webp" alt=""></p>
 <p>这是什么意思呢？原始的的ViT也没有“专用模块”啊？确实，原始的的ViT没有。</p>
-<p><img src="https://cdn.hluvmiku.tech/image/1765826916995-405d6881.png-small.webp" alt=""></p>
+<p><img src="https://cdn.hluvmiku.tech/image/1765913257256-f51c24bc.png-small.webp" alt=""></p>
 <p>但是”分层视觉 Transformer”比如大名鼎鼎的Swin Transformer就有：</p>
-<p><img src="https://cdn.hluvmiku.tech/image/1765826917544-4c2e796b.png-small.webp" alt=""></p>
+<p><img src="https://cdn.hluvmiku.tech/image/1765913257735-26e7d857.png-small.webp" alt=""></p>
 <p>好，Hiera 确实没有繁杂的Patch merging操作，但是他却有“Q Pooling”，这又是什么？下图是MViT给出的Q Pooling/Pooling attention架构：</p>
-<p><img src="https://cdn.hluvmiku.tech/image/1765826918010-eedf65db.png-small.webp" alt=""></p>
+<p><img src="https://cdn.hluvmiku.tech/image/1765913258128-91434dde.png-small.webp" alt=""></p>
 <p>简单来说，原始的Attention是：</p>
 <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>Q</mi><mo>=</mo><mi>X</mi><msub><mi>W</mi><mi>Q</mi></msub><mtext>，</mtext><mi>K</mi><mo>=</mo><mi>X</mi><msub><mi>W</mi><mi>k</mi></msub><mo separator="true">,</mo><mi>V</mi><mo>=</mo><mi>X</mi><msub><mi>W</mi><mi>v</mi></msub><mspace linebreak="newline"></mspace><mtext>Attn</mtext><mo stretchy="false">(</mo><mi>X</mi><mo stretchy="false">)</mo><mo>=</mo><mtext>softmax</mtext><mo stretchy="false">(</mo><mfrac><mrow><mi>Q</mi><msup><mi>K</mi><mi mathvariant="normal">⊤</mi></msup></mrow><msqrt><mi>d</mi></msqrt></mfrac><mo stretchy="false">)</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">Q=XW_Q，K = XW_k, V=XW_v\\
 \text{Attn}(X)=\text{softmax}(\frac{QK^\top}{\sqrt{d}})V</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">Q</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">Q</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mord cjk_fallback">，</span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Attn</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.4561em;vertical-align:-0.93em;"></span><span class="mord text"><span class="mord">softmax</span></span><span class="mopen">(</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.5261em;"><span style="top:-2.1778em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9322em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathnormal">d</span></span></span><span style="top:-2.8922em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
@@ -107,10 +107,10 @@ M834 80h400000v40h-400000z"></path></svg></span></span></span><span class="vlist
 <p>We follow Bolya et al. (2023) in using windowed absolute positional embeddings in the Hiera image encoder.</p>
 </blockquote>
 <p>简要来说，Bolya et al. (2023) 的文章 <a href="https://www.notion.so/2c6ba7bb26c881e58f8ff963a1876c09">Untitled</a> 发现，”If we take an original Hiera-L model pretrained on 224px images and finetune it on 256px images for ImageNet-1k (Deng et al., 2009), the top-1 accuracy drops by 0.4% (see “absolute” in Tab. 1).”这与输入图像越大，精度应该越高的已知结论正好相反。论文在深入研究以后发现这是由于模型代码对相对位置编码进行了直接拉伸，这破坏了window中的位置相对结构。他给出的解决方案很简单： <strong>每个window分别拉伸</strong> 。</p>
-<p><img src="https://cdn.hluvmiku.tech/image/1765826918565-b276ffe4.png-small.webp" alt=""></p>
+<p><img src="https://cdn.hluvmiku.tech/image/1765913258645-dad555f8.png-small.webp" alt=""></p>
 <p>至此我们对Image Encoder部分有了基础的了解。</p>
 <h3 id="memory-attention">Memory Attention</h3>
-<p><img src="https://cdn.hluvmiku.tech/image/1765826916012-429296de.png-small.webp" alt=""></p>
+<p><img src="https://cdn.hluvmiku.tech/image/1765913256285-5b2d4b53.png-small.webp" alt=""></p>
 <p>我们再回顾一下SAM2的架构。与SAM不同，SAM2的feature在喂给Mask Decoder之前还过了一个Memory Attention，用以在模型内部propagate过去帧与标注帧的标注。</p>
 <blockquote>
 <p>Each block performs self-attention, followed by cross-attention to memories of (prompted/unprompted) frames and object pointers (see below), stored in a memory bank (see below), followed by an MLP.</p>
@@ -125,8 +125,8 @@ M834 80h400000v40h-400000z"></path></svg></span></span></span><span class="vlist
 <p>Mask Decoder部分则与SAM的略有不同。</p>
 <h3 id="对比">对比</h3>
 <hr>
-<p><span class="image-with-caption" data-caption="SAM2 Mask Decoder"><img src="https://cdn.hluvmiku.tech/image/1765826920047-e9a62ca3.png-small.webp" alt="SAM2 Mask Decoder" data-caption="SAM2 Mask Decoder" class="has-caption"></span></p>
-<p><span class="image-with-caption" data-caption="SAM Mask Decoder"><img src="https://cdn.hluvmiku.tech/image/1765826920544-f3ad0828.png-small.webp" alt="SAM Mask Decoder" data-caption="SAM Mask Decoder" class="has-caption"></span></p>
+<p><span class="image-with-caption" data-caption="SAM2 Mask Decoder"><img src="https://cdn.hluvmiku.tech/image/1765913259835-7941ab13.png-small.webp" alt="SAM2 Mask Decoder" data-caption="SAM2 Mask Decoder" class="has-caption"></span></p>
+<p><span class="image-with-caption" data-caption="SAM Mask Decoder"><img src="https://cdn.hluvmiku.tech/image/1765913260364-683571f1.png-small.webp" alt="SAM Mask Decoder" data-caption="SAM Mask Decoder" class="has-caption"></span></p>
 <hr>
 <p>很明显的看到，SAM2的Decoder中多了一个预测该帧中是否有目标物体的分支。其他部分基本相同。因为“in the PVS task it is possible for no valid object to exist on some frames (e.g. due to occlusion).”</p>
 <p>此外，还有一个不同之处在论文里没写，不过在图中画出来了：在上采用过程中，SAM2的卷积层额外接受了 <strong>stride 4, 8 feats. from img. enc.</strong> ，在SAM里并没有。</p>
@@ -153,7 +153,7 @@ M834 80h400000v40h-400000z"></path></svg></span></span></span><span class="vlist
 <p>终于，我们看完了整个SAM2的结构。</p>
 <h2 id="5-data">5. DATA</h2>
 <p>数据引擎构建也一直是SAM系列的亮点。SAM2采用了“渐进式”的SAM辅助标注。第一阶段纯SAM辅助人工标注，第二阶段SAM+SAM2混合辅助标注并迭代多轮，第三阶段纯SAM2标注并人工校对多轮。</p>
-<p><img src="https://cdn.hluvmiku.tech/image/1765826920980-43974b34.png-small.webp" alt=""></p>
+<p><img src="https://cdn.hluvmiku.tech/image/1765913260790-2b7e5d83.png-small.webp" alt=""></p>
 <p>后几章就是zeroshot和semi-supervised的效果以及和sota比较，没啥要点。</p>
 <h2 id="总结">总结</h2>
 <p>Memory Bank设计的非常精彩，传统的工程做法是在视频帧间通过算法实现一致性，而SAM2将其集成进了模型中。时序遥感图像序列的分割可以用类似方案吗？接下来该读读SAM3了。</p>  </article> </div> </main>  </div> </main> <!-- Footer --> <footer class="flex flex-col w-full max-w-7xl mb-4 justify-center align-center pt-4 border-t print:hidden"> <div class="flex flex-col text-nowrap md:flex-row mx-auto flex w-full items-start md:items-center justify-between align-end"> <span class="text-sm font-light">写于2025年12月10日</span> <div class="mb-4 mt-4 flex w-full flex-col items-start justify-center md:max-w-[40%] md:flex-row md:gap-8 print:hidden"> <a href="/posts/486-meme-and-stickers" class="block w-full truncate text-sm font-light text-black underline hover:text-red-700 md:w-auto">
