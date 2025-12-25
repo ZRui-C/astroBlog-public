@@ -12,7 +12,7 @@
   gtag('js', new Date());
   gtag('config', 'G-J6S31LSNX8');
 </script> <!-- Busuanzi counter --><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png"><link rel="manifest" href="/static/site.webmanifest"><link rel="shortcut icon" href="/static/favicon.ico"><meta name="generator" content="Astro v5.16.4"><!-- Baidu verification --><meta name="baidu-site-verification" content="codeva-TE3aiPxcrm"><!-- Font preloads --><link rel="preload" href="/fonts/geist-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/geist-mono-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"></noscript><!-- Canonical URL --><link rel="canonical" href="https://hluvmiku.tech/comments/"><!-- Primary Meta Tags --><title>陈的博客</title><meta name="title" content="陈的博客"><meta name="description" content="陈的博客 - 我的个人博客，专注于科研、摄影、旅游以及生活感悟。"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://hluvmiku.tech/comments/"><meta property="og:title" content="陈的博客"><meta property="og:description" content="陈的博客 - 我的个人博客，专注于科研、摄影、旅游以及生活感悟。"><meta property="og:image" content="https://hluvmiku.tech/static/blog-placeholder.png"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://hluvmiku.tech/comments/"><meta property="twitter:title" content="陈的博客"><meta property="twitter:description" content="陈的博客 - 我的个人博客，专注于科研、摄影、旅游以及生活感悟。"><meta property="twitter:image" content="https://hluvmiku.tech/static/blog-placeholder.png"><link rel="stylesheet" href="/_astro/index.CSSsUm5P.css">
-<link rel="stylesheet" href="/_astro/_page_.BrI5CtQA.css"></head> <body class="min-h-[100dvh] bg-[#fefefe]"> <div class="mx-auto flex min-h-[100dvh] w-full max-w-2xl flex-1 flex-col items-center p-4"> <!-- Header --> <header class="mx-auto flex w-full max-w-7xl border-b pb-4 items-center justify-between print:hidden"> <div class="flex flex-1 justify-start"> <a href="/" class="text-base font-bold text-red-700 no-underline"> 陈 </a> </div> <span class="inline print:hidden"> <nav class="inline gap-20 text-sm"> <a href="/posts/" class="text-gray-500 no-underline">博客</a> /
+<link rel="stylesheet" href="/_astro/_page_.Bm0Jf76A.css"></head> <body class="min-h-[100dvh] bg-[#fefefe]"> <div class="mx-auto flex min-h-[100dvh] w-full max-w-2xl flex-1 flex-col items-center p-4"> <!-- Header --> <header class="mx-auto flex w-full max-w-7xl border-b pb-4 items-center justify-between print:hidden"> <div class="flex flex-1 justify-start"> <a href="/" class="text-base font-bold text-red-700 no-underline"> 陈 </a> </div> <span class="inline print:hidden"> <nav class="inline gap-20 text-sm"> <a href="/posts/" class="text-gray-500 no-underline">博客</a> /
 <a href="/comments/" class="text-gray-500 no-underline">杂谈随记</a> /
 <a href="/about/" class="text-gray-500 no-underline">关于我</a> </nav> </span> </header> <!-- Main Slot --> <main class="flex w-full flex-1 items-start justify-center print:block print:h-full print:items-start print:justify-start print:border-0"> <div class="page mx-auto my-10 w-full max-w-7xl print:my-0 print:h-full print:w-full print:max-w-none">  <main class=""> <ul> <li class="mb-8 border-b border-gray-200 pb-8 last:border-0 print:mb-0 print:border-0 print:pb-0"> <div class="w-full max-w-2xl border-gray-200 pl-4"> <div class="prose"> <!-- 保证\n正常显示 --> <p class="whitespace-pre-wrap">【日报】2025-12-24
 
@@ -56,7 +56,6 @@ mask-rcnn、mask-former 、MViT、DETR、DINO、SAM，全是Facebook做的，CV�
     "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
 
   let pdfJsPromise;
-  let intersectionObserver;
   let mutationObserver;
   let observedArticle;
 
@@ -100,33 +99,41 @@ mask-rcnn、mask-former 、MViT、DETR、DINO、SAM，全是Facebook做的，CV�
     return containers;
   }
 
-  function ensureIntersectionObserver() {
-    if (intersectionObserver) return intersectionObserver;
-    if (!("IntersectionObserver" in window)) return null;
-    intersectionObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          intersectionObserver.unobserve(entry.target);
-          renderPdf(entry.target);
-        });
-      },
-      { rootMargin: "200px 0px" },
-    );
-    return intersectionObserver;
-  }
+  function preparePdfEmbed(container) {
+    if (container.dataset.pdfPrepared === "true") return;
+    container.dataset.pdfPrepared = "true";
 
-  function observePdfEmbeds(root) {
-    const observer = ensureIntersectionObserver();
-    collectPdfEmbeds(root).forEach((container) => {
-      if (container.dataset.pdfObserved === "true") return;
-      container.dataset.pdfObserved = "true";
-      if (observer) {
-        observer.observe(container);
-      } else {
-        renderPdf(container);
-      }
+    const link = container.querySelector(".pdf-embed__link");
+    const caption = container.querySelector(".pdf-embed__caption");
+    const actions = document.createElement("div");
+    actions.className = "pdf-embed__actions";
+
+    if (link) {
+      actions.appendChild(link);
+    }
+
+    const loadButton = document.createElement("button");
+    loadButton.type = "button";
+    loadButton.className = "pdf-embed__button pdf-embed__load";
+    loadButton.textContent = "加载 PDF";
+    loadButton.addEventListener("click", () => {
+      if (container.dataset.pdfRendered === "loading") return;
+      loadButton.disabled = true;
+      loadButton.textContent = "加载中...";
+      renderPdf(container).finally(() => {
+        if (container.dataset.pdfRendered !== "true") {
+          loadButton.disabled = false;
+          loadButton.textContent = "加载 PDF";
+        }
+      });
     });
+    actions.appendChild(loadButton);
+
+    if (caption) {
+      container.insertBefore(actions, caption);
+    } else {
+      container.appendChild(actions);
+    }
   }
 
   async function renderPdf(container) {
@@ -210,6 +217,8 @@ mask-rcnn、mask-former 、MViT、DETR、DINO、SAM，全是Facebook做的，CV�
         console.warn("[pdf] Failed to render PDF:", error);
         container.dataset.pdfRendered = "error";
         container.innerHTML = fallbackHtml;
+        container.dataset.pdfPrepared = "false";
+        preparePdfEmbed(container);
       };
 
       const updateButtons = () => {
@@ -279,11 +288,15 @@ mask-rcnn、mask-former 、MViT、DETR、DINO、SAM，全是Facebook做的，CV�
     } catch (error) {
       container.dataset.pdfRendered = "error";
       container.innerHTML = fallbackHtml;
+      container.dataset.pdfPrepared = "false";
+      preparePdfEmbed(container);
     }
   }
 
   function setupPdfEmbeds() {
-    observePdfEmbeds(document);
+    collectPdfEmbeds(document).forEach((container) => {
+      preparePdfEmbed(container);
+    });
 
     const article = document.querySelector("#article");
     if (!article) return;
@@ -293,7 +306,9 @@ mask-rcnn、mask-former 、MViT、DETR、DINO、SAM，全是Facebook做的，CV�
     mutationObserver = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         mutation.addedNodes.forEach((node) => {
-          observePdfEmbeds(node);
+          collectPdfEmbeds(node).forEach((container) => {
+            preparePdfEmbed(container);
+          });
         });
       });
     });

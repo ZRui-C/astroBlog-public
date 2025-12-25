@@ -12,7 +12,7 @@
   gtag('js', new Date());
   gtag('config', 'G-J6S31LSNX8');
 </script> <!-- Busuanzi counter --><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png"><link rel="manifest" href="/static/site.webmanifest"><link rel="shortcut icon" href="/static/favicon.ico"><meta name="generator" content="Astro v5.16.4"><!-- Baidu verification --><meta name="baidu-site-verification" content="codeva-TE3aiPxcrm"><!-- Font preloads --><link rel="preload" href="/fonts/geist-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/geist-mono-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"></noscript><!-- Canonical URL --><link rel="canonical" href="https://hluvmiku.tech/posts/paper-analysis-sam-3/"><!-- Primary Meta Tags --><title>论文精读：《SAM 3: Segment Anything with Concepts》</title><meta name="title" content="论文精读：《SAM 3: Segment Anything with Concepts》"><meta name="description" content="SAM3在SAM2的基础上重新设计了结构，支持Promptable Concept Segmentation (PCS)任务，允许通过简单名词短语和图像示例对目标进行标注和追踪。模型采用了META的Perception Encoder，结合了双重监督和Align loss来提高准确性。尽管技术上有进步，但整体感觉不如SAM2惊艳，更多是工程上的改进。"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://hluvmiku.tech/posts/paper-analysis-sam-3/"><meta property="og:title" content="论文精读：《SAM 3: Segment Anything with Concepts》"><meta property="og:description" content="SAM3在SAM2的基础上重新设计了结构，支持Promptable Concept Segmentation (PCS)任务，允许通过简单名词短语和图像示例对目标进行标注和追踪。模型采用了META的Perception Encoder，结合了双重监督和Align loss来提高准确性。尽管技术上有进步，但整体感觉不如SAM2惊艳，更多是工程上的改进。"><meta property="og:image" content="https://hluvmiku.tech/posts/paper-analysis-sam-3/"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://hluvmiku.tech/posts/paper-analysis-sam-3/"><meta property="twitter:title" content="论文精读：《SAM 3: Segment Anything with Concepts》"><meta property="twitter:description" content="SAM3在SAM2的基础上重新设计了结构，支持Promptable Concept Segmentation (PCS)任务，允许通过简单名词短语和图像示例对目标进行标注和追踪。模型采用了META的Perception Encoder，结合了双重监督和Align loss来提高准确性。尽管技术上有进步，但整体感觉不如SAM2惊艳，更多是工程上的改进。"><meta property="twitter:image" content="https://hluvmiku.tech/posts/paper-analysis-sam-3/"><link rel="stylesheet" href="/_astro/index.CSSsUm5P.css">
-<link rel="stylesheet" href="/_astro/_page_.BrI5CtQA.css"></head> <body class="min-h-[100dvh] bg-[#fefefe]"> <div class="mx-auto flex min-h-[100dvh] w-full max-w-2xl flex-1 flex-col items-center p-4"> <!-- Header --> <header class="mx-auto flex w-full max-w-7xl border-b pb-4 items-center justify-between print:hidden"> <div class="flex flex-1 justify-start"> <a href="/" class="text-base font-bold text-red-700 no-underline"> 陈 </a> </div> <span class="inline print:hidden"> <nav class="inline gap-20 text-sm"> <a href="/posts/" class="text-gray-500 no-underline">博客</a> /
+<link rel="stylesheet" href="/_astro/_page_.Bm0Jf76A.css"></head> <body class="min-h-[100dvh] bg-[#fefefe]"> <div class="mx-auto flex min-h-[100dvh] w-full max-w-2xl flex-1 flex-col items-center p-4"> <!-- Header --> <header class="mx-auto flex w-full max-w-7xl border-b pb-4 items-center justify-between print:hidden"> <div class="flex flex-1 justify-start"> <a href="/" class="text-base font-bold text-red-700 no-underline"> 陈 </a> </div> <span class="inline print:hidden"> <nav class="inline gap-20 text-sm"> <a href="/posts/" class="text-gray-500 no-underline">博客</a> /
 <a href="/comments/" class="text-gray-500 no-underline">杂谈随记</a> /
 <a href="/about/" class="text-gray-500 no-underline">关于我</a> </nav> </span> </header> <!-- Main Slot --> <main class="flex w-full flex-1 items-start justify-center print:block print:h-full print:items-start print:justify-start print:border-0"> <div class="page mx-auto my-10 w-full max-w-7xl print:my-0 print:h-full print:w-full print:max-w-none">  <main class="w-full print:m-0 print:block print:p-0"> <div class="flex w-full flex-col items-start justify-center text-wrap print:m-0 print:p-0 print:shadow-none"> <h1 class="mb-5 text-2xl font-bold print:mb-0"> 论文精读：《SAM 3: Segment Anything with Concepts》 </h1> <span class="hidden print:inline">写于2025年12月22日</span> <article id="article" class="prose prose-zinc max-w-none break-words">  <div class="pdf-embed" data-pdf-url="https://prod-files-secure.s3.us-west-2.amazonaws.com/6c2ba7bb-26c8-81d4-ae8e-0003ae4f0eed/b4e984b7-fe42-4c77-8688-af6c9b7b3c47/SAM_3_Segment_Anything_with_Concepts.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&#x26;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&#x26;X-Amz-Credential=ASIAZI2LB466RXWRORBU%2F20251225%2Fus-west-2%2Fs3%2Faws4_request&#x26;X-Amz-Date=20251225T040037Z&#x26;X-Amz-Expires=3600&#x26;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGkaCXVzLXdlc3QtMiJHMEUCIA11xrhPsOSnAzPhzntc109k2CT8fhgcP%2B7op%2BzYYqt5AiEA6pXMoP%2Fi39XZBFVr1cAgGurZ2TYl41XhEnJCRz0E6BQq%2FwMIMhAAGgw2Mzc0MjMxODM4MDUiDHRCp3vvWPIL65KhPyrcAwd6%2FPjtSY49V81B52d6Fh4SdosdwFkfZkGYylGgdT5Pm3CYSwNbEEqb%2F266cK1cCwwkkmt10VwD074KLJk%2Bc4THPNxJgvExtRRav%2F2viC9q7%2ByswOpG6RwDxOzNtoSlhjv9b7VEyJ1C4kRFELClze2VzEQNl4W1U3keULN5UNxY5v4GSgqclZX5ffdZaratdm2HxtMF6TxUhYgeMtmtC4v3gPQD4JmR6o0s4gWkokPBsCXnW%2B7KzC2YivrGhu9wUbr9tSLsFYVQLh%2BgBRGFXsEsUi0QaNFZkO9d65Ixnwz6eY6YrK%2FgR5oBWFFZX434VX9NGKJki%2FSq9O9R5Z39%2BDUF3PsG%2BMUDOYMdVAyWWmBYr78gdtKKKQ%2FJx82mlTXy8qfhvulY%2B6xmc8XYLtbpuXRoZL%2FrLFKWsKmtoTRnTV6v%2F7Q3Q5lV1EpBWHQQulPZmGcCoAk%2FZFBuxP%2BAV%2FYiigYRta3TFS0goPsP%2FVA4FeQ4tIc8h5V%2ByZ1%2BjkZgYUzH5sslQrNLOlrucvfceAL93ki8gvJUR4B%2BI%2FBCrt3cxqLDGVWo7ivvE7klITzwJ3tivc915%2FdMayLwtK6%2F6i36mU8lD26N%2FoLyX7L7o9UVyp0flALJ03Vr5DvoLklgMM2PssoGOqUBY33F87J877VVJ3yynrCXmsG%2BraPoZgK%2BuvhFHnk38SqFs%2BtfeFSWhp%2Bl7X7vn0OxtBauDExdNX%2BgO%2Fh4sUoLkzdfVuf9WYaAeU1tC8PGbUWHbIyspBwHojyy422nH0NntnirvoVWno1FuqLLvW2Vt7ckIPkBiQk0PpEZjC2juC0DXW2Xh8fEdDZdKO005GouEaBREszERjdhDLmwQTi6KfeZFE0R&#x26;X-Amz-Signature=e442c09fde5a97a3b00559d76c7f19d09b73bfe7ad37ee0061c0e0c6c3d5941a&#x26;X-Amz-SignedHeaders=host&#x26;x-amz-checksum-mode=ENABLED&#x26;x-id=GetObject" data-pdf-name="SAM 3 Segment Anything with Concepts.pdf">
   <a class="pdf-embed__link" href="https://prod-files-secure.s3.us-west-2.amazonaws.com/6c2ba7bb-26c8-81d4-ae8e-0003ae4f0eed/b4e984b7-fe42-4c77-8688-af6c9b7b3c47/SAM_3_Segment_Anything_with_Concepts.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&#x26;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&#x26;X-Amz-Credential=ASIAZI2LB466RXWRORBU%2F20251225%2Fus-west-2%2Fs3%2Faws4_request&#x26;X-Amz-Date=20251225T040037Z&#x26;X-Amz-Expires=3600&#x26;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGkaCXVzLXdlc3QtMiJHMEUCIA11xrhPsOSnAzPhzntc109k2CT8fhgcP%2B7op%2BzYYqt5AiEA6pXMoP%2Fi39XZBFVr1cAgGurZ2TYl41XhEnJCRz0E6BQq%2FwMIMhAAGgw2Mzc0MjMxODM4MDUiDHRCp3vvWPIL65KhPyrcAwd6%2FPjtSY49V81B52d6Fh4SdosdwFkfZkGYylGgdT5Pm3CYSwNbEEqb%2F266cK1cCwwkkmt10VwD074KLJk%2Bc4THPNxJgvExtRRav%2F2viC9q7%2ByswOpG6RwDxOzNtoSlhjv9b7VEyJ1C4kRFELClze2VzEQNl4W1U3keULN5UNxY5v4GSgqclZX5ffdZaratdm2HxtMF6TxUhYgeMtmtC4v3gPQD4JmR6o0s4gWkokPBsCXnW%2B7KzC2YivrGhu9wUbr9tSLsFYVQLh%2BgBRGFXsEsUi0QaNFZkO9d65Ixnwz6eY6YrK%2FgR5oBWFFZX434VX9NGKJki%2FSq9O9R5Z39%2BDUF3PsG%2BMUDOYMdVAyWWmBYr78gdtKKKQ%2FJx82mlTXy8qfhvulY%2B6xmc8XYLtbpuXRoZL%2FrLFKWsKmtoTRnTV6v%2F7Q3Q5lV1EpBWHQQulPZmGcCoAk%2FZFBuxP%2BAV%2FYiigYRta3TFS0goPsP%2FVA4FeQ4tIc8h5V%2ByZ1%2BjkZgYUzH5sslQrNLOlrucvfceAL93ki8gvJUR4B%2BI%2FBCrt3cxqLDGVWo7ivvE7klITzwJ3tivc915%2FdMayLwtK6%2F6i36mU8lD26N%2FoLyX7L7o9UVyp0flALJ03Vr5DvoLklgMM2PssoGOqUBY33F87J877VVJ3yynrCXmsG%2BraPoZgK%2BuvhFHnk38SqFs%2BtfeFSWhp%2Bl7X7vn0OxtBauDExdNX%2BgO%2Fh4sUoLkzdfVuf9WYaAeU1tC8PGbUWHbIyspBwHojyy422nH0NntnirvoVWno1FuqLLvW2Vt7ckIPkBiQk0PpEZjC2juC0DXW2Xh8fEdDZdKO005GouEaBREszERjdhDLmwQTi6KfeZFE0R&#x26;X-Amz-Signature=e442c09fde5a97a3b00559d76c7f19d09b73bfe7ad37ee0061c0e0c6c3d5941a&#x26;X-Amz-SignedHeaders=host&#x26;x-amz-checksum-mode=ENABLED&#x26;x-id=GetObject" target="_blank" rel="noopener">【PDF:SAM 3 Segment Anything with Concepts.pdf】</a>
@@ -112,7 +112,6 @@
     "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
 
   let pdfJsPromise;
-  let intersectionObserver;
   let mutationObserver;
   let observedArticle;
 
@@ -156,33 +155,41 @@
     return containers;
   }
 
-  function ensureIntersectionObserver() {
-    if (intersectionObserver) return intersectionObserver;
-    if (!("IntersectionObserver" in window)) return null;
-    intersectionObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          intersectionObserver.unobserve(entry.target);
-          renderPdf(entry.target);
-        });
-      },
-      { rootMargin: "200px 0px" },
-    );
-    return intersectionObserver;
-  }
+  function preparePdfEmbed(container) {
+    if (container.dataset.pdfPrepared === "true") return;
+    container.dataset.pdfPrepared = "true";
 
-  function observePdfEmbeds(root) {
-    const observer = ensureIntersectionObserver();
-    collectPdfEmbeds(root).forEach((container) => {
-      if (container.dataset.pdfObserved === "true") return;
-      container.dataset.pdfObserved = "true";
-      if (observer) {
-        observer.observe(container);
-      } else {
-        renderPdf(container);
-      }
+    const link = container.querySelector(".pdf-embed__link");
+    const caption = container.querySelector(".pdf-embed__caption");
+    const actions = document.createElement("div");
+    actions.className = "pdf-embed__actions";
+
+    if (link) {
+      actions.appendChild(link);
+    }
+
+    const loadButton = document.createElement("button");
+    loadButton.type = "button";
+    loadButton.className = "pdf-embed__button pdf-embed__load";
+    loadButton.textContent = "加载 PDF";
+    loadButton.addEventListener("click", () => {
+      if (container.dataset.pdfRendered === "loading") return;
+      loadButton.disabled = true;
+      loadButton.textContent = "加载中...";
+      renderPdf(container).finally(() => {
+        if (container.dataset.pdfRendered !== "true") {
+          loadButton.disabled = false;
+          loadButton.textContent = "加载 PDF";
+        }
+      });
     });
+    actions.appendChild(loadButton);
+
+    if (caption) {
+      container.insertBefore(actions, caption);
+    } else {
+      container.appendChild(actions);
+    }
   }
 
   async function renderPdf(container) {
@@ -266,6 +273,8 @@
         console.warn("[pdf] Failed to render PDF:", error);
         container.dataset.pdfRendered = "error";
         container.innerHTML = fallbackHtml;
+        container.dataset.pdfPrepared = "false";
+        preparePdfEmbed(container);
       };
 
       const updateButtons = () => {
@@ -335,11 +344,15 @@
     } catch (error) {
       container.dataset.pdfRendered = "error";
       container.innerHTML = fallbackHtml;
+      container.dataset.pdfPrepared = "false";
+      preparePdfEmbed(container);
     }
   }
 
   function setupPdfEmbeds() {
-    observePdfEmbeds(document);
+    collectPdfEmbeds(document).forEach((container) => {
+      preparePdfEmbed(container);
+    });
 
     const article = document.querySelector("#article");
     if (!article) return;
@@ -349,7 +362,9 @@
     mutationObserver = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         mutation.addedNodes.forEach((node) => {
-          observePdfEmbeds(node);
+          collectPdfEmbeds(node).forEach((container) => {
+            preparePdfEmbed(container);
+          });
         });
       });
     });

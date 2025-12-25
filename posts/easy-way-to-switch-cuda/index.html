@@ -12,7 +12,7 @@
   gtag('js', new Date());
   gtag('config', 'G-J6S31LSNX8');
 </script> <!-- Busuanzi counter --><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png"><link rel="manifest" href="/static/site.webmanifest"><link rel="shortcut icon" href="/static/favicon.ico"><meta name="generator" content="Astro v5.16.4"><!-- Baidu verification --><meta name="baidu-site-verification" content="codeva-TE3aiPxcrm"><!-- Font preloads --><link rel="preload" href="/fonts/geist-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/geist-mono-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"></noscript><!-- Canonical URL --><link rel="canonical" href="https://hluvmiku.tech/posts/easy-way-to-switch-cuda/"><!-- Primary Meta Tags --><title>多版本 CUDA Toolkit 安装与切换</title><meta name="title" content="多版本 CUDA Toolkit 安装与切换"><meta name="description" content="本文介绍了如何在非Root用户环境下安装和管理多个版本的CUDA Toolkit，并提供了便捷的切换脚本。通过详细步骤指导用户从下载安装到配置环境变量，最终实现通过简单命令切换不同CUDA版本（如11.7/11.3/10.2等"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://hluvmiku.tech/posts/easy-way-to-switch-cuda/"><meta property="og:title" content="多版本 CUDA Toolkit 安装与切换"><meta property="og:description" content="本文介绍了如何在非Root用户环境下安装和管理多个版本的CUDA Toolkit，并提供了便捷的切换脚本。通过详细步骤指导用户从下载安装到配置环境变量，最终实现通过简单命令切换不同CUDA版本（如11.7/11.3/10.2等"><meta property="og:image" content="https://hluvmiku.tech/static/blog-placeholder.png"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://hluvmiku.tech/posts/easy-way-to-switch-cuda/"><meta property="twitter:title" content="多版本 CUDA Toolkit 安装与切换"><meta property="twitter:description" content="本文介绍了如何在非Root用户环境下安装和管理多个版本的CUDA Toolkit，并提供了便捷的切换脚本。通过详细步骤指导用户从下载安装到配置环境变量，最终实现通过简单命令切换不同CUDA版本（如11.7/11.3/10.2等"><meta property="twitter:image" content="https://hluvmiku.tech/static/blog-placeholder.png"><link rel="stylesheet" href="/_astro/index.CSSsUm5P.css">
-<link rel="stylesheet" href="/_astro/_page_.BrI5CtQA.css"></head> <body class="min-h-[100dvh] bg-[#fefefe]"> <div class="mx-auto flex min-h-[100dvh] w-full max-w-2xl flex-1 flex-col items-center p-4"> <!-- Header --> <header class="mx-auto flex w-full max-w-7xl border-b pb-4 items-center justify-between print:hidden"> <div class="flex flex-1 justify-start"> <a href="/" class="text-base font-bold text-red-700 no-underline"> 陈 </a> </div> <span class="inline print:hidden"> <nav class="inline gap-20 text-sm"> <a href="/posts/" class="text-gray-500 no-underline">博客</a> /
+<link rel="stylesheet" href="/_astro/_page_.Bm0Jf76A.css"></head> <body class="min-h-[100dvh] bg-[#fefefe]"> <div class="mx-auto flex min-h-[100dvh] w-full max-w-2xl flex-1 flex-col items-center p-4"> <!-- Header --> <header class="mx-auto flex w-full max-w-7xl border-b pb-4 items-center justify-between print:hidden"> <div class="flex flex-1 justify-start"> <a href="/" class="text-base font-bold text-red-700 no-underline"> 陈 </a> </div> <span class="inline print:hidden"> <nav class="inline gap-20 text-sm"> <a href="/posts/" class="text-gray-500 no-underline">博客</a> /
 <a href="/comments/" class="text-gray-500 no-underline">杂谈随记</a> /
 <a href="/about/" class="text-gray-500 no-underline">关于我</a> </nav> </span> </header> <!-- Main Slot --> <main class="flex w-full flex-1 items-start justify-center print:block print:h-full print:items-start print:justify-start print:border-0"> <div class="page mx-auto my-10 w-full max-w-7xl print:my-0 print:h-full print:w-full print:max-w-none">  <main class="w-full print:m-0 print:block print:p-0"> <div class="flex w-full flex-col items-start justify-center text-wrap print:m-0 print:p-0 print:shadow-none"> <h1 class="mb-5 text-2xl font-bold print:mb-0"> 多版本 CUDA Toolkit 安装与切换 </h1> <span class="hidden print:inline">写于2025年8月2日</span> <article id="article" class="prose prose-zinc max-w-none break-words">  <h2 id="前言">前言</h2>
 <p>在配环境过程中，我们时常会遇到CUDA版本不匹配的情况，此时我们就需要一个多版本CUDA安装与切换到方案。我在此提供一种非Root用户的配置方案，配置完成后，只需执行如下命令即可切换到指定版本（以11.8为例）：</p>
@@ -67,7 +67,6 @@
     "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
 
   let pdfJsPromise;
-  let intersectionObserver;
   let mutationObserver;
   let observedArticle;
 
@@ -111,33 +110,41 @@
     return containers;
   }
 
-  function ensureIntersectionObserver() {
-    if (intersectionObserver) return intersectionObserver;
-    if (!("IntersectionObserver" in window)) return null;
-    intersectionObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          intersectionObserver.unobserve(entry.target);
-          renderPdf(entry.target);
-        });
-      },
-      { rootMargin: "200px 0px" },
-    );
-    return intersectionObserver;
-  }
+  function preparePdfEmbed(container) {
+    if (container.dataset.pdfPrepared === "true") return;
+    container.dataset.pdfPrepared = "true";
 
-  function observePdfEmbeds(root) {
-    const observer = ensureIntersectionObserver();
-    collectPdfEmbeds(root).forEach((container) => {
-      if (container.dataset.pdfObserved === "true") return;
-      container.dataset.pdfObserved = "true";
-      if (observer) {
-        observer.observe(container);
-      } else {
-        renderPdf(container);
-      }
+    const link = container.querySelector(".pdf-embed__link");
+    const caption = container.querySelector(".pdf-embed__caption");
+    const actions = document.createElement("div");
+    actions.className = "pdf-embed__actions";
+
+    if (link) {
+      actions.appendChild(link);
+    }
+
+    const loadButton = document.createElement("button");
+    loadButton.type = "button";
+    loadButton.className = "pdf-embed__button pdf-embed__load";
+    loadButton.textContent = "加载 PDF";
+    loadButton.addEventListener("click", () => {
+      if (container.dataset.pdfRendered === "loading") return;
+      loadButton.disabled = true;
+      loadButton.textContent = "加载中...";
+      renderPdf(container).finally(() => {
+        if (container.dataset.pdfRendered !== "true") {
+          loadButton.disabled = false;
+          loadButton.textContent = "加载 PDF";
+        }
+      });
     });
+    actions.appendChild(loadButton);
+
+    if (caption) {
+      container.insertBefore(actions, caption);
+    } else {
+      container.appendChild(actions);
+    }
   }
 
   async function renderPdf(container) {
@@ -221,6 +228,8 @@
         console.warn("[pdf] Failed to render PDF:", error);
         container.dataset.pdfRendered = "error";
         container.innerHTML = fallbackHtml;
+        container.dataset.pdfPrepared = "false";
+        preparePdfEmbed(container);
       };
 
       const updateButtons = () => {
@@ -290,11 +299,15 @@
     } catch (error) {
       container.dataset.pdfRendered = "error";
       container.innerHTML = fallbackHtml;
+      container.dataset.pdfPrepared = "false";
+      preparePdfEmbed(container);
     }
   }
 
   function setupPdfEmbeds() {
-    observePdfEmbeds(document);
+    collectPdfEmbeds(document).forEach((container) => {
+      preparePdfEmbed(container);
+    });
 
     const article = document.querySelector("#article");
     if (!article) return;
@@ -304,7 +317,9 @@
     mutationObserver = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         mutation.addedNodes.forEach((node) => {
-          observePdfEmbeds(node);
+          collectPdfEmbeds(node).forEach((container) => {
+            preparePdfEmbed(container);
+          });
         });
       });
     });
