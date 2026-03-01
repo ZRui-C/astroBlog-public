@@ -1,0 +1,662 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><!-- Baidu Analytics --><script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?07031aed06e0fa1f0bfe62119cd66c18";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script> <!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-J6S31LSNX8"></script> <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-J6S31LSNX8');
+</script> <!-- Busuanzi counter --><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png"><link rel="manifest" href="/static/site.webmanifest"><link rel="shortcut icon" href="/static/favicon.ico"><meta name="generator" content="Astro v5.16.4"><!-- Baidu verification --><meta name="baidu-site-verification" content="codeva-TE3aiPxcrm"><!-- Font preloads --><link rel="preload" href="/fonts/geist-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/geist-mono-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"></noscript><!-- Canonical URL --><link rel="canonical" href="https://hluvmiku.tech/posts/ultimate-claude-code-vibe-coding-guide/"><!-- Primary Meta Tags --><title>一份Claude Code 使用指南</title><meta name="title" content="一份Claude Code 使用指南"><meta name="description" content="一份从实战中总结的 Claude Code 使用指南：Plan Mode 的正确打开方式、用 /clear 保持干净上下文而非死磕长对话、用 Git worktree 隔离并行任务、用 Hooks 把代码格式化和安全策略从&#34;建议&#34;变成&#34;保证&#34;、以及用 Spec Kit 在复杂项目中先写规格再写代码。"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://hluvmiku.tech/posts/ultimate-claude-code-vibe-coding-guide/"><meta property="og:title" content="一份Claude Code 使用指南"><meta property="og:description" content="一份从实战中总结的 Claude Code 使用指南：Plan Mode 的正确打开方式、用 /clear 保持干净上下文而非死磕长对话、用 Git worktree 隔离并行任务、用 Hooks 把代码格式化和安全策略从&#34;建议&#34;变成&#34;保证&#34;、以及用 Spec Kit 在复杂项目中先写规格再写代码。"><meta property="og:image" content="https://hluvmiku.tech/posts/ultimate-claude-code-vibe-coding-guide/"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://hluvmiku.tech/posts/ultimate-claude-code-vibe-coding-guide/"><meta property="twitter:title" content="一份Claude Code 使用指南"><meta property="twitter:description" content="一份从实战中总结的 Claude Code 使用指南：Plan Mode 的正确打开方式、用 /clear 保持干净上下文而非死磕长对话、用 Git worktree 隔离并行任务、用 Hooks 把代码格式化和安全策略从&#34;建议&#34;变成&#34;保证&#34;、以及用 Spec Kit 在复杂项目中先写规格再写代码。"><meta property="twitter:image" content="https://hluvmiku.tech/posts/ultimate-claude-code-vibe-coding-guide/"><link rel="stylesheet" href="/_astro/index.CSSsUm5P.css">
+<link rel="stylesheet" href="/_astro/_page_.Bm0Jf76A.css"></head> <body class="min-h-[100dvh] bg-[#fefefe]"> <div class="mx-auto flex min-h-[100dvh] w-full max-w-2xl flex-1 flex-col items-center p-4"> <!-- Header --> <header class="mx-auto flex w-full max-w-7xl border-b pb-4 items-center justify-between print:hidden"> <div class="flex flex-1 justify-start"> <a href="/" class="text-base font-bold text-red-700 no-underline"> 陈 </a> </div> <span class="inline print:hidden"> <nav class="inline gap-20 text-sm"> <a href="/posts/" class="text-gray-500 no-underline">博客</a> /
+<a href="/comments/" class="text-gray-500 no-underline">杂谈随记</a> /
+<a href="/about/" class="text-gray-500 no-underline">关于我</a> </nav> </span> </header> <!-- Main Slot --> <main class="flex w-full flex-1 items-start justify-center print:block print:h-full print:items-start print:justify-start print:border-0"> <div class="page mx-auto my-10 w-full max-w-7xl print:my-0 print:h-full print:w-full print:max-w-none">  <main class="w-full print:m-0 print:block print:p-0"> <div class="flex w-full flex-col items-start justify-center text-wrap print:m-0 print:p-0 print:shadow-none"> <h1 class="mb-5 text-2xl font-bold print:mb-0"> 一份Claude Code 使用指南 </h1> <span class="hidden print:inline">写于2026年3月1日</span> <article id="article" class="prose prose-zinc max-w-none break-words">  <div data-callout="" data-callout-type="note">
+<div data-callout-title="">Note</div>
+<div data-callout-body="">
+<p>通过本文，你会意识到以下几点：</p>
+<ul>
+<li>Plan Mode 原来要这么用！</li>
+<li>这样管理你的会话：不要长对话，干净上下文更重要。</li>
+<li>git worktree 不是高级功能，而是 Vibe Coding 的必须项。</li>
+<li>Spec Kit 虽然重，但适合长上下文+复杂场景下使用。</li>
+<li>Hooks 真是个好东西，一定要用起来。</li>
+</ul>
+</div>
+</div>
+<div data-callout="" data-callout-type="tips">
+<div data-callout-title="">Tips</div>
+<div data-callout-body="">
+<p>本文基于本人这半年来综合使用Codex、Claude Code、OpenCode的Vibe Coding经验以及<a href="https://code.claude.com/docs/zh-CN/overview"><strong><code>Claude官方文档</code></strong></a> 整合得到。 <a href="https://code.claude.com/docs/zh-CN/overview"><strong><code>Claude官方文档</code></strong></a> 十分值得一看，在写本文时，我也从其中学到了很多内容。</p>
+</div>
+</div>
+<p>本文不探讨各家模型哪个好哪个差，但很多思想都是通用的。</p>
+<h2 id="常见开发流程">常见开发流程</h2>
+<h3 id="快速获取代码库概览">快速获取代码库概览</h3>
+<p>假设你刚加入一个新项目，需要快速了解其结构。</p>
+<ol>
+<li>进入你的目录</li>
+</ol>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.zi4z0.css"><script type="module" src="/_astro/ec.8zarh.js"></script><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="shell"><code><div class="ec-line"><div class="code"><span style="--0:#005CC5">cd</span><span style="--0:#24292E"> </span><span style="--0:#032F62">/path/to/your/project</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="cd /path/to/your/project"><div></div></button></div></figure></div>
+<ol>
+<li>打开Claude</li>
+</ol>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="shell"><code><div class="ec-line"><div class="code"><span style="--0:#6F42C1">claude</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="claude"><div></div></button></div></figure></div>
+<ol>
+<li>获得项目概率、深入了解各个组件</li>
+</ol>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="shell"><code><div class="ec-line"><div class="code"><span style="--0:#BF3441">></span><span style="--0:#24292E"> 告诉我这个代码库干了啥？</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="> 告诉我这个代码库干了啥？"><div></div></button></div></figure></div>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="shell"><code><div class="ec-line"><div class="code"><span style="--0:#BF3441">></span><span style="--0:#24292E"> 给我解释一下这个项目的架构</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="> 给我解释一下这个项目的架构"><div></div></button></div></figure></div>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="shell"><code><div class="ec-line"><div class="code"><span style="--0:#BF3441">></span><span style="--0:#24292E"> 这里的核心数据模型是啥？</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="> 这里的核心数据模型是啥？"><div></div></button></div></figure></div>
+<h3 id="高效修复错误"><strong>高效修复错误</strong></h3>
+<p>假设你遇到了错误消息，需要找到并修复其来源。</p>
+<ol>
+<li>告诉Claude你的问题</li>
+</ol>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="shell"><code><div class="ec-line"><div class="code"><span style="--0:#BF3441">></span><span style="--0:#24292E"> 在我运行 npm test 时我遇到了个错误：【paste log here】 告诉我哪里出问题了。</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="> 在我运行 npm test 时我遇到了个错误：【paste log here】 告诉我哪里出问题了。"><div></div></button></div></figure></div>
+<ol>
+<li>请求修复建议</li>
+</ol>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="shell"><code><div class="ec-line"><div class="code"><span style="--0:#BF3441">></span><span style="--0:#24292E"> 告诉我，他们可以怎么修改</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="> 告诉我，他们可以怎么修改"><div></div></button></div></figure></div>
+<ol>
+<li>根据你的<mark><strong>具体分析与需求</strong></mark>应用修复</li>
+</ol>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="shell"><code><div class="ec-line"><div class="code"><span style="--0:#BF3441">></span><span style="--0:#24292E"> 好的，更新user.ts支持null检验</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="> 好的，更新user.ts支持null检验"><div></div></button></div></figure></div>
+<h2 id="plan-mode">Plan Mode</h2>
+<p>Plan Mode 指示 Claude 通过使用<strong>只读操作</strong>分析代码库来创建计划，非常适合<mark><strong>探索代码库、规划复杂更改或安全地审查代码</strong></mark>。在 Plan Mode 中，Claude 使用 <a href="https://code.claude.com/docs/zh-CN/settings#tools-available-to-claude"><strong><code>AskUserQuestion</code></strong></a> 来收集需求并在提出计划之前澄清你的目标。</p>
+<h3 id="何时使用plan-mode">何时使用Plan Mode</h3>
+<p>简单的说，你在这些情况下最好使用Plan Mode：</p>
+<ul>
+<li><strong>多步骤实现</strong>：当您的功能需要编辑许多文件时</li>
+<li><strong>代码探索</strong>：当您想在更改任何内容之前彻底研究代码库时</li>
+<li><strong>交互式开发</strong>：当您想与 Claude 迭代方向时</li>
+</ul>
+<h3 id="示例">示例</h3>
+<ol>
+<li>开启Plan Mode(使用 <code>Shift + Tab</code> 进行切换)</li>
+<li>描述你的需求：</li>
+</ol>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="shell"><code><div class="ec-line"><div class="code"><span class="indent"> </span><span style="--0:#BF3441">></span><span style="--0:#24292E"> </span><span style="--0:#6F42C1">我希望你将整个前端后端现代化：现在只有一个简陋的的测试前端，一些支离破碎的功能性技术验证的后端，无法成系统流程化的进行测试、验证。我希望你解决。</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="> 我希望你将整个前端后端现代化：现在只有一个简陋的的测试前端，一些支离破碎的功能性技术验证的后端，无法成系统流程化的进行测试、验证。我希望你解决。"><div></div></button></div></figure></div>
+<ol>
+<li>Claude在调研后会给你详尽的回复，并问你是要手动接受、全盘接受并自动根据计划推进工作，继续改进还是其他。</li>
+<li>进入Accept Edit Mode或者手动批准Claude的后续更改。</li>
+</ol>
+<div data-callout="" data-callout-type="tips">
+<div data-callout-title="">Tips</div>
+<div data-callout-body="">
+<p>如果你使用Spec Kit的话，我建议在 <code>/speckit.plan</code> 时才开启Plan Mode，否则会导致在Accept后他就自己推进实现代码去了，根本无法充分利用Spec Kit的各种特性拆分工作。</p>
+</div>
+</div>
+<h2 id="引用文件">引用文件</h2>
+<p>在使用Claude Code时，很多人习惯于直接将文件拖拽进终端，使用路径的方式进行引用。这样 Claude 需要自己决定是否调用工具去读取文件，且可能需要多轮交互（搜索 → 读取 → 分析）。而使用 <code>@/path/to/file</code> ，文件内容<strong>立即</strong>被读取并嵌入到你的提示中（如果是目录，则会给出目录内容列表），并且一步到位，Claude 直接看到内容。所以对于文本内容，若文本量在合理范围内直接 <code>@</code> 是最好的。</p>
+<h2 id="git-worktree">Git worktree</h2>
+<p>假设你需要同时处理多个任务，并在 Claude Code 实例之间完全隔离代码，Git worktree是你最好的选择。</p>
+<h3 id="什么是git-worktree">什么是Git worktree</h3>
+<p>Git worktree 允许你<strong>从同一个仓库同时检出多个分支到不同的目录</strong>，每个目录都是一个
+独立的工作区。这意味着你<mark><strong>不再需要为了切换分支而 stash 或 commit手头未完成的工作</strong></mark>——只需 git worktree add ../feature-branchfeature-branch，就能在另一个目录里直接开始工作。所有 worktree 共享同一份 .git数据，不会产生额外的克隆开销。它特别<strong>适合需要同时在多个分支上开发、做代码对比、或者在长时间运行的构建过程中切到另一个分支继续工作的场景</strong>。</p>
+<div data-callout="" data-callout-type="tip">
+<div data-callout-title="">Tip</div>
+<div data-callout-body="">
+<p><a href="https://techblog.raksul.com/entry/2025/12/07/000000"><strong><code>这篇文章</code></strong></a> 对worktree的管理讲的很好，值得一看</p>
+</div>
+</div>
+<h3 id="创建新的-worktree"><strong>创建新的 worktree</strong></h3>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="shell"><code><div class="ec-line"><div class="code"><span style="--0:#616972"># 使用新分支创建新的 worktree</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">git</span><span style="--0:#24292E"> </span><span style="--0:#032F62">worktree</span><span style="--0:#24292E"> </span><span style="--0:#032F62">add</span><span style="--0:#24292E"> </span><span style="--0:#032F62">../project-feature-a</span><span style="--0:#24292E"> </span><span style="--0:#005CC5">-b</span><span style="--0:#24292E"> </span><span style="--0:#032F62">feature-a</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#616972"># 或使用现有分支创建 worktree</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">git</span><span style="--0:#24292E"> </span><span style="--0:#032F62">worktree</span><span style="--0:#24292E"> </span><span style="--0:#032F62">add</span><span style="--0:#24292E"> </span><span style="--0:#032F62">../project-bugfix</span><span style="--0:#24292E"> </span><span style="--0:#032F62">bugfix-123</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="git worktree add ../project-feature-a -b feature-agit worktree add ../project-bugfix bugfix-123"><div></div></button></div></figure></div>
+<h3 id="在每个-worktree-中运行-claude-code"><strong>在每个 worktree 中运行 Claude Code</strong></h3>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="shell"><code><div class="ec-line"><div class="code"><span style="--0:#616972"># 导航到您的 worktree</span></div></div><div class="ec-line"><div class="code"><span style="--0:#005CC5">cd</span><span style="--0:#24292E"> </span><span style="--0:#032F62">../project-feature-a</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#616972"># 在此隔离环境中运行 Claude Code</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">claude</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="cd ../project-feature-aclaude"><div></div></button></div></figure></div>
+<h3 id="在另一个-worktree-中运行-claude">在<strong>另一个 worktree 中运行 Claude</strong></h3>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="shell"><code><div class="ec-line"><div class="code"><span style="--0:#005CC5">cd</span><span style="--0:#24292E"> </span><span style="--0:#032F62">../project-bugfix</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">claude</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="cd ../project-bugfixclaude"><div></div></button></div></figure></div>
+<h3 id="管理你的worktree">管理你的worktree</h3>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="shell"><code><div class="ec-line"><div class="code"><span style="--0:#616972"># 列出所有 worktrees</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">git</span><span style="--0:#24292E"> </span><span style="--0:#032F62">worktree</span><span style="--0:#24292E"> </span><span style="--0:#032F62">list</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#616972"># 完成后删除 worktree</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">git</span><span style="--0:#24292E"> </span><span style="--0:#032F62">worktree</span><span style="--0:#24292E"> </span><span style="--0:#032F62">remove</span><span style="--0:#24292E"> </span><span style="--0:#032F62">../project-feature-a</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="git worktree listgit worktree remove ../project-feature-a"><div></div></button></div></figure></div>
+<div data-callout="" data-callout-type="tip">
+<div data-callout-title="">Tip</div>
+<div data-callout-body="">
+<p></p>
+<ul>
+<li>每个 worktree 都有自己的独立文件状态，非常适合并行 Claude Code 会话</li>
+<li>在一个 worktree 中所做的更改不会影响其他 worktree，防止 Claude 实例相互干扰</li>
+<li>所有 worktrees 共享相同的 Git 历史和远程连接</li>
+<li>对于长期运行的任务，您可以在一个 worktree 中让 Claude 工作，同时在另一个 worktree 中继续开发</li>
+<li>使用描述性目录名称来轻松识别每个 worktree 的任务</li>
+<li>记住根据您的项目设置在每个新 worktree 中初始化您的开发环境。</li>
+</ul>
+</div>
+</div>
+<h2 id="管理你的会话"><strong>管理你的会话</strong></h2>
+<p>对话是持久的和可逆的。利用这一点！</p>
+<h3 id="尽早且经常纠正方向">尽早且经常纠正方向</h3>
+<div data-callout="" data-callout-type="tip">
+<div data-callout-title="">Tip</div>
+<div data-callout-body="">
+<p>一旦你注意到 Claude 偏离轨道，立即纠正它。</p>
+</div>
+</div>
+<p>最好的结果来自紧密的反馈循环。虽然 Claude 有时会在第一次尝试时完美地解决问题，但快速纠正通常会更快地产生更好的解决方案。</p>
+<ul>
+<li><strong><code>Esc</code></strong>：使用 <strong><code>Esc</code></strong> 键停止 Claude 的中途操作。上下文被保留，所以你可以重定向。</li>
+<li><strong><code>Esc + Esc</code></strong> <strong>或</strong> <strong><code>/rewind</code></strong>：按 <strong><code>Esc</code></strong> 两次或运行 <strong><code>/rewind</code></strong> 打开 rewind 菜单并恢复之前的对话和代码状态。</li>
+<li><strong><code>"撤销那个"</code></strong>：让 Claude 恢复其更改。</li>
+<li><strong><code>/clear</code></strong>：重置不相关任务之间的上下文。具有无关上下文的长会话可能会降低性能。</li>
+</ul>
+<p>如果你在一个会话中对同一问题<mark><strong>纠正了 Claude 两次以上</strong></mark>，上下文会被失败的方法污染。运行</p>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="plain"><code><div class="ec-line"><div class="code"><span style="--0:#24292e">/clear</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="/clear"><div></div></button></div></figure></div>
+<p>并使用更具体的提示重新开始，该提示包含你学到的东西。具有更好提示的干净会话几乎总是优于具有累积更正的长会话。</p>
+<h3 id="积极管理上下文">积极管理上下文</h3>
+<div data-callout="" data-callout-type="tip">
+<div data-callout-title="">Tip</div>
+<div data-callout-body="">
+<p>在不相关的任务之间频繁运行 <strong><code>/clear</code></strong> 以重置上下文。</p>
+</div>
+</div>
+<p>当你接近上下文限制时，Claude Code 会自动压缩对话历史，这保留了重要的代码和决策，同时释放空间。在长会话中，Claude 的 context window 可能会被无关的对话、文件内容和命令填满。这可能会降低性能，有时会分散 Claude 的注意力。</p>
+<ul>
+<li>在任务之间频繁使用 <strong><code>/clear</code></strong> 以完全重置 context window</li>
+<li>当自动压缩触发时，Claude 总结最重要的内容，包括代码模式、文件状态和关键决策</li>
+<li>为了更好地控制，运行 <strong><code>/compact &#x3C;instructions></code></strong>，如 <strong><code>/compact Focus on the API changes</code></strong></li>
+<li>在 CLAUDE.md 中自定义压缩行为，使用像 <strong><code>"When compacting, always preserve the full list of modified files and any test commands"</code></strong> 这样的指令，以确保关键上下文在总结中幸存</li>
+</ul>
+<h3 id="使用-subagents-进行调查">使用 subagents 进行调查</h3>
+<p>由于上下文是你的基本约束，subagents 是最强大的可用工具之一。当 Claude 研究代码库时，它读取许多文件，所有这些都会消耗你的上下文。Subagents 在单独的 context windows 中运行并报告摘要：</p>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="shell"><code><div class="ec-line"><div class="code"><span style="--0:#6F42C1">使用</span><span style="--0:#24292E"> </span><span style="--0:#032F62">subagents</span><span style="--0:#24292E"> </span><span style="--0:#032F62">去调研这个系统的具体实现，去确定我们是否有可复用代码。</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="使用 subagents 去调研这个系统的具体实现，去确定我们是否有可复用代码。"><div></div></button></div></figure></div>
+<p>subagent 探索代码库、读取相关文件并报告发现，所有这些都不会使你的主对话变得混乱。</p>
+<h2 id="hooks配置与使用">Hooks配置与使用</h2>
+<p>Hooks 是用户自定义的 shell 命令（或 HTTP 端点、LLM Prompt），在 Claude Code 生命周期的特定节点<strong>自动触发执行</strong>。Prompt 是”建议”，但 Hooks 是”保证”——每次匹配的事件发生时，它们都会必然执行。</p>
+<div data-callout="" data-callout-type="tip">
+<div data-callout-title="">Prompt 适合引导 Claude 的行为，但 Hooks 适合<strong>强制执行</strong>你的规则。代码格式化、安全策略、测试运行——这些不应该依赖模型”记住”，而应该用 Hooks 确保万无一失。</div>
+</div>
+<h3 id="核心事件类型">核心事件类型</h3>
+<p>Hooks 支持多种生命周期事件，以下是最常用的几种：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>事件</th><th>触发时机</th><th>典型用途</th></tr></thead><tbody><tr><td><code>PreToolUse</code></td><td>工具执行<strong>前</strong></td><td>拦截危险操作、阻止写入敏感文件</td></tr><tr><td><code>PostToolUse</code></td><td>工具执行<strong>后</strong></td><td>自动格式化、运行 lint、自动提交</td></tr><tr><td><code>Notification</code></td><td>Claude 发出通知时</td><td>播放提示音、发送 Slack 消息</td></tr><tr><td><code>Stop</code></td><td>Claude 完成响应时</td><td>运行测试、提交代码、清理环境</td></tr><tr><td><code>SessionStart</code></td><td>会话启动时</td><td>加载上下文、注入 checklist</td></tr><tr><td><code>SessionEnd</code></td><td>会话结束时</td><td>日志记录、环境清理</td></tr><tr><td><code>UserPromptSubmit</code></td><td>用户提交 prompt 前</td><td>验证或增强用户输入</td></tr><tr><td><code>PreCompact</code></td><td>上下文压缩前</td><td>备份对话记录</td></tr><tr><td><code>SubagentStop</code></td><td>subagent 完成时</td><td>确保子任务质量</td></tr></tbody></table>
+<h3 id="配置方式">配置方式</h3>
+<p>Hooks 在 settings 文件中配置，有三个层级：</p>
+<ul>
+<li><code>~/.claude/settings.json</code> — 用户级（全局生效）</li>
+<li><code>.claude/settings.json</code> — 项目级（提交到 Git）</li>
+<li><code>.claude/settings.local.json</code> — 本地项目级（不提交）</li>
+</ul>
+<p>你也可以直接在 Claude Code 中输入 <code>/hooks</code> 打开交互式管理器。</p>
+<h3 id="实用示例">实用示例</h3>
+<h3 id="1-编辑后自动格式化">1. 编辑后自动格式化</h3>
+<p>每次 Claude 编辑或创建文件后，自动运行 Prettier：</p>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#24292E">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#005CC5">"hooks"</span><span style="--0:#24292E">: {</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#005CC5">"PostToolUse"</span><span style="--0:#24292E">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">      </span></span><span style="--0:#24292E">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#005CC5">"matcher"</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"Edit|MultiEdit|Write"</span><span style="--0:#24292E">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#005CC5">"hooks"</span><span style="--0:#24292E">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">          </span></span><span style="--0:#24292E">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#005CC5">"type"</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"command"</span><span style="--0:#24292E">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#005CC5">"command"</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"npx prettier --write </span><span style="--0:#005CC5">\"</span><span style="--0:#032F62">$CLAUDE_FILE_PATHS</span><span style="--0:#005CC5">\"</span><span style="--0:#032F62"> 2>/dev/null || true"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">          </span></span><span style="--0:#24292E">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">        </span></span><span style="--0:#24292E">]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">      </span></span><span style="--0:#24292E">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">    </span></span><span style="--0:#24292E">]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">  </span></span><span style="--0:#24292E">}</span></div></div><div class="ec-line"><div class="code"><span style="--0:#24292E">}</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;hooks&#x22;: {    &#x22;PostToolUse&#x22;: [      {        &#x22;matcher&#x22;: &#x22;Edit|MultiEdit|Write&#x22;,        &#x22;hooks&#x22;: [          {            &#x22;type&#x22;: &#x22;command&#x22;,            &#x22;command&#x22;: &#x22;npx prettier --write \&#x22;$CLAUDE_FILE_PATHS\&#x22; 2>/dev/null || true&#x22;          }        ]      }    ]  }}"><div></div></button></div></figure></div>
+<h3 id="2-阻止修改敏感文件">2. 阻止修改敏感文件</h3>
+<p>防止 Claude 写入 <code>.env</code>、生产配置或 <code>.git</code> 目录：</p>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#24292E">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#005CC5">"hooks"</span><span style="--0:#24292E">: {</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#005CC5">"PreToolUse"</span><span style="--0:#24292E">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">      </span></span><span style="--0:#24292E">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#005CC5">"matcher"</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"Edit|MultiEdit|Write"</span><span style="--0:#24292E">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#005CC5">"hooks"</span><span style="--0:#24292E">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">          </span></span><span style="--0:#24292E">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#005CC5">"type"</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"command"</span><span style="--0:#24292E">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#005CC5">"command"</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"echo '{</span><span style="--0:#005CC5">\"</span><span style="--0:#032F62">tool_input</span><span style="--0:#005CC5">\"</span><span style="--0:#032F62">:{</span><span style="--0:#005CC5">\"</span><span style="--0:#032F62">file_path</span><span style="--0:#005CC5">\"</span><span style="--0:#032F62">:</span><span style="--0:#005CC5">\"</span><span style="--0:#032F62">'</span><span style="--0:#005CC5">\"</span><span style="--0:#032F62">$CLAUDE_FILE_PATH</span><span style="--0:#005CC5">\"</span><span style="--0:#032F62">'</span><span style="--0:#005CC5">\"</span><span style="--0:#032F62">}}' | python3 -c </span><span style="--0:#005CC5">\"</span><span style="--0:#032F62">import sys,json; d=json.load(sys.stdin); p=d['tool_input']['file_path']; exit(2 if any(x in p for x in ['.env','.git/','production']) else 0)</span><span style="--0:#005CC5">\"</span><span style="--0:#032F62">"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">          </span></span><span style="--0:#24292E">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">        </span></span><span style="--0:#24292E">]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">      </span></span><span style="--0:#24292E">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">    </span></span><span style="--0:#24292E">]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">  </span></span><span style="--0:#24292E">}</span></div></div><div class="ec-line"><div class="code"><span style="--0:#24292E">}</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;hooks&#x22;: {    &#x22;PreToolUse&#x22;: [      {        &#x22;matcher&#x22;: &#x22;Edit|MultiEdit|Write&#x22;,        &#x22;hooks&#x22;: [          {            &#x22;type&#x22;: &#x22;command&#x22;,            &#x22;command&#x22;: &#x22;echo &#x27;{\&#x22;tool_input\&#x22;:{\&#x22;file_path\&#x22;:\&#x22;&#x27;\&#x22;$CLAUDE_FILE_PATH\&#x22;&#x27;\&#x22;}}&#x27; | python3 -c \&#x22;import sys,json; d=json.load(sys.stdin); p=d[&#x27;tool_input&#x27;][&#x27;file_path&#x27;]; exit(2 if any(x in p for x in [&#x27;.env&#x27;,&#x27;.git/&#x27;,&#x27;production&#x27;]) else 0)\&#x22;&#x22;          }        ]      }    ]  }}"><div></div></button></div></figure></div>
+<div data-callout="" data-callout-type="note">
+<div data-callout-title="">退出码的含义很重要：</div>
+<div data-callout-body="">
+<p></p>
+<ul>
+<li><code>exit 0</code>：允许操作继续</li>
+<li><code>exit 2</code>：<strong>阻止</strong>操作并向 Claude 显示 stderr 信息</li>
+</ul>
+</div>
+</div>
+<h3 id="3-会话启动时自动加载上下文">3. 会话启动时自动加载上下文</h3>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#24292E">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#005CC5">"hooks"</span><span style="--0:#24292E">: {</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#005CC5">"SessionStart"</span><span style="--0:#24292E">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">      </span></span><span style="--0:#24292E">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#005CC5">"hooks"</span><span style="--0:#24292E">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">          </span></span><span style="--0:#24292E">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#005CC5">"type"</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"command"</span><span style="--0:#24292E">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#005CC5">"command"</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"echo '最近的 Git 日志:' &#x26;&#x26; git log --oneline -5 &#x26;&#x26; echo '---' &#x26;&#x26; echo '当前分支:' &#x26;&#x26; git branch --show-current"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">          </span></span><span style="--0:#24292E">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">        </span></span><span style="--0:#24292E">]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">      </span></span><span style="--0:#24292E">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">    </span></span><span style="--0:#24292E">]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">  </span></span><span style="--0:#24292E">}</span></div></div><div class="ec-line"><div class="code"><span style="--0:#24292E">}</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;hooks&#x22;: {    &#x22;SessionStart&#x22;: [      {        &#x22;hooks&#x22;: [          {            &#x22;type&#x22;: &#x22;command&#x22;,            &#x22;command&#x22;: &#x22;echo &#x27;最近的 Git 日志:&#x27; &#x26;&#x26; git log --oneline -5 &#x26;&#x26; echo &#x27;---&#x27; &#x26;&#x26; echo &#x27;当前分支:&#x27; &#x26;&#x26; git branch --show-current&#x22;          }        ]      }    ]  }}"><div></div></button></div></figure></div>
+<h3 id="4-claude-完成任务后自动运行测试">4. Claude 完成任务后自动运行测试</h3>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#24292E">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#005CC5">"hooks"</span><span style="--0:#24292E">: {</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#005CC5">"Stop"</span><span style="--0:#24292E">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">      </span></span><span style="--0:#24292E">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#005CC5">"matcher"</span><span style="--0:#24292E">: </span><span style="--0:#032F62">""</span><span style="--0:#24292E">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#005CC5">"hooks"</span><span style="--0:#24292E">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">          </span></span><span style="--0:#24292E">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#005CC5">"type"</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"command"</span><span style="--0:#24292E">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#005CC5">"command"</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"npm test 2>&#x26;1 || echo 'Tests failed! Please fix before continuing.' >&#x26;2"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">          </span></span><span style="--0:#24292E">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">        </span></span><span style="--0:#24292E">]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">      </span></span><span style="--0:#24292E">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">    </span></span><span style="--0:#24292E">]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">  </span></span><span style="--0:#24292E">}</span></div></div><div class="ec-line"><div class="code"><span style="--0:#24292E">}</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;hooks&#x22;: {    &#x22;Stop&#x22;: [      {        &#x22;matcher&#x22;: &#x22;&#x22;,        &#x22;hooks&#x22;: [          {            &#x22;type&#x22;: &#x22;command&#x22;,            &#x22;command&#x22;: &#x22;npm test 2>&#x26;1 || echo &#x27;Tests failed! Please fix before continuing.&#x27; >&#x26;2&#x22;          }        ]      }    ]  }}"><div></div></button></div></figure></div>
+<h3 id="5-搭配-gitbutler-自动管理分支与提交">5. 搭配 GitButler 自动管理分支与提交</h3>
+<p>如果你使用 GitButler，可以让 Hooks 自动管理每个 Claude 会话的代码变更，自动隔离到独立分支：</p>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#24292E">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#005CC5">"hooks"</span><span style="--0:#24292E">: {</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#005CC5">"PreToolUse"</span><span style="--0:#24292E">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">      </span></span><span style="--0:#24292E">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#005CC5">"matcher"</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"Edit|MultiEdit|Write"</span><span style="--0:#24292E">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#005CC5">"hooks"</span><span style="--0:#24292E">: [{ </span><span style="--0:#005CC5">"type"</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"command"</span><span style="--0:#24292E">, </span><span style="--0:#005CC5">"command"</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"but claude pre-tool"</span><span style="--0:#24292E"> }]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">      </span></span><span style="--0:#24292E">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">    </span></span><span style="--0:#24292E">],</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#005CC5">"PostToolUse"</span><span style="--0:#24292E">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">      </span></span><span style="--0:#24292E">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#005CC5">"matcher"</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"Edit|MultiEdit|Write"</span><span style="--0:#24292E">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#005CC5">"hooks"</span><span style="--0:#24292E">: [{ </span><span style="--0:#005CC5">"type"</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"command"</span><span style="--0:#24292E">, </span><span style="--0:#005CC5">"command"</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"but claude post-tool"</span><span style="--0:#24292E"> }]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">      </span></span><span style="--0:#24292E">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">    </span></span><span style="--0:#24292E">],</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#005CC5">"Stop"</span><span style="--0:#24292E">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">      </span></span><span style="--0:#24292E">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#005CC5">"matcher"</span><span style="--0:#24292E">: </span><span style="--0:#032F62">""</span><span style="--0:#24292E">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#005CC5">"hooks"</span><span style="--0:#24292E">: [{ </span><span style="--0:#005CC5">"type"</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"command"</span><span style="--0:#24292E">, </span><span style="--0:#005CC5">"command"</span><span style="--0:#24292E">: </span><span style="--0:#032F62">"but claude stop"</span><span style="--0:#24292E"> }]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">      </span></span><span style="--0:#24292E">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">    </span></span><span style="--0:#24292E">]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#24292E">  </span></span><span style="--0:#24292E">}</span></div></div><div class="ec-line"><div class="code"><span style="--0:#24292E">}</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;hooks&#x22;: {    &#x22;PreToolUse&#x22;: [      {        &#x22;matcher&#x22;: &#x22;Edit|MultiEdit|Write&#x22;,        &#x22;hooks&#x22;: [{ &#x22;type&#x22;: &#x22;command&#x22;, &#x22;command&#x22;: &#x22;but claude pre-tool&#x22; }]      }    ],    &#x22;PostToolUse&#x22;: [      {        &#x22;matcher&#x22;: &#x22;Edit|MultiEdit|Write&#x22;,        &#x22;hooks&#x22;: [{ &#x22;type&#x22;: &#x22;command&#x22;, &#x22;command&#x22;: &#x22;but claude post-tool&#x22; }]      }    ],    &#x22;Stop&#x22;: [      {        &#x22;matcher&#x22;: &#x22;&#x22;,        &#x22;hooks&#x22;: [{ &#x22;type&#x22;: &#x22;command&#x22;, &#x22;command&#x22;: &#x22;but claude stop&#x22; }]      }    ]  }}"><div></div></button></div></figure></div>
+<h3 id="调试与注意事项">调试与注意事项</h3>
+<ul>
+<li><strong>手动测试</strong>：在配置前先手动验证你的 hook 脚本：
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#005CC5">echo</span><span style="--0:#24292E"> </span><span style="--0:#032F62">'{"tool_name":"test"}'</span><span style="--0:#24292E"> </span><span style="--0:#BF3441">|</span><span style="--0:#24292E"> </span><span style="--0:#6F42C1">python3</span><span style="--0:#24292E"> </span><span style="--0:#032F62">your_hook.py</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="echo &#x27;{&#x22;tool_name&#x22;:&#x22;test&#x22;}&#x27; | python3 your_hook.py"><div></div></button></div></figure></div>
+</li>
+<li><strong>环境变量</strong>：Hooks 运行时可以访问 <code>$CLAUDE_PROJECT_DIR</code>（项目根目录）、<code>$CLAUDE_FILE_PATHS</code> 等环境变量</li>
+<li><strong>并行执行</strong>：所有匹配的 hooks 并行运行，相同的 handler 会自动去重</li>
+<li><strong>禁用所有 hooks</strong>：在 settings 中设置 <code>"disableAllHooks": true</code> 或在 <code>/hooks</code> 菜单中切换</li>
+<li><strong>安全提醒</strong>：Hooks 会在你的机器上执行任意命令，不要随意复制不信任的 hook 脚本</li>
+</ul>
+<div data-callout="" data-callout-type="tip">
+<div data-callout-title="">你其实不需要手动写所有 hooks。直接把 <a href="https://code.claude.com/docs/zh-CN/hooks"><strong><code>Hooks 官方文档</code></strong></a> 丢给 Claude Code，描述你想要的自动化行为，让它帮你生成配置和脚本。</div>
+</div>
+<h2 id="spec-kit规格驱动开发">Spec Kit：规格驱动开发</h2>
+<p>Spec Kit 是 GitHub 开源的规格驱动开发工具包，它的核心思想是：<strong>先写规格，再写代码</strong>。不是随手丢个 prompt 就让 AI 开始生成代码，而是通过结构化的流程把需求、架构、任务拆解清楚，然后才进入实现阶段。</p>
+<h3 id="为什么需要-spec-kit">为什么需要 Spec Kit</h3>
+<p>传统的 Vibe Coding 模式下，你给 Claude 一句话需求，它就开始写代码。这对于小功能没问题，但当项目复杂到一定程度：</p>
+<ul>
+<li>需求会漂移，Claude 对”你到底要什么”理解不一致</li>
+<li>架构决策散落在对话中，无法追溯</li>
+<li>测试标准和质量检查可能被跳过</li>
+<li>多次迭代后上下文混乱，代码方向越来越偏</li>
+</ul>
+<p>Spec Kit 通过强制你在写代码前先想清楚来解决这些问题。它让规格成为开发的中心——驱动实现、检查清单和任务分解。</p>
+<h3 id="安装">安装</h3>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#616972"># 安装 Specify CLI（需要 Python 和 uv）</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">uv</span><span style="--0:#24292E"> </span><span style="--0:#032F62">tool</span><span style="--0:#24292E"> </span><span style="--0:#032F62">install</span><span style="--0:#24292E"> </span><span style="--0:#032F62">specify-cli</span><span style="--0:#24292E"> </span><span style="--0:#005CC5">--from</span><span style="--0:#24292E"> </span><span style="--0:#032F62">git+https://github.com/github/spec-kit.git</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#616972"># 创建新项目（指定 Claude Code 作为 AI 后端）</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">specify</span><span style="--0:#24292E"> </span><span style="--0:#032F62">init</span><span style="--0:#24292E"> </span><span style="--0:#032F62">my-project</span><span style="--0:#24292E"> </span><span style="--0:#005CC5">--ai</span><span style="--0:#24292E"> </span><span style="--0:#032F62">claude</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#616972"># 或在现有项目中初始化</span></div></div><div class="ec-line"><div class="code"><span style="--0:#005CC5">cd</span><span style="--0:#24292E"> </span><span style="--0:#032F62">your-existing-project</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">specify</span><span style="--0:#24292E"> </span><span style="--0:#032F62">init</span><span style="--0:#24292E"> </span><span style="--0:#005CC5">--here</span><span style="--0:#24292E"> </span><span style="--0:#005CC5">--ai</span><span style="--0:#24292E"> </span><span style="--0:#032F62">claude</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#616972"># 验证安装</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">specify</span><span style="--0:#24292E"> </span><span style="--0:#032F62">check</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="uv tool install specify-cli --from git+https://github.com/github/spec-kit.gitspecify init my-project --ai claudecd your-existing-projectspecify init --here --ai claudespecify check"><div></div></button></div></figure></div>
+<h3 id="核心工作流程">核心工作流程</h3>
+<p>Spec Kit 提供了五个核心斜线命令，构成一条完整的开发流水线：</p>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="plain"><code><div class="ec-line"><div class="code"><span style="--0:#24292e">/speckit.constitution → /speckit.specify → /speckit.plan → /speckit.tasks → /speckit.implement</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="/speckit.constitution → /speckit.specify → /speckit.plan → /speckit.tasks → /speckit.implement"><div></div></button></div></figure></div>
+<h3 id="phase-0speckitconstitution-建立项目宪法">Phase 0：<code>/speckit.constitution</code> — 建立项目宪法</h3>
+<p>定义项目的核心原则和开发准则，比如代码质量标准、测试要求、性能预算等。</p>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#BF3441">></span><span style="--0:#24292E"> /speckit.constitution 专注于代码质量、测试覆盖、用户体验一致性和性能要求</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="> /speckit.constitution 专注于代码质量、测试覆盖、用户体验一致性和性能要求"><div></div></button></div></figure></div>
+<div data-callout="" data-callout-type="warning">
+<div data-callout-title="">Constitution 的严格程度会直接影响后续所有阶段。如果你设定了企业级的测试标准和性能预算，后续的计划和实现都会变得很复杂。根据项目规模合理设定。</div>
+</div>
+<h3 id="phase-1speckitspecify-撰写详细规格">Phase 1：<code>/speckit.specify</code> — 撰写详细规格</h3>
+<p>描述你要构建的内容，包括需求、用户故事和验收标准。</p>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#BF3441">></span><span style="--0:#24292E"> /speckit.specify 构建一个任务管理应用，支持用户认证、实时协作和移动端适配</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="> /speckit.specify 构建一个任务管理应用，支持用户认证、实时协作和移动端适配"><div></div></button></div></figure></div>
+<p>这一步会生成 <code>spec.md</code> 文件，包含详细的功能需求、数据实体和成功标准。</p>
+<h3 id="phase-15可选speckitclarify-澄清模糊需求">Phase 1.5（可选）：<code>/speckit.clarify</code> — 澄清模糊需求</h3>
+<p>如果规格中有模糊的地方，用这个命令让 Claude 进行结构化提问：</p>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#BF3441">></span><span style="--0:#24292E"> /speckit.clarify 每个示例项目应包含 5-15 个随机分布在不同完成状态的任务，确保每个阶段至少有一个任务</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="> /speckit.clarify 每个示例项目应包含 5-15 个随机分布在不同完成状态的任务，确保每个阶段至少有一个任务"><div></div></button></div></figure></div>
+<h3 id="phase-2speckitplan-制定技术计划">Phase 2：<code>/speckit.plan</code> — 制定技术计划</h3>
+<p>提供技术方向，让 Claude 生成详细的实施计划：</p>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#BF3441">></span><span style="--0:#24292E"> /speckit.plan 使用 React + Vite 构建前端，Tailwind CSS 做样式，SQLite 做本地存储</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="> /speckit.plan 使用 React + Vite 构建前端，Tailwind CSS 做样式，SQLite 做本地存储"><div></div></button></div></figure></div>
+<p>输出包括技术选型、数据模型设计、API 契约、项目结构等。</p>
+<h3 id="phase-3speckittasks-生成任务清单">Phase 3：<code>/speckit.tasks</code> — 生成任务清单</h3>
+<p>基于计划自动生成结构化、可执行的任务列表，按依赖顺序排列。</p>
+<h3 id="phase-4speckitimplement-执行实现">Phase 4：<code>/speckit.implement</code> — 执行实现</h3>
+<p>按照任务清单开始编码，遵循 TDD 原则（先写测试，再写实现）。</p>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#BF3441">></span><span style="--0:#24292E"> /speckit.implement</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="> /speckit.implement"><div></div></button></div></figure></div>
+<h3 id="辅助命令">辅助命令</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>命令</th><th>用途</th></tr></thead><tbody><tr><td><code>/speckit.clarify</code></td><td>规划前澄清模糊需求</td></tr><tr><td><code>/speckit.analyze</code></td><td>检查各文件之间的一致性</td></tr><tr><td><code>/speckit.checklist</code></td><td>生成品质检查清单</td></tr></tbody></table>
+<h3 id="使用-subagent-实现全自动流水线">使用 Subagent 实现全自动流水线</h3>
+<p>如果你想让 Claude Code 一句话跑完整个流程，可以搭配 subagent 使用。在 <code>.claude/agents/</code> 下创建一个 spec-kit agent，让它自动依次执行各个 <code>/speckit.*</code> 命令：</p>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="yaml"><code><div class="ec-line"><div class="code"><span style="--0:#6F42C1">---</span></div></div><div class="ec-line"><div class="code"><span style="--0:#1E7734">name</span><span style="--0:#24292E">: </span><span style="--0:#032F62">spec-kit-feature-agent</span></div></div><div class="ec-line"><div class="code"><span style="--0:#1E7734">description</span><span style="--0:#24292E">: </span><span style="--0:#032F62">使用 spec-kit 全流程完成一个功能需求</span></div></div><div class="ec-line"><div class="code"><span style="--0:#6F42C1">---</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="---name: spec-kit-feature-agentdescription: 使用 spec-kit 全流程完成一个功能需求---"><div></div></button></div></figure></div>
+<p>这样，你只需一句话：</p>
+<div class="expressive-code"><figure class="frame is-terminal"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#BF3441">></span><span style="--0:#24292E"> 使用 spec-kit，完成一个用户评论系统的需求</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="> 使用 spec-kit，完成一个用户评论系统的需求"><div></div></button></div></figure></div>
+<p>Claude 就会自动走完 constitution → specify → plan → tasks → implement 的完整流程。</p>
+<h3 id="何时使用--不使用-spec-kit">何时使用 / 不使用 Spec Kit</h3>
+<p><strong>适合使用的场景：</strong></p>
+<ul>
+<li>从零开始构建新项目或添加重大功能</li>
+<li>需求复杂、涉及多个模块的长期项目</li>
+<li>团队协作，需要统一的规格文档</li>
+<li>你希望 Claude 有序地、端到端地完成工作</li>
+</ul>
+<p><strong>不适合使用的场景：</strong></p>
+<ul>
+<li>修复一个小 bug</li>
+<li>微调一个小功能</li>
+<li>快速原型验证</li>
+<li>项目已经很成熟，只需要局部改动</li>
+</ul>
+<div data-callout="" data-callout-type="tip">
+<div data-callout-title="">Spec Kit 和 Plan Mode 的配合：建议在 <code>/speckit.plan</code> 阶段使用 Plan Mode，这样 Claude 会充分调研后给出计划而不会直接冲进去写代码。等计划确认后再退出 Plan Mode 进入实现。</div>
+</div>
+<h2 id="最后的一些建议">最后的一些建议</h2>
+<h3 id="claudemd-是你的项目记忆">CLAUDE.md 是你的项目记忆</h3>
+<p><code>CLAUDE.md</code> 文件会在每次会话开始时自动加载到 Claude 的上下文中。把你的项目约定、代码规范、常用命令、架构决策都写在里面：</p>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#005CC5;--0fw:bold"># 项目概览</span></div></div><div class="ec-line"><div class="code"><span style="--0:#005CC5;--0fw:bold">## 架构</span></div></div><div class="ec-line"><div class="code"><span style="--0:#AE4B07">-</span><span style="--0:#24292E"> 前端: Next.js 14 + TypeScript</span></div></div><div class="ec-line"><div class="code"><span style="--0:#AE4B07">-</span><span style="--0:#24292E"> 后端: Node.js + Express</span></div></div><div class="ec-line"><div class="code"><span style="--0:#AE4B07">-</span><span style="--0:#24292E"> 数据库: PostgreSQL + Prisma ORM</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#005CC5;--0fw:bold">## 常用命令</span></div></div><div class="ec-line"><div class="code"><span style="--0:#AE4B07">-</span><span style="--0:#24292E"> </span><span style="--0:#005CC5">`npm run dev`</span><span style="--0:#24292E"> — 启动开发服务器</span></div></div><div class="ec-line"><div class="code"><span style="--0:#AE4B07">-</span><span style="--0:#24292E"> </span><span style="--0:#005CC5">`npm run test`</span><span style="--0:#24292E"> — 运行测试</span></div></div><div class="ec-line"><div class="code"><span style="--0:#AE4B07">-</span><span style="--0:#24292E"> </span><span style="--0:#005CC5">`npm run lint`</span><span style="--0:#24292E"> — 代码检查</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#005CC5;--0fw:bold">## 代码规范</span></div></div><div class="ec-line"><div class="code"><span style="--0:#AE4B07">-</span><span style="--0:#24292E"> 使用 TypeScript strict mode</span></div></div><div class="ec-line"><div class="code"><span style="--0:#AE4B07">-</span><span style="--0:#24292E"> 组件不超过 200 行</span></div></div><div class="ec-line"><div class="code"><span style="--0:#AE4B07">-</span><span style="--0:#24292E"> 公共函数添加 JSDoc 注释</span></div></div><div class="ec-line"><div class="code"><span style="--0:#AE4B07">-</span><span style="--0:#24292E"> 优先使用成熟的库，不要自己造轮子</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#005CC5;--0fw:bold">## 压缩策略</span></div></div><div class="ec-line"><div class="code"><span style="--0:#24292E">当 compacting 时，始终保留已修改文件的完整列表和所有测试命令。</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="# 项目概览## 架构- 前端: Next.js 14 + TypeScript- 后端: Node.js + Express- 数据库: PostgreSQL + Prisma ORM## 常用命令- &#x60;npm run dev&#x60; — 启动开发服务器- &#x60;npm run test&#x60; — 运行测试- &#x60;npm run lint&#x60; — 代码检查## 代码规范- 使用 TypeScript strict mode- 组件不超过 200 行- 公共函数添加 JSDoc 注释- 优先使用成熟的库，不要自己造轮子## 压缩策略当 compacting 时，始终保留已修改文件的完整列表和所有测试命令。"><div></div></button></div></figure></div>
+<h3 id="权限管理">权限管理</h3>
+<p>Claude Code 在执行需要写入或运行命令时会请求权限。根据你的信任程度选择：</p>
+<ul>
+<li><strong>逐个批准</strong>：默认模式，最安全</li>
+<li><strong>Accept Edit Mode</strong>：自动批准编辑但保留对命令的控制，适合你信任 Claude 的修改方向时</li>
+<li><strong><code>-dangerously-skip-permissions</code></strong>：跳过所有权限提示，仅在自动化和 CI/CD 场景下使用</li>
+</ul>
+<h3 id="组合使用的最佳实践">组合使用的最佳实践</h3>
+<p>将本文介绍的各种工具组合起来，一个高效的开发流程可能是这样的：</p>
+<ol>
+<li><strong>Git worktree</strong> 隔离工作环境 → 每个功能一个目录</li>
+<li><strong>CLAUDE.md</strong> 提供项目上下文 → Claude 一上来就知道该怎么做</li>
+<li><strong>Spec Kit</strong> 驱动复杂需求 → 先规格后代码</li>
+<li><strong>Plan Mode</strong> 辅助设计阶段 → 充分调研再动手</li>
+<li><strong>Hooks</strong> 保障代码质量 → 自动格式化、自动测试、阻止危险操作</li>
+<li><strong>Subagents</strong> 处理调研任务 → 不污染主会话上下文</li>
+<li><strong>频繁</strong> <strong><code>/clear</code></strong> 保持干净上下文 → 干净上下文 > 长对话</li>
+</ol>  </article> </div> </main>  </div> </main> <!-- Footer --> <footer class="flex flex-col w-full max-w-7xl mb-4 justify-center align-center pt-4 border-t print:hidden"> <div class="flex flex-col text-nowrap md:flex-row mx-auto flex w-full items-start md:items-center justify-between align-end"> <span class="text-sm font-normal">写于2026年3月1日</span> <div class="mb-4 mt-4 flex w-full flex-col items-start justify-center md:max-w-[40%] md:flex-row md:gap-8 print:hidden"> <a href="/posts/rats-and-bandit" class="block w-full truncate text-sm font-normal text-black underline hover:text-red-700 md:w-auto">
+前：《短视频：大鼠与老虎机的双向奔赴》 </a> <a href="/posts/discuss" class="block w-full truncate text-sm font-normal text-black underline hover:text-red-700 md:w-auto">
+后：《留言板》 </a> </div> <div class="flex flex-col text-sm print:hidden"> <a class="text-nowrap font-normal text-black" href="https://github.com/HaleyCH/chenblog">
+由<span class="text-red-700">陈</span>设计
+</a> </div> </div> <!-- 将备案号居中 --> <div class="mb-[10px] mt-[50px] flex w-full justify-center print:hidden"> <a class="text-sm text-gray-300" href="https://beian.miit.gov.cn/">浙ICP备2022026813号-1</a> </div> </footer> <script>
+  const PDF_JS_SRC =
+    "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js";
+  const PDF_WORKER_SRC =
+    "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+
+  let pdfJsPromise;
+  let mutationObserver;
+  let observedArticle;
+
+  function loadPdfJs() {
+    if (window.pdfjsLib) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER_SRC;
+      return Promise.resolve(window.pdfjsLib);
+    }
+    if (pdfJsPromise) return pdfJsPromise;
+    pdfJsPromise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = PDF_JS_SRC;
+      script.async = true;
+      script.onload = () => {
+        if (!window.pdfjsLib) {
+          reject(new Error("PDF.js loaded but pdfjsLib is missing."));
+          return;
+        }
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER_SRC;
+        resolve(window.pdfjsLib);
+      };
+      script.onerror = () => reject(new Error("Failed to load PDF.js."));
+      document.head.appendChild(script);
+    });
+    return pdfJsPromise;
+  }
+
+  function collectPdfEmbeds(root) {
+    const containers = [];
+    if (root?.nodeType === 1) {
+      if (root.matches(".pdf-embed[data-pdf-url]")) {
+        containers.push(root);
+      }
+      containers.push(
+        ...root.querySelectorAll?.(".pdf-embed[data-pdf-url]"),
+      );
+    }
+    if (root === document) {
+      containers.push(...document.querySelectorAll(".pdf-embed[data-pdf-url]"));
+    }
+    return containers;
+  }
+
+  function preparePdfEmbed(container) {
+    if (container.dataset.pdfPrepared === "true") return;
+    container.dataset.pdfPrepared = "true";
+
+    const link = container.querySelector(".pdf-embed__link");
+    const caption = container.querySelector(".pdf-embed__caption");
+    const actions = document.createElement("div");
+    actions.className = "pdf-embed__actions";
+
+    if (link) {
+      actions.appendChild(link);
+    }
+
+    const loadButton = document.createElement("button");
+    loadButton.type = "button";
+    loadButton.className = "pdf-embed__button pdf-embed__load";
+    loadButton.textContent = "加载 PDF";
+    loadButton.addEventListener("click", () => {
+      if (container.dataset.pdfRendered === "loading") return;
+      loadButton.disabled = true;
+      loadButton.textContent = "加载中...";
+      renderPdf(container).finally(() => {
+        if (container.dataset.pdfRendered !== "true") {
+          loadButton.disabled = false;
+          loadButton.textContent = "加载 PDF";
+        }
+      });
+    });
+    actions.appendChild(loadButton);
+
+    if (caption) {
+      container.insertBefore(actions, caption);
+    } else {
+      container.appendChild(actions);
+    }
+  }
+
+  async function renderPdf(container) {
+    if (
+      container.dataset.pdfRendered === "true" ||
+      container.dataset.pdfRendered === "loading"
+    )
+      return;
+    const url = container.dataset.pdfUrl;
+    if (!url) return;
+
+    container.dataset.pdfRendered = "loading";
+    const fallbackHtml = container.innerHTML;
+    const fallbackLink = container.querySelector("a")?.cloneNode(true);
+    const fallbackCaption = container
+      .querySelector(".pdf-embed__caption")
+      ?.cloneNode(true);
+
+    let pdfjsLib;
+    try {
+      pdfjsLib = await loadPdfJs();
+    } catch (error) {
+      console.warn("[pdf] PDF.js load failed:", error);
+      container.dataset.pdfRendered = "error";
+      return;
+    }
+
+    try {
+      const loadingTask = pdfjsLib.getDocument({ url });
+      const pdf = await loadingTask.promise;
+      const toolbar = document.createElement("div");
+      toolbar.className = "pdf-embed__toolbar";
+      if (fallbackLink) toolbar.appendChild(fallbackLink);
+
+      const meta = document.createElement("span");
+      meta.className = "pdf-embed__meta";
+
+      const pager = document.createElement("div");
+      pager.className = "pdf-embed__pager";
+
+      const controls = document.createElement("div");
+      controls.className = "pdf-embed__controls";
+
+      const prevButton = document.createElement("button");
+      prevButton.type = "button";
+      prevButton.className = "pdf-embed__button";
+      prevButton.textContent = "Prev";
+      prevButton.setAttribute("aria-label", "Previous page");
+
+      const nextButton = document.createElement("button");
+      nextButton.type = "button";
+      nextButton.className = "pdf-embed__button";
+      nextButton.textContent = "Next";
+      nextButton.setAttribute("aria-label", "Next page");
+
+      controls.appendChild(prevButton);
+      controls.appendChild(nextButton);
+
+      pager.appendChild(meta);
+      pager.appendChild(controls);
+      toolbar.appendChild(pager);
+
+      const viewer = document.createElement("div");
+      viewer.className = "pdf-embed__viewer";
+      const pageWrapper = document.createElement("div");
+      pageWrapper.className = "pdf-embed__page";
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      if (!context) {
+        throw new Error("Canvas 2D context is not available.");
+      }
+      pageWrapper.appendChild(canvas);
+      viewer.appendChild(pageWrapper);
+
+      const dpr = window.devicePixelRatio || 1;
+      let currentPage = 1;
+      let rendering = false;
+      let pendingPage = null;
+
+      const restoreFallback = (error) => {
+        console.warn("[pdf] Failed to render PDF:", error);
+        container.dataset.pdfRendered = "error";
+        container.innerHTML = fallbackHtml;
+        container.dataset.pdfPrepared = "false";
+        preparePdfEmbed(container);
+      };
+
+      const updateButtons = () => {
+        prevButton.disabled = currentPage <= 1;
+        nextButton.disabled = currentPage >= pdf.numPages;
+        meta.textContent = `Page ${currentPage} / ${pdf.numPages}`;
+      };
+
+      const renderPage = async (pageNum) => {
+        if (rendering) {
+          pendingPage = pageNum;
+          return;
+        }
+        rendering = true;
+        try {
+          const page = await pdf.getPage(pageNum);
+          const viewport = page.getViewport({ scale: 1 });
+          const maxWidth = container.clientWidth || 640;
+          const scale = maxWidth / viewport.width;
+          const scaledViewport = page.getViewport({ scale: scale * dpr });
+          canvas.width = scaledViewport.width;
+          canvas.height = scaledViewport.height;
+          canvas.style.width = `${scaledViewport.width / dpr}px`;
+          canvas.style.height = `${scaledViewport.height / dpr}px`;
+
+          await page.render({ canvasContext: context, viewport: scaledViewport })
+            .promise;
+          currentPage = pageNum;
+          updateButtons();
+        } catch (error) {
+          restoreFallback(error);
+          return;
+        } finally {
+          rendering = false;
+        }
+
+        if (pendingPage !== null && pendingPage !== currentPage) {
+          const nextPage = pendingPage;
+          pendingPage = null;
+          await renderPage(nextPage);
+        } else {
+          pendingPage = null;
+        }
+      };
+
+      prevButton.addEventListener("click", () => {
+        if (currentPage > 1) {
+          renderPage(currentPage - 1);
+        }
+      });
+
+      nextButton.addEventListener("click", () => {
+        if (currentPage < pdf.numPages) {
+          renderPage(currentPage + 1);
+        }
+      });
+
+      await renderPage(1);
+      container.textContent = "";
+      container.appendChild(toolbar);
+      container.appendChild(viewer);
+      if (fallbackCaption) {
+        container.appendChild(fallbackCaption);
+      }
+
+      container.dataset.pdfRendered = "true";
+    } catch (error) {
+      container.dataset.pdfRendered = "error";
+      container.innerHTML = fallbackHtml;
+      container.dataset.pdfPrepared = "false";
+      preparePdfEmbed(container);
+    }
+  }
+
+  function setupPdfEmbeds() {
+    collectPdfEmbeds(document).forEach((container) => {
+      preparePdfEmbed(container);
+    });
+
+    const article = document.querySelector("#article");
+    if (!article) return;
+    if (observedArticle === article && mutationObserver) return;
+
+    mutationObserver?.disconnect();
+    mutationObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          collectPdfEmbeds(node).forEach((container) => {
+            preparePdfEmbed(container);
+          });
+        });
+      });
+    });
+
+    mutationObserver.observe(article, { childList: true, subtree: true });
+    observedArticle = article;
+  }
+
+  setupPdfEmbeds();
+  document.addEventListener("astro:after-swap", setupPdfEmbeds);
+</script> <script type="module" src="/_astro/ImageEnhancement.astro_astro_type_script_index_0_lang.D3ij_ksR.js"></script> </div> </body></html>
