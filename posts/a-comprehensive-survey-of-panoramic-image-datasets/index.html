@@ -1,0 +1,1090 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><!-- Baidu Analytics --><script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?07031aed06e0fa1f0bfe62119cd66c18";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script> <!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-J6S31LSNX8"></script> <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-J6S31LSNX8');
+</script> <!-- Busuanzi counter --><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png"><link rel="manifest" href="/static/site.webmanifest"><link rel="shortcut icon" href="/static/favicon.ico"><meta name="generator" content="Astro v5.16.4"><!-- Baidu verification --><meta name="baidu-site-verification" content="codeva-TE3aiPxcrm"><!-- Font preloads --><link rel="preload" href="/fonts/geist-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/geist-mono-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"></noscript><!-- Canonical URL --><link rel="canonical" href="https://hluvmiku.tech/posts/a-comprehensive-survey-of-panoramic-image-datasets/"><!-- Primary Meta Tags --><title>全景/360°/等距柱状投影图像数据集综合调研</title><meta name="title" content="全景/360°/等距柱状投影图像数据集综合调研"><meta name="description" content="全景图像已成为计算机视觉研究的重要数据形式，涵盖目标检测、语义分割等核心任务。调研系统梳理了50多个关键数据集，重点介绍了360°目标检测、语义分割、房间布局估计等领域的主要数据集及其特点。目标检测领域的核心数据集包括360-Indoor和PANDORA，语义分割方面则有Stanford2D3D和DensePASS等。未来趋势包括开放世界全景分割和全景视频理解，PANDORA的RBFoV标注体系对DETR架构的研究尤为重要。"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://hluvmiku.tech/posts/a-comprehensive-survey-of-panoramic-image-datasets/"><meta property="og:title" content="全景/360°/等距柱状投影图像数据集综合调研"><meta property="og:description" content="全景图像已成为计算机视觉研究的重要数据形式，涵盖目标检测、语义分割等核心任务。调研系统梳理了50多个关键数据集，重点介绍了360°目标检测、语义分割、房间布局估计等领域的主要数据集及其特点。目标检测领域的核心数据集包括360-Indoor和PANDORA，语义分割方面则有Stanford2D3D和DensePASS等。未来趋势包括开放世界全景分割和全景视频理解，PANDORA的RBFoV标注体系对DETR架构的研究尤为重要。"><meta property="og:image" content="https://hluvmiku.tech/posts/a-comprehensive-survey-of-panoramic-image-datasets/"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://hluvmiku.tech/posts/a-comprehensive-survey-of-panoramic-image-datasets/"><meta property="twitter:title" content="全景/360°/等距柱状投影图像数据集综合调研"><meta property="twitter:description" content="全景图像已成为计算机视觉研究的重要数据形式，涵盖目标检测、语义分割等核心任务。调研系统梳理了50多个关键数据集，重点介绍了360°目标检测、语义分割、房间布局估计等领域的主要数据集及其特点。目标检测领域的核心数据集包括360-Indoor和PANDORA，语义分割方面则有Stanford2D3D和DensePASS等。未来趋势包括开放世界全景分割和全景视频理解，PANDORA的RBFoV标注体系对DETR架构的研究尤为重要。"><meta property="twitter:image" content="https://hluvmiku.tech/posts/a-comprehensive-survey-of-panoramic-image-datasets/"><link rel="stylesheet" href="/_astro/index.CSSsUm5P.css">
+<link rel="stylesheet" href="/_astro/_page_.Bm0Jf76A.css"></head> <body class="min-h-[100dvh] bg-[#fefefe]"> <div class="mx-auto flex min-h-[100dvh] w-full max-w-2xl flex-1 flex-col items-center p-4"> <!-- Header --> <header class="mx-auto flex w-full max-w-7xl border-b pb-4 items-center justify-between print:hidden"> <div class="flex flex-1 justify-start"> <a href="/" class="text-base font-bold text-red-700 no-underline"> 陈 </a> </div> <span class="inline print:hidden"> <nav class="inline gap-20 text-sm"> <a href="/posts/" class="text-gray-500 no-underline">博客</a> /
+<a href="/comments/" class="text-gray-500 no-underline">杂谈随记</a> /
+<a href="/about/" class="text-gray-500 no-underline">关于我</a> </nav> </span> </header> <!-- Main Slot --> <main class="flex w-full flex-1 items-start justify-center print:block print:h-full print:items-start print:justify-start print:border-0"> <div class="page mx-auto my-10 w-full max-w-7xl print:my-0 print:h-full print:w-full print:max-w-none">  <main class="w-full print:m-0 print:block print:p-0"> <div class="flex w-full flex-col items-start justify-center text-wrap print:m-0 print:p-0 print:shadow-none"> <h1 class="mb-5 text-2xl font-bold print:mb-0"> 全景/360°/等距柱状投影图像数据集综合调研 </h1> <span class="hidden print:inline">写于2026年3月24日</span> <article id="article" class="prose prose-zinc max-w-none break-words">  <p><strong>全景图像（equirectangular/360°/omnidirectional）已成为计算机视觉研究的重要数据形式</strong>，涵盖目标检测、语义分割、房间布局估计、全景分割等核心任务。本报告系统梳理了 <strong>50+ 个关键数据集</strong>，按任务类型分类呈现，为基于 DETR/DINO 等 Transformer 架构在球面位置编码下的全景图像研究提供完整的数据集参考。室内场景以 Stanford2D3D、Matterport3D、Structured3D、ZInD 为基石，室外场景以 DensePASS、WildPASS、KITTI-360 为代表，而 360-Indoor 和 PANDORA 则是目前 360° 目标检测领域仅有的两个专用基准数据集。</p>
+<hr>
+<h2 id="一360-目标检测数据集">一、360° 目标检测数据集</h2>
+<p>目标检测是 DETR 类架构最直接的应用场景。<strong>目前专门为全景图像设计的目标检测数据集数量有限</strong>，360-Indoor 和 PANDORA 是该领域最核心的两个基准。PANDORA 首次引入了旋转边界视场（RBFoV）标注，对处理等距柱状投影中极区附近物体的严重畸变至关重要。Sph2Pob（IJCAI 2023）等方法将球面框转换为平面旋转框，使得常规 OBB 检测器可直接应用于全景图像。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>数据集</th><th>年份</th><th>规模</th><th>类别数</th><th>场景</th><th>图像格式</th><th>标注类型</th><th>论文/链接</th><th>特色</th></tr></thead><tbody><tr><td><strong>360-Indoor</strong></td><td>2019/2020</td><td>~3,000张图，~89,148个标注框</td><td>37</td><td>室内</td><td>等距柱状投影 (1920×960)</td><td>BFoV (θ,φ,α,β)</td><td>WACV 2020; aliensunmin.github.io/project/360-dataset</td><td>首个大规模360°室内检测数据集，平均每张27个框；5个超类组织</td></tr><tr><td><strong>PANDORA</strong></td><td>2022</td><td>3,000张图，94,353个标注框</td><td>47</td><td>室内</td><td>等距柱状投影 (1920×960)</td><td><strong>RBFoV</strong> (θ,φ,α,β,<strong>γ</strong>)</td><td>ECCV 2022; github.com/tdsuper/SphericalObjectDetection</td><td><strong>首个带旋转标注的全景检测数据集</strong>；扩展360-Indoor增加10类+旋转角γ；含R-CenterNet基线</td></tr><tr><td><strong>Pano-RSOD</strong></td><td>2021</td><td>9,402张图，50,255+标注</td><td>4 (车辆/行人/交通标志/导向箭头)</td><td>室外(道路)</td><td>360°全景</td><td>边界框</td><td>相关论文见ProQuest</td><td>聚焦交通场景；涵盖城区、十字路口、立交桥等多种道路场景</td></tr><tr><td><strong>ICPR 2018 360 Det</strong></td><td>2018</td><td>903帧，7,199标注</td><td>~10 (兼容COCO子集)</td><td>室内外</td><td>等距柱状投影 (3840×1920)</td><td>BFoV + BBox + 3D容器框</td><td>ICPR 2018; github.com/uenian33/360_object_detection_dataset</td><td>早期基准；三种标注格式；来自YouTube VR视频</td></tr><tr><td><strong>WHU全景数据集</strong></td><td>~2019</td><td>600张街景全景图，5,636标注</td><td>—</td><td>室外(街景)</td><td>等距柱状投影</td><td>边界框</td><td>武汉大学</td><td>车载全景相机采集；用于网格球面CNN方法</td></tr><tr><td><strong>FishEye8K</strong></td><td>2023</td><td>8,000张图，157K框</td><td>5 (行人/自行车/轿车/公交/卡车)</td><td>室外(交通监控)</td><td>鱼眼 (1080×1080, 1280×1280)</td><td>PASCAL VOC/COCO/YOLO格式</td><td>CVPRW 2023; github.com/MoyoG/FishEye8K</td><td>首个开放的鱼眼交通监控检测数据集；含YOLOv5/v7/v8基线</td></tr></tbody></table>
+<p><strong>显著物体检测（SOD）相关数据集：</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>数据集</th><th>年份</th><th>规模</th><th>场景</th><th>图像格式</th><th>论文/链接</th><th>特色</th></tr></thead><tbody><tr><td><strong>360-SOD</strong></td><td>2019</td><td>500张等距柱状图，像素级掩码</td><td>混合</td><td>等距柱状投影</td><td>JSTSP 2020; arXiv:1909.04913</td><td>首个360°显著物体检测数据集</td></tr><tr><td><strong>F-360iSOD</strong></td><td>2020</td><td>107张图，1,165个显著物体，72类</td><td>混合</td><td>等距柱状投影</td><td>arXiv:2001.07960</td><td>基于真实眼动注视图引导标注</td></tr><tr><td><strong>ODI-SOD</strong></td><td>—</td><td>6,263张高分辨率图，像素级标注</td><td>混合</td><td>等距柱状投影 (1024×512)</td><td>github.com/iCVTEAM/ODI-SOD</td><td><strong>最大规模360° SOD数据集</strong></td></tr><tr><td><strong>SHD360</strong></td><td>2021</td><td>37,403视频帧，41场景类别</td><td>混合</td><td>等距柱状投影</td><td>arXiv:2105.11578</td><td>首个360°视频显著人体检测数据集；实例级掩码</td></tr><tr><td><strong>PAVS10K</strong></td><td>2023</td><td>67个4K视频，10,465标注帧</td><td>混合</td><td>等距柱状投影 (4K)</td><td>github.com/YeeZ93/PAV-SOD</td><td>首个全景视听显著物体检测数据集</td></tr></tbody></table>
+<hr>
+<h2 id="二360-语义分割数据集">二、360° 语义分割数据集</h2>
+<p>全景语义分割是当前研究最活跃的方向之一。该领域形成了两大范式：<strong>Pin2Pan</strong>（针孔→全景域适应，代表工作 DensePASS/Trans4PASS）和 <strong>Syn2Real</strong>（合成→真实域适应，代表数据集 SynPASS）。室内场景以 Stanford2D3D 的 <strong>13类</strong>设置为标准基准，室外则以 DensePASS 的 <strong>19类</strong>（与 Cityscapes 兼容）为主要评测集。WildPASS 因覆盖全球65个城市的极端多样性，成为泛化能力评估的核心测试平台。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>数据集</th><th>年份</th><th>规模</th><th>类别数</th><th>场景</th><th>图像格式</th><th>论文/链接</th><th>特色</th></tr></thead><tbody><tr><td><strong>Stanford2D3D</strong></td><td>2017</td><td><strong>1,413张全景图</strong>，6区域，271房间</td><td>13</td><td>室内(教育/办公)</td><td>等距柱状投影 (1024×512)</td><td>arXiv:1702.01105; buildingparser.stanford.edu</td><td><strong>室内全景分割/深度估计标准基准</strong>；含深度图、法线图、全局XYZ坐标</td></tr><tr><td><strong>Matterport3D</strong></td><td>2017</td><td><strong>10,800全景视图</strong>，194,400 RGB-D图，90栋建筑</td><td>40</td><td>室内(住宅/商业)</td><td>天空盒/立方体图→可渲染等距柱状</td><td>3DV 2017; niessner.github.io/Matterport</td><td>建筑级真实扫描；2D/3D实例级语义分割；Habitat模拟器支持；<strong>MatterportLayout子集含2,295张布局标注</strong></td></tr><tr><td><strong>Structured3D</strong></td><td>2020</td><td><strong>~196K全景图</strong>，3,500场景，21,835房间</td><td>40 (NYUv2)</td><td>室内(合成)</td><td>等距柱状投影 (1024×512)</td><td>ECCV 2020; structured3d-dataset.org</td><td><strong>最大合成室内全景数据集</strong>；多光照/家具配置；广泛用于预训练</td></tr><tr><td><strong>DensePASS</strong></td><td>2021</td><td>100张标注 + 2,000张未标注</td><td><strong>19</strong> (与Cityscapes一致)</td><td>室外(驾驶)</td><td>等距柱状投影</td><td>ITSC 2021; github.com/chma1024/DensePASS</td><td><strong>Pin2Pan域适应核心基准</strong>；SOTA ~59% mIoU</td></tr><tr><td><strong>WildPASS</strong></td><td>2021</td><td>500张标注 + 2,000张未标注，<strong>65个城市</strong></td><td>6-8 (导航关键类)</td><td>室外(全球多样)</td><td>等距柱状投影 (2048×400)</td><td>TIP 2021; github.com/elnino9ykl/WildPASS</td><td>覆盖所有有人居住大洲；含恶劣天气/夜间；<strong>泛化能力评估首选</strong></td></tr><tr><td><strong>PASS</strong></td><td>2019/2020</td><td>1,050张(400张精标注)</td><td>4</td><td>室外(校园/十字路口)</td><td>全景环形(PAL系统)</td><td>T-ITS 2020; github.com/elnino9ykl/PASS</td><td>开创针孔训练→全景部署范式；紧凑PAL镜头系统</td></tr><tr><td><strong>SynPASS</strong></td><td>2022/2023</td><td><strong>9,080张</strong></td><td>22</td><td>室外(合成城市)</td><td>等距柱状投影 (1024×2048)</td><td>IJCV 2023; github.com/jamycheung/Trans4PASS</td><td>Syn2Real范式；含多种天气(云/雾/雨/晴)+昼/夜</td></tr><tr><td><strong>BlendPASS</strong></td><td>2024</td><td>人工标注遮挡感知全景分割</td><td>—</td><td>室外</td><td>等距柱状投影</td><td>ECCV 2024</td><td><strong>首个同时处理全景FoV + 遮挡感知(amodal) + 跨域适应的数据集</strong></td></tr><tr><td><strong>360BEV-Matterport</strong></td><td>2024</td><td>基于MP3D，20类</td><td>20</td><td>室内</td><td>等距柱状投影 (512×1024) → BEV (500×500)</td><td>WACV 2024; jamycheung.github.io/360BEV</td><td><strong>首个全景→BEV语义映射基准</strong>；360Mapper达44.32% mIoU</td></tr><tr><td><strong>360BEV-Stanford</strong></td><td>2024</td><td>基于Stanford2D3D，14类</td><td>14</td><td>室内</td><td>等距柱状投影 (512×1024) → BEV (500×500)</td><td>WACV 2024; 同上</td><td>同上；45.78% mIoU</td></tr><tr><td><strong>匹兹堡户外全景</strong></td><td>2021</td><td>600张，像素级标注</td><td>20 (7大类)</td><td>室外(城市)</td><td>全景图像</td><td>Signal Image and Video Processing 2021</td><td>cvrg-iyte.github.io/datasets/</td></tr></tbody></table>
+<hr>
+<h2 id="三场景理解与房间布局估计数据集">三、场景理解与房间布局估计数据集</h2>
+<p>房间布局估计是全景图像最成熟的研究方向之一，形成了从 PanoContext 的长方体假设到 ZInD 的任意形状布局的完整演进路径。<strong>ZInD 以 71,474 张全景图成为最大规模的真实世界布局标注数据集</strong>，且独特地包含长方体、曼哈顿和非曼哈顿三种布局类型的真实分布。标准评测指标为 3D IoU、2D IoU、角点误差和像素误差。近年来多视图布局估计（MVL）成为新趋势，MP3D-FPE 和 HM3D-MVL 提供了相应基准。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>数据集</th><th>年份</th><th>规模</th><th>布局类型</th><th>场景</th><th>图像格式</th><th>论文/链接</th><th>特色</th></tr></thead><tbody><tr><td><strong>PanoContext</strong></td><td>2014</td><td>~500张(客厅/卧室)</td><td><strong>长方体(cuboid)</strong></td><td>室内</td><td>等距柱状投影</td><td>ECCV 2014(Oral); panocontext.cs.princeton.edu</td><td><strong>全景3D场景理解开创性数据集</strong>；含3D物体边界框；常用90/10训练/测试分割(LayoutNet)</td></tr><tr><td><strong>Stanford2D3D (布局)</strong></td><td>2017/2019</td><td>~552张全景布局标注</td><td>曼哈顿</td><td>室内</td><td>等距柱状投影</td><td>HorizonNet扩展标注</td><td>HorizonNet/LED2-Net/LGT-Net等方法的标准评测集</td></tr><tr><td><strong>MatterportLayout</strong></td><td>2019</td><td><strong>2,295张</strong> RGB-D全景</td><td><strong>通用曼哈顿</strong></td><td>室内</td><td>等距柱状投影</td><td>Zou et al. (LayoutNet v2)</td><td>源自MP3D；非长方体布局；含复杂房间形状</td></tr><tr><td><strong>AtlantaLayout</strong></td><td>2020</td><td>MP3D子集+额外场景</td><td><strong>亚特兰大世界(非曼哈顿)</strong></td><td>室内</td><td>等距柱状投影</td><td>ECCV 2020; github.com/crs4/AtlantaNet</td><td>放宽曼哈顿假设；支持倾斜天花板</td></tr><tr><td><strong>Structured3D (布局)</strong></td><td>2020</td><td>~196K图像</td><td><strong>任意形状</strong></td><td>室内(合成)</td><td>等距柱状投影</td><td>ECCV 2020</td><td>最大规模布局预训练数据集；含角点坐标、平面图</td></tr><tr><td><strong>ZInD</strong></td><td>2021</td><td><strong>71,474张全景</strong>，1,524套住宅，2,500+平面图</td><td><strong>长方体+曼哈顿+非曼哈顿</strong></td><td>室内(真实未装修住宅)</td><td>等距柱状投影</td><td>CVPR 2021; github.com/zillow/zind</td><td><strong>最大真实世界布局数据集</strong>；覆盖20个美国城市；含门/窗/开口标注、天花板类型</td></tr><tr><td><strong>HoliCity</strong></td><td>2020</td><td>6,300张 (13312×6656)</td><td>城市3D结构</td><td>室外(伦敦)</td><td>等距柱状投影</td><td>arXiv:2008.03286; holicity.io</td><td><strong>城市级3D结构学习</strong>；与伦敦CAD模型对齐(>20km²)；含深度/法线/消失点/线框</td></tr><tr><td><strong>MP3D-FPE</strong></td><td>2022</td><td>20K训练 + 2.2K测试</td><td>多视图布局</td><td>室内(合成)</td><td>等距柱状投影</td><td>RA-L 2022</td><td>多视图布局估计基准</td></tr><tr><td><strong>HM3D-MVL</strong></td><td>2024</td><td>20K训练 + 2.2K测试</td><td>多视图布局</td><td>室内(合成)</td><td>等距柱状投影</td><td>ECCV 2024; mvlchallenge.github.io</td><td>新一代多视图布局基准</td></tr><tr><td><strong>ZInD-MVL</strong></td><td>2024</td><td>—</td><td>多视图布局</td><td>室内(真实)</td><td>等距柱状投影</td><td>huggingface.co/datasets/EnriqueSolarte/mvl_datasets</td><td>基于ZInD的真实多视图布局</td></tr><tr><td><strong>Ev-Layout</strong></td><td>2025</td><td>2,500序列，771K+ RGB图，100亿事件数据，39K布局标注</td><td>事件相机布局</td><td>室内</td><td>等距柱状投影 + 事件流</td><td>arXiv:2503.08370</td><td><strong>首个大规模事件相机多模态布局数据集</strong>；支持快速运动和复杂光照</td></tr><tr><td><strong>ToF-360</strong></td><td>2025</td><td>179张等距柱状RGB图，4场景</td><td>含布局标注</td><td>室内</td><td>等距柱状投影 RGB-D (ToF)</td><td>CVPRW 2025; huggingface.co/datasets/COLE-Ricoh/ToF-360</td><td><strong>最宽FoV的3D场景数据集</strong>；飞行时间传感器提供高精度深度</td></tr></tbody></table>
+<p><strong>全景3D场景总体理解（Total Scene Understanding）：</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>数据集</th><th>年份</th><th>任务</th><th>特色</th></tr></thead><tbody><tr><td><strong>DeepPanoContext (iGibson-Synthetic)</strong></td><td>2021</td><td>布局+3D物体检测+网格重建</td><td>ICCV 2021；合成全景场景</td></tr><tr><td><strong>PanoContext-Former (ReplicaPano)</strong></td><td>2024</td><td>布局+旋转物体框+物体形状</td><td>CVPR 2024；基于Replica的真实全景数据</td></tr></tbody></table>
+<hr>
+<h2 id="四全景分割panoptic-segmentation数据集">四、全景分割（Panoptic Segmentation）数据集</h2>
+<p>全景分割（语义+实例）在360°图像上的研究起步较晚，但近两年快速发展。<strong>Waymo Open PVPS 是目前规模最大的全景视频全景分割数据集</strong>（10万张标注），而 <strong>JRDB-PanoTrack</strong> 首次将开放世界全景分割引入机器人场景，支持71个类别。WildPPS 虽然规模较小（80张），但作为首个专用全景全景分割数据集具有开创意义。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>数据集</th><th>年份</th><th>规模</th><th>类别数</th><th>场景</th><th>图像格式</th><th>论文/链接</th><th>特色</th></tr></thead><tbody><tr><td><strong>WildPPS</strong></td><td>2021</td><td>80张全景图，40个城市</td><td>4 (Stuff: 道路/人行道; Thing: 行人/车辆)</td><td>室外</td><td>等距柱状投影</td><td>IV 2021 / T-ITS 2023; github.com/alexanderjaus/PPS</td><td><strong>首个全景全景分割数据集</strong>；Cityscapes标注格式</td></tr><tr><td><strong>Waymo Open PVPS</strong></td><td>2022</td><td><strong>100,000张标注</strong>，2,860序列，5摄像头</td><td>28</td><td>室外(自动驾驶)</td><td>多摄像头全景拼接</td><td>ECCV 2022; waymo.com/open</td><td><strong>最大规模全景视频全景分割数据集</strong>；跨摄像头+跨时间一致标注；DeepLab基线</td></tr><tr><td><strong>JRDB-PanoTrack</strong></td><td>2024</td><td>20,000张(4,000全景)，<strong>428,000个全景掩码</strong>，27,000条轨迹</td><td><strong>71</strong> (60 thing + 11 stuff)</td><td>室内外(机器人)</td><td>5摄像头拼接全景 + 3D点云</td><td>CVPR 2024; jrdb.erc.monash.edu/dataset/panotrack</td><td><strong>开放世界全景分割+跟踪</strong>；每张最多245个掩码；OSPA评测指标</td></tr></tbody></table>
+<hr>
+<h2 id="五360-深度估计数据集">五、360° 深度估计数据集</h2>
+<p>深度估计是全景图像的另一核心任务，对 DETR 类架构的特征表示学习也有重要参考价值。<strong>Pano3D 作为全面基准已取代早期的 3D60 数据集</strong>，修复了已知的亮度信息泄露问题。2024年的”360° in the Wild”首次提供了大规模（25K张）的真实世界全景深度数据。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>数据集</th><th>年份</th><th>规模</th><th>场景</th><th>图像格式</th><th>论文/链接</th><th>特色</th></tr></thead><tbody><tr><td><strong>3D60</strong></td><td>2018-2019</td><td>多模态渲染(MP3D+Stanford2D3D+SunCG)</td><td>室内</td><td>等距柱状投影(单目+双目)</td><td>vcl3d.github.io/3D60</td><td>早期全景深度基准；<strong>已被Pano3D取代</strong>（已知亮度泄露问题）</td></tr><tr><td><strong>PanoSUNCG</strong></td><td>2018</td><td>103场景，25,000+ RGB-D全景</td><td>室内(合成)</td><td>等距柱状投影 (512×1024) + 立方体图</td><td>arXiv:1811.05304</td><td>首个360°室内视频深度数据集；<strong>因SUNCG许可问题可能不再可获取</strong></td></tr><tr><td><strong>Pano3D</strong></td><td>2021</td><td>MP3D + GibsonV2多分割 (1024×512)</td><td>室内</td><td>等距柱状投影</td><td>OmniCV@CVPR 2021; vcl3d.github.io/Pano3D</td><td><strong>全面深度基准</strong>；评估精度/边界/平滑度等多维指标；支持零样本跨数据集迁移</td></tr><tr><td><strong>360° in the Wild</strong></td><td>2024</td><td><strong>25,000张</strong>含深度+相机位姿</td><td>室内外(极度多样)</td><td>等距柱状投影</td><td>arXiv:2406.18898</td><td><strong>最大真实世界360°深度数据集</strong>；来自互联网360°视频</td></tr><tr><td><strong>PAIR360</strong></td><td>2024</td><td>52序列，7区域</td><td>室外(校园)</td><td><strong>8K等距柱状投影</strong> + 6鱼眼 + LiDAR + GPS/IMU</td><td>RA-L 2024; airlabkhu.github.io/PAIR-360-Dataset</td><td>首个8K分辨率室外多模态360°数据集</td></tr></tbody></table>
+<hr>
+<h2 id="六360-视觉目标跟踪与视频分割数据集">六、360° 视觉目标跟踪与视频分割数据集</h2>
+<p>这是2023年以来快速兴起的新方向。<strong>360VOT（ICCV 2023）开创了全向目标跟踪基准</strong>，其后续 360VOTS 和 PanoVOS 分别将任务扩展到视频物体分割领域。2025年的 Leader360V 以 10,000+ 标注视频序列成为迄今最大规模的真实世界360°视频数据集。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>数据集</th><th>年份</th><th>规模</th><th>类别数</th><th>任务</th><th>图像格式</th><th>论文/链接</th><th>特色</th></tr></thead><tbody><tr><td><strong>360VOT</strong></td><td>2023</td><td>120序列，~113K高分辨率帧</td><td>32</td><td>单目标跟踪</td><td>等距柱状投影</td><td>ICCV 2023; github.com/HuajianUP/360VOT</td><td><strong>首个全向跟踪基准</strong>；4种GT格式(BBox/rBBox/BFoV/rBFoV)；20个SOTA跟踪器评测</td></tr><tr><td><strong>360VOTS</strong></td><td>2024</td><td>120跟踪序列 + 290分割序列</td><td>62 (分割)</td><td>跟踪+视频物体分割</td><td>等距柱状投影</td><td>T-PAMI 2024; arXiv:2404.13953</td><td>扩展360VOT加入VOS组件</td></tr><tr><td><strong>PanoVOS</strong></td><td>2024</td><td>150个全景视频，~19,000实例掩码</td><td>人/动物/物体</td><td>视频物体分割</td><td>等距柱状投影</td><td>ECCV 2024; github.com/shilinyan99/PanoVOS</td><td><strong>首个长时全景VOS数据集</strong>；揭示现有VOS模型在内容不连续性上的失败</td></tr><tr><td><strong>Leader360V</strong></td><td>2025</td><td><strong>10,000+标注视频序列</strong></td><td>—</td><td>实例分割+跟踪</td><td>等距柱状投影</td><td>arXiv:2506.14271</td><td><strong>最大规模真实世界360°视频数据集</strong>；SAM2+LLM自动标注流水线</td></tr></tbody></table>
+<hr>
+<h2 id="七自动驾驶与城市场景全景数据集">七、自动驾驶与城市场景全景数据集</h2>
+<p>自动驾驶领域虽然多数数据集使用多摄像头拼接而非原生等距柱状投影，但其360°视觉覆盖的设计理念与全景图像研究高度契合。<strong>KITTI-360 的两个180°鱼眼相机提供了完整的360°视觉覆盖</strong>，是目前少数在自动驾驶场景中原生支持全向视觉的数据集。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>数据集</th><th>年份</th><th>规模</th><th>场景</th><th>图像格式</th><th>论文/链接</th><th>特色</th></tr></thead><tbody><tr><td><strong>KITTI-360</strong></td><td>2021/2022</td><td>320K图像(>150K语义标注)，73.7km</td><td>室外(郊区驾驶)</td><td>透视立体相机 + <strong>2×180°鱼眼</strong></td><td>PAMI 2022; cvlibs.net/datasets/kitti-360</td><td><strong>KITTI继承者</strong>；鱼眼相机提供360°覆盖；10亿3D点</td></tr><tr><td><strong>WoodScape</strong></td><td>2019</td><td>10,000+语义标注(40类)，100,000+总图</td><td>室外(欧洲驾驶)</td><td><strong>4×190°鱼眼</strong>(360°覆盖)</td><td>ICCV 2019(Oral); woodscape.valeo.com</td><td>Valeo首个大规模鱼眼自动驾驶数据集；9个任务</td></tr><tr><td><strong>SynWoodScape</strong></td><td>2022</td><td>80,000张合成鱼眼图</td><td>室外(CARLA合成)</td><td>4鱼眼(同WoodScape配置)</td><td>IROS 2022; arXiv:2203.05056</td><td>补充WoodScape缺失的光流/深度GT</td></tr><tr><td><strong>nuScenes</strong></td><td>2019/2020</td><td>1.4M摄像头图像，1,000场景</td><td>室外(波士顿/新加坡)</td><td><strong>6×针孔</strong>(360°覆盖) + 5雷达 + 1激光雷达</td><td>CVPR 2020; nuscenes.org</td><td>非等距柱状投影，但6摄像头覆盖完整360°；nuScenes-360变体可拼接为全景</td></tr><tr><td><strong>OmniCity</strong></td><td>2023</td><td>100K+像素级标注，25K地理位置</td><td>室外(纽约)</td><td>街景全景 + 卫星图</td><td>CVPR 2023; city-super.github.io/omnicity</td><td>首个含精细建筑实例分割的街景全景数据集</td></tr><tr><td><strong>StreetLearn</strong></td><td>2018</td><td>~143,000 Google街景全景(曼哈顿+匹兹堡)</td><td>室外(城市)</td><td>等距柱状投影 (~1664×832)</td><td>NeurIPS 2018; Google DeepMind</td><td>RL导航训练；含街道连接图；<strong>已停止发布</strong></td></tr></tbody></table>
+<hr>
+<h2 id="八综合性基础性全景数据集">八、综合性/基础性全景数据集</h2>
+<p>这些数据集跨越多个任务类别，在全景视觉研究生态中起基础性作用。SUN360 作为最早的大规模全景数据库，至今仍被广泛引用；<strong>HM3D 以 1,000 栋建筑级3D重建成为具身智能领域最大的全景可渲染数据集</strong>。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>数据集</th><th>年份</th><th>规模</th><th>场景</th><th>图像格式</th><th>论文/链接</th><th>特色</th></tr></thead><tbody><tr><td><strong>SUN360</strong></td><td>2012</td><td>~67,000+全景图，80+场景类</td><td>室内外</td><td>等距柱状投影 (9104×4552)</td><td>CVPR 2012; people.csail.mit.edu/jxiao/SUN360</td><td><strong>最早大规模全景数据库之一</strong>；PanoContext源数据；广泛用于光照估计</td></tr><tr><td><strong>Gibson / Gibson V2</strong></td><td>2018/2019</td><td>572栋建筑，~1,500楼层</td><td>室内(真实扫描)</td><td>3D网格→可渲染等距柱状</td><td>gibsonenv.stanford.edu</td><td>导航/具身AI基础数据集</td></tr><tr><td><strong>Replica</strong></td><td>2019</td><td>18个高保真重建场景</td><td>室内</td><td>3D网格→可渲染等距柱状</td><td>Facebook Research</td><td>极高几何保真度</td></tr><tr><td><strong>HM3D</strong></td><td>2021</td><td><strong>1,000栋建筑</strong>，112,500m²可导航</td><td>室内(真实扫描)</td><td>3D网格→可渲染等距柱状</td><td>NeurIPS 2021; aihabitat.org/datasets/hm3d</td><td>超越MP3D/Gibson/Replica的规模和保真度</td></tr><tr><td><strong>ScanNet</strong></td><td>2017</td><td>1,513场景，2.5M视图</td><td>室内</td><td>RGB-D视频帧(非原生全景)</td><td>CVPR 2017; scan-net.org</td><td><strong>ScanNet++</strong>(ICCV 2023, 460场景)新增全景相机(panocam)图像</td></tr><tr><td><strong>360+x</strong></td><td>2024</td><td>2,152视频(464×360°)，8.58M帧，67.78小时</td><td>室内外(28类，17城市)</td><td>等距柱状投影 (5760×2880) + 第三人称 + 第一人称</td><td>CVPR 2024; x360dataset.github.io</td><td><strong>首个全景+多视角+多模态数据集</strong>；含音频/双耳延迟/位置/文本</td></tr><tr><td><strong>Pano-AVQA</strong></td><td>2021</td><td>5,400个360°视频片段</td><td>混合</td><td>等距柱状投影视频</td><td>ICCV 2021; github.com/HS-YN/PanoAVQA</td><td>视听问答+空间推理；含边界框定位</td></tr><tr><td><strong>Laval Indoor HDR</strong></td><td>2017</td><td>HDR全景图集合</td><td>室内</td><td>等距柱状投影 (HDR)</td><td>Gardner et al.</td><td>室内光照估计基准</td></tr><tr><td><strong>Laval Outdoor HDR</strong></td><td>2019</td><td>HDR户外全景图集合</td><td>室外</td><td>等距柱状投影 (HDR)</td><td>Hold-Geoffroy et al.</td><td>户外光照估计基准</td></tr></tbody></table>
+<hr>
+<h2 id="九对-detrdino-类全景架构的实用建议">九、对 DETR/DINO 类全景架构的实用建议</h2>
+<p>基于上述数据集调研，以下是针对基于 DETR/DINO + 球面位置编码架构的具体建议：</p>
+<p><strong>目标检测任务的数据集选择高度受限。</strong> 360-Indoor 和 PANDORA 是目前仅有的两个专用全景目标检测基准，且均以室内场景为主。PANDORA 的 RBFoV 标注（含旋转角 γ）与球面位置编码天然契合，建议优先使用。室外检测可参考 Pano-RSOD（4类道路目标）或将 FishEye8K 作为补充基准。</p>
+<p><strong>关键的标注格式差异需要注意。</strong> 全景目标检测使用 BFoV（Bounding Field-of-View）而非传统矩形框，定义为球面坐标 (θ, φ, α, β)，PANDORA 进一步扩展为 RBFoV (θ, φ, α, β, γ)。Sph2Pob（IJCAI 2023）提出的球面框→平面旋转框转换范式值得关注，可使 DETR 的 Hungarian 匹配直接适配全景场景。IoU 计算需采用球面 IoU（Unbiased IoU, AAAI 2022）或 FoV-IoU（2023）等专用指标。</p>
+<p><strong>预训练与域适应策略。</strong> Structured3D（196K 合成全景图）是预训练的首选数据源；COCO-Stuff164k 可作为开放词汇全景分割的源域（参见 OOOPS, ECCV 2024）。Pin2Pan（针孔→全景）和 Syn2Real（合成→真实）两种域适应范式均已被验证有效。</p>
+<p><strong>完整的相关方法参考：</strong></p>
+<ul>
+<li>Sph2Pob（IJCAI 2023）：球面框→平面旋转框，适配现有OBB检测器</li>
+<li>PanoFormer（ECCV 2022）：Transformer处理等距柱状投影的深度估计</li>
+<li>Trans4PASS/DPPASS（CVPR 2023）：形变感知Transformer全景语义分割</li>
+<li>OOOPS（ECCV 2024）：开放词汇全景分割，含RERP增强</li>
+<li>360BEV / 360Mapper（WACV 2024）：全景→BEV语义映射</li>
+</ul>
+<hr>
+<h2 id="结论与展望">结论与展望</h2>
+<p>本调研覆盖了 <strong>50+ 个全景/360°数据集</strong>，揭示了该领域几个重要趋势。<strong>目标检测是当前最薄弱的环节</strong>——仅有 360-Indoor（37类）和 PANDORA（47类）两个专用数据集，且均集中在室内场景，这对 DETR 类架构的研究构成了显著的数据瓶颈。相比之下，语义分割和布局估计已拥有较为成熟的数据生态。2023-2025年的新兴趋势包括：<strong>开放世界全景分割</strong>（JRDB-PanoTrack 的71类开放世界设定）、<strong>全景视频理解</strong>（360VOT/PanoVOS/Leader360V）、<strong>多模态融合</strong>（360+x 的全景+第一/三人称+音频）、以及 <strong>BEV 语义映射</strong>（360BEV）。对于球面位置编码的 DETR 架构而言，PANDORA 的 RBFoV 标注体系和 Sph2Pob 的球面→平面框转换范式是最直接相关的技术参考，而 Structured3D 和 Matterport3D 则是预训练和多任务学习的核心数据支撑。</p>  </article> </div> </main>  </div> </main> <!-- Footer --> <footer class="flex flex-col w-full max-w-7xl mb-4 justify-center align-center pt-4 border-t print:hidden"> <div class="flex flex-col text-nowrap md:flex-row mx-auto flex w-full items-start md:items-center justify-between align-end"> <span class="text-sm font-normal">写于2026年3月24日</span> <div class="mb-4 mt-4 flex w-full flex-col items-start justify-center md:max-w-[40%] md:flex-row md:gap-8 print:hidden"> <a href="/posts/paper-summary-one-flight-over-the-gap" class="block w-full truncate text-sm font-normal text-black underline hover:text-red-700 md:w-auto">
+前：《论文简读：《One Flight Over the Gap: A Survey from Perspective to Panoramic Vision》》 </a> <a href="/posts/discuss" class="block w-full truncate text-sm font-normal text-black underline hover:text-red-700 md:w-auto">
+后：《留言板》 </a> </div> <div class="flex flex-col text-sm print:hidden"> <a class="text-nowrap font-normal text-black" href="https://github.com/HaleyCH/chenblog">
+由<span class="text-red-700">陈</span>设计
+</a> </div> </div> <!-- 将备案号居中 --> <div class="mb-[10px] mt-[50px] flex w-full justify-center print:hidden"> <a class="text-sm text-gray-300" href="https://beian.miit.gov.cn/">浙ICP备2022026813号-1</a> </div> </footer> <script>
+  const PDF_JS_SRC =
+    "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js";
+  const PDF_WORKER_SRC =
+    "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+
+  let pdfJsPromise;
+  let mutationObserver;
+  let observedArticle;
+
+  function loadPdfJs() {
+    if (window.pdfjsLib) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER_SRC;
+      return Promise.resolve(window.pdfjsLib);
+    }
+    if (pdfJsPromise) return pdfJsPromise;
+    pdfJsPromise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = PDF_JS_SRC;
+      script.async = true;
+      script.onload = () => {
+        if (!window.pdfjsLib) {
+          reject(new Error("PDF.js loaded but pdfjsLib is missing."));
+          return;
+        }
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER_SRC;
+        resolve(window.pdfjsLib);
+      };
+      script.onerror = () => reject(new Error("Failed to load PDF.js."));
+      document.head.appendChild(script);
+    });
+    return pdfJsPromise;
+  }
+
+  function collectPdfEmbeds(root) {
+    const containers = [];
+    if (root?.nodeType === 1) {
+      if (root.matches(".pdf-embed[data-pdf-url]")) {
+        containers.push(root);
+      }
+      containers.push(
+        ...root.querySelectorAll?.(".pdf-embed[data-pdf-url]"),
+      );
+    }
+    if (root === document) {
+      containers.push(...document.querySelectorAll(".pdf-embed[data-pdf-url]"));
+    }
+    return containers;
+  }
+
+  function preparePdfEmbed(container) {
+    if (container.dataset.pdfPrepared === "true") return;
+    container.dataset.pdfPrepared = "true";
+
+    const link = container.querySelector(".pdf-embed__link");
+    const caption = container.querySelector(".pdf-embed__caption");
+    const actions = document.createElement("div");
+    actions.className = "pdf-embed__actions";
+
+    if (link) {
+      actions.appendChild(link);
+    }
+
+    const loadButton = document.createElement("button");
+    loadButton.type = "button";
+    loadButton.className = "pdf-embed__button pdf-embed__load";
+    loadButton.textContent = "加载 PDF";
+    loadButton.addEventListener("click", () => {
+      if (container.dataset.pdfRendered === "loading") return;
+      loadButton.disabled = true;
+      loadButton.textContent = "加载中...";
+      renderPdf(container).finally(() => {
+        if (container.dataset.pdfRendered !== "true") {
+          loadButton.disabled = false;
+          loadButton.textContent = "加载 PDF";
+        }
+      });
+    });
+    actions.appendChild(loadButton);
+
+    if (caption) {
+      container.insertBefore(actions, caption);
+    } else {
+      container.appendChild(actions);
+    }
+  }
+
+  async function renderPdf(container) {
+    if (
+      container.dataset.pdfRendered === "true" ||
+      container.dataset.pdfRendered === "loading"
+    )
+      return;
+    const url = container.dataset.pdfUrl;
+    if (!url) return;
+
+    container.dataset.pdfRendered = "loading";
+    const fallbackHtml = container.innerHTML;
+    const fallbackLink = container.querySelector("a")?.cloneNode(true);
+    const fallbackCaption = container
+      .querySelector(".pdf-embed__caption")
+      ?.cloneNode(true);
+
+    let pdfjsLib;
+    try {
+      pdfjsLib = await loadPdfJs();
+    } catch (error) {
+      console.warn("[pdf] PDF.js load failed:", error);
+      container.dataset.pdfRendered = "error";
+      return;
+    }
+
+    try {
+      const loadingTask = pdfjsLib.getDocument({ url });
+      const pdf = await loadingTask.promise;
+      const toolbar = document.createElement("div");
+      toolbar.className = "pdf-embed__toolbar";
+      if (fallbackLink) toolbar.appendChild(fallbackLink);
+
+      const meta = document.createElement("span");
+      meta.className = "pdf-embed__meta";
+
+      const pager = document.createElement("div");
+      pager.className = "pdf-embed__pager";
+
+      const controls = document.createElement("div");
+      controls.className = "pdf-embed__controls";
+
+      const prevButton = document.createElement("button");
+      prevButton.type = "button";
+      prevButton.className = "pdf-embed__button";
+      prevButton.textContent = "Prev";
+      prevButton.setAttribute("aria-label", "Previous page");
+
+      const nextButton = document.createElement("button");
+      nextButton.type = "button";
+      nextButton.className = "pdf-embed__button";
+      nextButton.textContent = "Next";
+      nextButton.setAttribute("aria-label", "Next page");
+
+      controls.appendChild(prevButton);
+      controls.appendChild(nextButton);
+
+      pager.appendChild(meta);
+      pager.appendChild(controls);
+      toolbar.appendChild(pager);
+
+      const viewer = document.createElement("div");
+      viewer.className = "pdf-embed__viewer";
+      const pageWrapper = document.createElement("div");
+      pageWrapper.className = "pdf-embed__page";
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      if (!context) {
+        throw new Error("Canvas 2D context is not available.");
+      }
+      pageWrapper.appendChild(canvas);
+      viewer.appendChild(pageWrapper);
+
+      const dpr = window.devicePixelRatio || 1;
+      let currentPage = 1;
+      let rendering = false;
+      let pendingPage = null;
+
+      const restoreFallback = (error) => {
+        console.warn("[pdf] Failed to render PDF:", error);
+        container.dataset.pdfRendered = "error";
+        container.innerHTML = fallbackHtml;
+        container.dataset.pdfPrepared = "false";
+        preparePdfEmbed(container);
+      };
+
+      const updateButtons = () => {
+        prevButton.disabled = currentPage <= 1;
+        nextButton.disabled = currentPage >= pdf.numPages;
+        meta.textContent = `Page ${currentPage} / ${pdf.numPages}`;
+      };
+
+      const renderPage = async (pageNum) => {
+        if (rendering) {
+          pendingPage = pageNum;
+          return;
+        }
+        rendering = true;
+        try {
+          const page = await pdf.getPage(pageNum);
+          const viewport = page.getViewport({ scale: 1 });
+          const maxWidth = container.clientWidth || 640;
+          const scale = maxWidth / viewport.width;
+          const scaledViewport = page.getViewport({ scale: scale * dpr });
+          canvas.width = scaledViewport.width;
+          canvas.height = scaledViewport.height;
+          canvas.style.width = `${scaledViewport.width / dpr}px`;
+          canvas.style.height = `${scaledViewport.height / dpr}px`;
+
+          await page.render({ canvasContext: context, viewport: scaledViewport })
+            .promise;
+          currentPage = pageNum;
+          updateButtons();
+        } catch (error) {
+          restoreFallback(error);
+          return;
+        } finally {
+          rendering = false;
+        }
+
+        if (pendingPage !== null && pendingPage !== currentPage) {
+          const nextPage = pendingPage;
+          pendingPage = null;
+          await renderPage(nextPage);
+        } else {
+          pendingPage = null;
+        }
+      };
+
+      prevButton.addEventListener("click", () => {
+        if (currentPage > 1) {
+          renderPage(currentPage - 1);
+        }
+      });
+
+      nextButton.addEventListener("click", () => {
+        if (currentPage < pdf.numPages) {
+          renderPage(currentPage + 1);
+        }
+      });
+
+      await renderPage(1);
+      container.textContent = "";
+      container.appendChild(toolbar);
+      container.appendChild(viewer);
+      if (fallbackCaption) {
+        container.appendChild(fallbackCaption);
+      }
+
+      container.dataset.pdfRendered = "true";
+    } catch (error) {
+      container.dataset.pdfRendered = "error";
+      container.innerHTML = fallbackHtml;
+      container.dataset.pdfPrepared = "false";
+      preparePdfEmbed(container);
+    }
+  }
+
+  function setupPdfEmbeds() {
+    collectPdfEmbeds(document).forEach((container) => {
+      preparePdfEmbed(container);
+    });
+
+    const article = document.querySelector("#article");
+    if (!article) return;
+    if (observedArticle === article && mutationObserver) return;
+
+    mutationObserver?.disconnect();
+    mutationObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          collectPdfEmbeds(node).forEach((container) => {
+            preparePdfEmbed(container);
+          });
+        });
+      });
+    });
+
+    mutationObserver.observe(article, { childList: true, subtree: true });
+    observedArticle = article;
+  }
+
+  setupPdfEmbeds();
+  document.addEventListener("astro:after-swap", setupPdfEmbeds);
+</script> <script type="module" src="/_astro/ImageEnhancement.astro_astro_type_script_index_0_lang.D3ij_ksR.js"></script> </div> </body></html>
