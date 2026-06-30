@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hluvmiku.tech/sitemap-index.xml
+Sitemap: https://zrui.tech/sitemap-index.xml
