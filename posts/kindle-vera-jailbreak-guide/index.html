@@ -1,0 +1,491 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><!-- Baidu Analytics --><script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?07031aed06e0fa1f0bfe62119cd66c18";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script> <!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-J6S31LSNX8"></script> <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-J6S31LSNX8');
+</script> <!-- Busuanzi counter --><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png"><link rel="manifest" href="/static/site.webmanifest"><link rel="shortcut icon" href="/static/favicon.ico"><meta name="generator" content="Astro v5.16.4"><!-- Baidu verification --><meta name="baidu-site-verification" content="codeva-TE3aiPxcrm"><!-- Font preloads --><link rel="preload" href="/fonts/geist-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/geist-mono-variable.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"></noscript><!-- Canonical URL --><link rel="canonical" href="https://zrui.tech/posts/kindle-vera-jailbreak-guide/"><!-- Primary Meta Tags --><title>Kindle Véra 越狱中文教程</title><meta name="title" content="Kindle Véra 越狱中文教程"><meta name="description" content="整理 KindleModding Véra 越狱的支持机型、完整操作步骤、自动更新防护和公开可验证的工作原理。"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://zrui.tech/posts/kindle-vera-jailbreak-guide/"><meta property="og:title" content="Kindle Véra 越狱中文教程"><meta property="og:description" content="整理 KindleModding Véra 越狱的支持机型、完整操作步骤、自动更新防护和公开可验证的工作原理。"><meta property="og:image" content="https://zrui.tech/posts/kindle-vera-jailbreak-guide/"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://zrui.tech/posts/kindle-vera-jailbreak-guide/"><meta property="twitter:title" content="Kindle Véra 越狱中文教程"><meta property="twitter:description" content="整理 KindleModding Véra 越狱的支持机型、完整操作步骤、自动更新防护和公开可验证的工作原理。"><meta property="twitter:image" content="https://zrui.tech/posts/kindle-vera-jailbreak-guide/"><link rel="stylesheet" href="/_astro/index.CSSsUm5P.css">
+<link rel="stylesheet" href="/_astro/_page_.Bm0Jf76A.css"></head> <body class="min-h-[100dvh] bg-[#fefefe]"> <div class="mx-auto flex min-h-[100dvh] w-full max-w-2xl flex-1 flex-col items-center p-4"> <!-- Header --> <header class="mx-auto flex w-full max-w-7xl border-b pb-4 items-center justify-between print:hidden"> <div class="flex flex-1 justify-start"> <a href="/" class="text-base font-bold text-red-700 no-underline"> 子锐 </a> </div> <span class="inline print:hidden"> <nav class="inline gap-20 text-sm"> <a href="/posts/" class="text-gray-500 no-underline">博客</a> /
+<a href="/comments/" class="text-gray-500 no-underline">杂谈随记</a> /
+<a href="/about/" class="text-gray-500 no-underline">关于我</a> </nav> </span> </header> <!-- Main Slot --> <main class="flex w-full flex-1 items-start justify-center print:block print:h-full print:items-start print:justify-start print:border-0"> <div class="page mx-auto my-10 w-full max-w-7xl print:my-0 print:h-full print:w-full print:max-w-none">  <main class="w-full print:m-0 print:block print:p-0"> <div class="flex w-full flex-col items-start justify-center text-wrap print:m-0 print:p-0 print:shadow-none"> <h1 class="mb-5 text-2xl font-bold print:mb-0"> Kindle Véra 越狱中文教程 </h1> <span class="hidden print:inline">写于2026年8月14日</span> <article id="article" class="prose prose-zinc max-w-none break-words">  <div data-callout="" data-callout-type="warning">
+<div data-callout-title="">Warning</div>
+<div data-callout-body="">
+<p></p>
+<p>越狱有风险，可能影响设备稳定性、保修与安全性。本文是对 <a href="https://kindlemodding.org/jailbreaking/Vera/">KindleModding Véra 官方教程</a> 的中文整理，不保证适用于未列出的机型或固件。开始前请核对机型和完整固件号，并自行备份本地书籍与文档。</p>
+</div>
+</div>
+<h2 id="véra-是什么">Véra 是什么</h2>
+<p><a href="https://kindlemodding.org/jailbreaking/Vera/">Véra</a> 是 Ava 和 sparklerfish 于 2026 年 8 月 10 日发布的 Kindle 越狱方案。它最大的特点是<strong>全程在 Kindle 上完成，不需要电脑和 USB 数据线</strong>：用内置浏览器打开网页，下载两本专用电子书，按指定方式保存一套阅读主题，再打开 Véra 书籍即可触发越狱。</p>
+<p>发布公告称，Véra 可用于未注册和黑名单设备；越狱流程会一并安装 Hotfix，并自动阻止 OTA 更新。也正因为全程需要联网，操作前先防住自动更新，比后面任何一步都重要。<a href="https://www.reddit.com/r/kindlejailbreak/comments/1vksz0n/new_jailbreak_vera_kt5pw5kt6pw6csksks2_up_to_5196/">作者发布公告</a> 里也明确强调了这一点。</p>
+<div data-callout="" data-callout-type="note">
+<div data-callout-title="">Note</div>
+<div data-callout-body="">
+<p></p>
+<p>Véra 不适合“先试试看”。一旦 Kindle 在流程中自动升级到不支持的固件，通常不能在未越狱状态下退回旧版。因此，下文先讲容量填充和固件核对，再碰浏览器。</p>
+</div>
+</div>
+<h2 id="支持范围">支持范围</h2>
+<p>Véra 官网的介绍写的是“覆盖部分机型至 <code>5.19.6</code>”，但真正决定可否使用的是下载页内的<strong>机型 + 完整固件号</strong>组合。下面的范围仅用于快速核对，最终必须以 <code>https://vera.tene7.com</code> 中能否选到你的完整版本为准。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>机型代码</th><th>常见型号</th><th>官网下拉框覆盖范围</th></tr></thead><tbody><tr><td><code>KT5</code></td><td>Kindle 2022 基础版，第 11 代</td><td><code>5.17.1</code> 至 <code>5.19.2</code>，含 <code>5.19.2.0.1</code></td></tr><tr><td><code>PW5</code></td><td>Kindle Paperwhite 5，第 11 代</td><td><code>5.17.1</code> 至 <code>5.19.2</code></td></tr><tr><td><code>KT6</code></td><td>Kindle 2024 基础版，第 11 代</td><td><code>5.17.1.0.2</code> 至 <code>5.19.6</code></td></tr><tr><td><code>PW6</code></td><td>Kindle Paperwhite 6，第 12 代</td><td><code>5.17.1.0.2</code> 至 <code>5.19.6</code></td></tr><tr><td><code>CS</code></td><td>Kindle Colorsoft</td><td><code>5.18.1</code> 至 <code>5.19.6</code></td></tr><tr><td><code>KS</code></td><td>Kindle Scribe 2022</td><td><code>5.17.1.0.1</code> 至 <code>5.19.6</code></td></tr><tr><td><code>KS2</code></td><td>Kindle Scribe 2024</td><td><code>5.17.3</code> 至 <code>5.19.6</code></td></tr></tbody></table>
+<p><code>KS3</code>/<code>KS3NFL</code> 和 <code>KSC</code> 当前不在 Véra 的可选列表中；官方页面说会在未来适配。即使固件号小于 <code>5.19.6</code>，也不要把“版本较旧”当成兼容依据。</p>
+<p>在 Kindle 上进入：</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.zi4z0.css"><script type="module" src="/_astro/ec.8zarh.js"></script><figure class="frame"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#24292e">三点菜单 > 设置 > 设备选项 > 设备信息</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="三点菜单 > 设置 > 设备选项 > 设备信息"><div></div></button></div></figure></div>
+<p>记下 <code>Kindle</code> 后面那串完整版本号，例如 <code>5.19.4.0.1</code>。<code>5.19.4</code> 和 <code>5.19.4.0.1</code> 是不同构建，不能混选。</p>
+<!-- 图片占位：设备信息页，标出完整固件号 -->
+<h2 id="开始前先阻止自动更新">开始前：先阻止自动更新</h2>
+<p>Véra 的流程必须使用 Wi-Fi，而 Kindle 在连网、打开商店或重启时都有可能下载固件更新。官方建议在开始前先把可见存储填满，只保留很少的空闲空间，使更新包无法完整下载。</p>
+<p>请先按 <a href="https://kindlemodding.org/jailbreaking/prevent-auto-update/">KindleModding 的防自动更新教程</a> 填充 Kindle 存储。完成后再检查根目录：如果已有以 <code>.bin</code> 结尾的更新文件，或 <code>update.bin.tmp.partial</code> 一类临时文件，先删除它们。</p>
+<div data-callout="" data-callout-type="caution">
+<div data-callout-title="">Caution</div>
+<div data-callout-body="">
+<p></p>
+<p>填充存储是本次越狱的前置保护，不是可选优化。Véra 成功后官方流程会自动阻止 OTA，此时才可以删除 filler files 回收空间；但在这之前不要为了腾空间而提前清空它们。</p>
+</div>
+</div>
+<h2 id="安装步骤">安装步骤</h2>
+<h3 id="1-再次确认固件号">1. 再次确认固件号</h3>
+<p>回到设备信息页，确认完整版本没有看错。后面下载页会要求选择这个版本，选错会拿到不匹配的 Véra 书籍。</p>
+<h3 id="2-打开-kindle-内置浏览器">2. 打开 Kindle 内置浏览器</h3>
+<p>在首页点击右上角三点菜单，进入：</p>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#24292e">Web Browser</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="Web Browser"><div></div></button></div></figure></div>
+<p>打开下面的网址：</p>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#24292e">https://vera.tene7.com</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="https://vera.tene7.com"><div></div></button></div></figure></div>
+<!-- 图片占位：内置浏览器和 Véra 主页 -->
+<p>如果网站暂时打不开，不要反复下载或随意换镜像。先确认 Wi-Fi 正常，再稍后重试官方地址。Véra 的两个文件必须来自官方页面，不要使用群聊或网盘里流传的同名书籍。</p>
+<h3 id="3-选择机型和完整固件">3. 选择机型和完整固件</h3>
+<p>网站会读取 Kindle 的屏幕分辨率，部分情况下能够自动收窄可选机型。如果同一分辨率对应多个型号，手动选自己的机型；随后在下拉框中选择前面记下的<strong>完整固件号</strong>。</p>
+<!-- 图片占位：机型和固件选择页 -->
+<p>如果你的版本位于官方声称的总体范围内、却没有出现在下拉列表里，官方建议尝试最接近的上下相邻版本，但并不保证成功。这里更稳妥的做法是先到 KindleModding 社区求证，不要连续测试多个版本的书籍。</p>
+<h3 id="4-下载两本书然后退出浏览器">4. 下载两本书，然后退出浏览器</h3>
+<p>确认机型和固件后，网页会显示两个下载链接：</p>
+<ol>
+<li><code>Font Calibration</code>；</li>
+<li>与当前机型和固件绑定的 <code>Véra</code> 书籍。</li>
+</ol>
+<p>两本都要下载。每次出现确认框都点击确认，等下载完成后点击浏览器右上角的 <code>X</code> 退出。</p>
+<!-- 图片占位：两本书的下载确认界面 -->
+<p>退出浏览器后等待 2 至 3 秒，再去图书馆打开书籍。这样可以避免 Kindle 的界面焦点还停留在浏览器，误点到错误的项目。</p>
+<div data-callout="" data-callout-type="warning">
+<div data-callout-title="">Warning</div>
+<div data-callout-body="">
+<p></p>
+<p>现在不要关闭 Wi-Fi。直到 Véra 书籍执行完成、界面重启为止，网络仍是流程的一部分。</p>
+</div>
+</div>
+<h3 id="5-打开-font-calibration并进入-aa-菜单">5. 打开 Font Calibration，并进入 Aa 菜单</h3>
+<p>在图书馆打开刚下载的 <code>Font Calibration</code>。轻触屏幕上方调出阅读工具栏，点击 <code>Aa</code>。</p>
+<!-- 图片占位：Font Calibration 书籍和 Aa 菜单 -->
+<h3 id="6-设置字体参数">6. 设置字体参数</h3>
+<p>进入底部的 <code>Font</code> 菜单，依次设置：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>设置项</th><th>值</th></tr></thead><tbody><tr><td>Font Family</td><td><code>Bookerly</code></td></tr><tr><td>Bold</td><td><code>0</code></td></tr><tr><td>Size</td><td>可选的最大值</td></tr></tbody></table>
+<!-- 图片占位：字体设置正确示例 -->
+<p>这些值需要精确匹配，不要按自己的阅读习惯改动。它们不是为了改变阅读体验，而是为下一步保存的主题准备特定状态。</p>
+<h3 id="7-设置行距">7. 设置行距</h3>
+<p>不同固件的 <code>Aa</code> 面板名称略有不同：</p>
+<ul>
+<li>如果顶部显示 <code>Layout</code>，进入后把 <code>Spacing</code> 设为中间档；</li>
+<li>如果底部直接显示 <code>Spacing</code>，把 <code>Line Spacing</code> 设为 <code>2</code>，然后点左上角返回。</li>
+</ul>
+<!-- 图片占位：两种行距设置界面 -->
+<h3 id="8-保存当前主题">8. 保存当前主题</h3>
+<p>进入顶部的 <code>Themes</code>。如果你的界面将主题放在其它入口，仍以“保存当前阅读设置”为目标：点击 <code>Save current settings</code>，然后再次点击 <code>Save</code> 完成保存。</p>
+<p>保存后，连续点击左上角 <code>Home</code> 或 <code>Library</code> 三次，完全退出 <code>Font Calibration</code>。</p>
+<!-- 图片占位：保存主题界面 -->
+<h3 id="9-打开-véra-书籍并等待界面重启">9. 打开 Véra 书籍并等待界面重启</h3>
+<p>在图书馆点击与自己设备匹配的 <code>Véra</code> 书籍。正常情况下，屏幕左上角会先出现滚动文本，随后弹出：</p>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#24292e">RESTARTING GUI</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="RESTARTING GUI"><div></div></button></div></figure></div>
+<p>等待图形界面重新启动并回到系统。期间偶尔出现 <code>Application Error</code> 提示可以忽略。</p>
+<!-- 图片占位：RESTARTING GUI 成功界面 -->
+<p>如果停留在某个界面超过 10 分钟，长按实体电源键，在重启选项出现后选择重启。官方说明这一步是安全的；重启后不要直接重置设备，先检查是否已经回到 Kindle 主界面。</p>
+<h3 id="10-清理并进入后续配置">10. 清理并进入后续配置</h3>
+<p>图形界面重启成功后，可以删除 <code>Véra</code> 和 <code>Font Calibration</code> 两本书。然后：</p>
+<ol>
+<li>检查 Kindle 根目录，删除已有的 <code>.bin</code> 更新文件；</li>
+<li>确认没有 <code>update.bin.tmp.partial</code> 一类下载残留；</li>
+<li>再删除之前用于填满存储的 filler files；</li>
+<li>按 <a href="https://kindlemodding.org/jailbreaking/whats-next/">What’s Next</a> 继续安装 scriptlets、homebrew 或 KOReader。</li>
+</ol>
+<div data-callout="" data-callout-type="tip">
+<div data-callout-title="">Tip</div>
+<div data-callout-body="">
+<p></p>
+<p>Véra 的官方流程说明 OTA 已被自动阻止，并且发布公告称 Hotfix 已随越狱安装。因此，除非官方后续教程明确要求，否则不需要把旧版教程里的“手动安装 Hotfix”或“手动重命名 OTA 二进制”步骤叠加执行。</p>
+</div>
+</div>
+<h2 id="常见问题">常见问题</h2>
+<h3 id="véra-网站打不开或下载失败">Véra 网站打不开或下载失败</h3>
+<p>先检查 Wi-Fi 和浏览器能否打开其他 HTTPS 网站。不要从非官方渠道寻找“备用书籍”。网页和电子书是按机型、分辨率和固件组合准备的，错误文件更难排查。</p>
+<h3 id="我的固件不在下拉框里">我的固件不在下拉框里</h3>
+<p>优先检查完整版本号是否抄错。只有在版本落于官方总体支持区间、但确实没有精确选项时，才考虑最接近的相邻版本；这属于官方标明“不保证成功”的兜底方案。</p>
+<h3 id="打开-véra-书后没有任何反应">打开 Véra 书后没有任何反应</h3>
+<p>回头逐项核对第 5 至第 8 步：必须先打开 <code>Font Calibration</code>，字体为 Bookerly、粗体为 0、字号最大、行距正确，并且保存过当前主题。少一个步骤，Véra 书就可能不触发。</p>
+<h3 id="restarting-gui-停留超过-10-分钟">RESTARTING GUI 停留超过 10 分钟</h3>
+<p>按住实体电源键，出现重启选项后重启 Kindle。不要在这个阶段执行恢复出厂设置。</p>
+<h2 id="公开资料能证明的原理">公开资料能证明的原理</h2>
+<p>Véra 的公开入口网页提供了一部分可以直接验证的事实：</p>
+<ol>
+<li><strong>它按屏幕分辨率识别候选设备</strong>。网页读取 Kindle 的逻辑屏幕尺寸和像素比，先确定分辨率，再在共享分辨率的设备之间要求手动选择。</li>
+<li><strong>它按完整固件下载专用载荷</strong>。网页会动态生成形如 <code>机型-完整固件-jb.azw3</code> 的下载地址，同时下载通用的 <code>fontcal.azw3</code>。</li>
+<li><strong>阅读设置和已保存主题是触发前提</strong>。官方流程要求先用 Font Calibration 把字体、字号和行距写入阅读偏好，再将当前状态保存成主题，最后才打开 Véra 书。</li>
+<li><strong>可观察到的结果是 GUI 重启</strong>。Véra 书触发后，系统显示 <code>RESTARTING GUI</code>，随后重新加载图形界面；越狱后的 Hotfix 与 OTA 防护由流程一并处理。</li>
+</ol>
+<p>可把目前能证实的流程概括为：</p>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#24292e">官网按分辨率/固件选择 AZW3 -> Font Calibration 写入阅读偏好 -> 保存主题 -> 打开专用 Véra 书 -> 图形界面重启 -> 越狱状态生效</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="官网按分辨率/固件选择 AZW3 -> Font Calibration 写入阅读偏好 -> 保存主题 -> 打开专用 Véra 书 -> 图形界面重启 -> 越狱状态生效"><div></div></button></div></figure></div>
+<h3 id="当前不能确认的部分">当前不能确认的部分</h3>
+<p>公开教程没有披露具体的内存漏洞、解析器缺陷或提权实现。<code>Font Calibration</code> 与主题保存显然是利用链的一环，但现有公开材料不足以证明它究竟利用了字体渲染、主题序列化还是其它系统组件。</p>
+<p>因此，比较准确的说法是“Véra 利用设备专用电子书和预置阅读主题触发越狱”；把它直接称为“字体漏洞”或“主题漏洞”都属于过度推断。等维护者发布技术 write-up 或源码后，再补充底层机制会更稳妥。</p>
+<h2 id="参考链接">参考链接</h2>
+<ul>
+<li><a href="https://kindlemodding.org/jailbreaking/Vera/">KindleModding Véra 官方教程</a></li>
+<li><a href="https://vera.tene7.com">Véra 官方入口</a></li>
+<li><a href="https://www.reddit.com/r/kindlejailbreak/comments/1vksz0n/new_jailbreak_vera_kt5pw5kt6pw6csksks2_up_to_5196/">Véra 发布公告</a></li>
+<li><a href="https://kindlemodding.org/jailbreaking/prevent-auto-update/">KindleModding 防止自动更新</a></li>
+<li><a href="https://kindlemodding.org/jailbreaking/whats-next/">KindleModding What’s Next</a></li>
+</ul>  </article> </div> </main>  </div> </main> <!-- Footer --> <footer class="flex flex-col w-full max-w-7xl mb-4 justify-center align-center pt-4 border-t print:hidden"> <div class="flex flex-col text-nowrap md:flex-row mx-auto flex w-full items-start md:items-center justify-between align-end"> <span class="text-sm font-normal">写于2026年8月14日</span> <div class="mb-4 mt-4 flex w-full flex-col items-start justify-center md:max-w-[40%] md:flex-row md:gap-8 print:hidden"> <a href="/posts/cc-switch-all-in-one-ai-cli-manager" class="block w-full truncate text-sm font-normal text-black underline hover:text-red-700 md:w-auto">
+前：《CC Switch：多 AI CLI 工具一站式管理器》 </a> <a href="/posts/discuss" class="block w-full truncate text-sm font-normal text-black underline hover:text-red-700 md:w-auto">
+后：《留言板》 </a> </div> <div class="flex flex-col text-sm print:hidden"> <a class="text-nowrap font-normal text-black" href="https://github.com/HaleyCH/chenblog">
+由<span class="text-red-700">子锐</span>设计
+</a> </div> </div> <!-- 将备案号居中 --> <div class="mb-[10px] mt-[50px] flex w-full justify-center print:hidden"> <a class="text-sm text-gray-300" href="https://beian.miit.gov.cn/">浙ICP备2022026813号-1</a> </div> </footer> <script>
+  const PDF_JS_SRC =
+    "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js";
+  const PDF_WORKER_SRC =
+    "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+
+  let pdfJsPromise;
+  let mutationObserver;
+  let observedArticle;
+
+  function loadPdfJs() {
+    if (window.pdfjsLib) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER_SRC;
+      return Promise.resolve(window.pdfjsLib);
+    }
+    if (pdfJsPromise) return pdfJsPromise;
+    pdfJsPromise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = PDF_JS_SRC;
+      script.async = true;
+      script.onload = () => {
+        if (!window.pdfjsLib) {
+          reject(new Error("PDF.js loaded but pdfjsLib is missing."));
+          return;
+        }
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER_SRC;
+        resolve(window.pdfjsLib);
+      };
+      script.onerror = () => reject(new Error("Failed to load PDF.js."));
+      document.head.appendChild(script);
+    });
+    return pdfJsPromise;
+  }
+
+  function collectPdfEmbeds(root) {
+    const containers = [];
+    if (root?.nodeType === 1) {
+      if (root.matches(".pdf-embed[data-pdf-url]")) {
+        containers.push(root);
+      }
+      containers.push(
+        ...root.querySelectorAll?.(".pdf-embed[data-pdf-url]"),
+      );
+    }
+    if (root === document) {
+      containers.push(...document.querySelectorAll(".pdf-embed[data-pdf-url]"));
+    }
+    return containers;
+  }
+
+  function preparePdfEmbed(container) {
+    if (container.dataset.pdfPrepared === "true") return;
+    container.dataset.pdfPrepared = "true";
+
+    const link = container.querySelector(".pdf-embed__link");
+    const caption = container.querySelector(".pdf-embed__caption");
+    const actions = document.createElement("div");
+    actions.className = "pdf-embed__actions";
+
+    if (link) {
+      actions.appendChild(link);
+    }
+
+    const loadButton = document.createElement("button");
+    loadButton.type = "button";
+    loadButton.className = "pdf-embed__button pdf-embed__load";
+    loadButton.textContent = "加载 PDF";
+    loadButton.addEventListener("click", () => {
+      if (container.dataset.pdfRendered === "loading") return;
+      loadButton.disabled = true;
+      loadButton.textContent = "加载中...";
+      renderPdf(container).finally(() => {
+        if (container.dataset.pdfRendered !== "true") {
+          loadButton.disabled = false;
+          loadButton.textContent = "加载 PDF";
+        }
+      });
+    });
+    actions.appendChild(loadButton);
+
+    if (caption) {
+      container.insertBefore(actions, caption);
+    } else {
+      container.appendChild(actions);
+    }
+  }
+
+  async function renderPdf(container) {
+    if (
+      container.dataset.pdfRendered === "true" ||
+      container.dataset.pdfRendered === "loading"
+    )
+      return;
+    const url = container.dataset.pdfUrl;
+    if (!url) return;
+
+    container.dataset.pdfRendered = "loading";
+    const fallbackHtml = container.innerHTML;
+    const fallbackLink = container.querySelector("a")?.cloneNode(true);
+    const fallbackCaption = container
+      .querySelector(".pdf-embed__caption")
+      ?.cloneNode(true);
+
+    let pdfjsLib;
+    try {
+      pdfjsLib = await loadPdfJs();
+    } catch (error) {
+      console.warn("[pdf] PDF.js load failed:", error);
+      container.dataset.pdfRendered = "error";
+      return;
+    }
+
+    try {
+      const loadingTask = pdfjsLib.getDocument({ url });
+      const pdf = await loadingTask.promise;
+      const toolbar = document.createElement("div");
+      toolbar.className = "pdf-embed__toolbar";
+      if (fallbackLink) toolbar.appendChild(fallbackLink);
+
+      const meta = document.createElement("span");
+      meta.className = "pdf-embed__meta";
+
+      const pager = document.createElement("div");
+      pager.className = "pdf-embed__pager";
+
+      const controls = document.createElement("div");
+      controls.className = "pdf-embed__controls";
+
+      const prevButton = document.createElement("button");
+      prevButton.type = "button";
+      prevButton.className = "pdf-embed__button";
+      prevButton.textContent = "Prev";
+      prevButton.setAttribute("aria-label", "Previous page");
+
+      const nextButton = document.createElement("button");
+      nextButton.type = "button";
+      nextButton.className = "pdf-embed__button";
+      nextButton.textContent = "Next";
+      nextButton.setAttribute("aria-label", "Next page");
+
+      controls.appendChild(prevButton);
+      controls.appendChild(nextButton);
+
+      pager.appendChild(meta);
+      pager.appendChild(controls);
+      toolbar.appendChild(pager);
+
+      const viewer = document.createElement("div");
+      viewer.className = "pdf-embed__viewer";
+      const pageWrapper = document.createElement("div");
+      pageWrapper.className = "pdf-embed__page";
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      if (!context) {
+        throw new Error("Canvas 2D context is not available.");
+      }
+      pageWrapper.appendChild(canvas);
+      viewer.appendChild(pageWrapper);
+
+      const dpr = window.devicePixelRatio || 1;
+      let currentPage = 1;
+      let rendering = false;
+      let pendingPage = null;
+
+      const restoreFallback = (error) => {
+        console.warn("[pdf] Failed to render PDF:", error);
+        container.dataset.pdfRendered = "error";
+        container.innerHTML = fallbackHtml;
+        container.dataset.pdfPrepared = "false";
+        preparePdfEmbed(container);
+      };
+
+      const updateButtons = () => {
+        prevButton.disabled = currentPage <= 1;
+        nextButton.disabled = currentPage >= pdf.numPages;
+        meta.textContent = `Page ${currentPage} / ${pdf.numPages}`;
+      };
+
+      const renderPage = async (pageNum) => {
+        if (rendering) {
+          pendingPage = pageNum;
+          return;
+        }
+        rendering = true;
+        try {
+          const page = await pdf.getPage(pageNum);
+          const viewport = page.getViewport({ scale: 1 });
+          const maxWidth = container.clientWidth || 640;
+          const scale = maxWidth / viewport.width;
+          const scaledViewport = page.getViewport({ scale: scale * dpr });
+          canvas.width = scaledViewport.width;
+          canvas.height = scaledViewport.height;
+          canvas.style.width = `${scaledViewport.width / dpr}px`;
+          canvas.style.height = `${scaledViewport.height / dpr}px`;
+
+          await page.render({ canvasContext: context, viewport: scaledViewport })
+            .promise;
+          currentPage = pageNum;
+          updateButtons();
+        } catch (error) {
+          restoreFallback(error);
+          return;
+        } finally {
+          rendering = false;
+        }
+
+        if (pendingPage !== null && pendingPage !== currentPage) {
+          const nextPage = pendingPage;
+          pendingPage = null;
+          await renderPage(nextPage);
+        } else {
+          pendingPage = null;
+        }
+      };
+
+      prevButton.addEventListener("click", () => {
+        if (currentPage > 1) {
+          renderPage(currentPage - 1);
+        }
+      });
+
+      nextButton.addEventListener("click", () => {
+        if (currentPage < pdf.numPages) {
+          renderPage(currentPage + 1);
+        }
+      });
+
+      await renderPage(1);
+      container.textContent = "";
+      container.appendChild(toolbar);
+      container.appendChild(viewer);
+      if (fallbackCaption) {
+        container.appendChild(fallbackCaption);
+      }
+
+      container.dataset.pdfRendered = "true";
+    } catch (error) {
+      container.dataset.pdfRendered = "error";
+      container.innerHTML = fallbackHtml;
+      container.dataset.pdfPrepared = "false";
+      preparePdfEmbed(container);
+    }
+  }
+
+  function setupPdfEmbeds() {
+    collectPdfEmbeds(document).forEach((container) => {
+      preparePdfEmbed(container);
+    });
+
+    const article = document.querySelector("#article");
+    if (!article) return;
+    if (observedArticle === article && mutationObserver) return;
+
+    mutationObserver?.disconnect();
+    mutationObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          collectPdfEmbeds(node).forEach((container) => {
+            preparePdfEmbed(container);
+          });
+        });
+      });
+    });
+
+    mutationObserver.observe(article, { childList: true, subtree: true });
+    observedArticle = article;
+  }
+
+  setupPdfEmbeds();
+  document.addEventListener("astro:after-swap", setupPdfEmbeds);
+</script> <script type="module" src="/_astro/ImageEnhancement.astro_astro_type_script_index_0_lang.D3ij_ksR.js"></script> </div> </body></html>
